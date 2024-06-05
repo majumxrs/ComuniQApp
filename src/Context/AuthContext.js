@@ -9,16 +9,18 @@ function AuthProvider({ children }) {
     async function Login(email, senha) {
 
         if (email != "" && senha != "") {
-            await fetch('https://fakestoreapi.com/auth/login', {
+            await fetch('http://10.139.75.8:5251/swagger/index.html', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
                 },
+                //metodo de login
                 body: JSON.stringify({
                     username: email,
                     password: senha
                 })
             })
+            //PEGA AS INFORMAÇÕES DO JEITO QUE A API DEVOLVE
                 .then(res => (res.ok == true) ? res.json() : false)
                 .then(json => {
                     setLogado((json.token) ? true : false);

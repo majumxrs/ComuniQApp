@@ -16,10 +16,12 @@ export default function Login() {
 
     return (
         <ScrollView contentContainerStyle={css.container}>
-            <Image source={require("../../assets/logo.png")} style={css.logo} />
+            <View  style={css.Caixalogo}>
+                <Image source={require("../../assets/LogoAppAchôCerta.png")}  style={css.logo}/>
+            </View>
             <TextInput
                 inputMode="email"
-                placeholder="Email"
+                placeholder="Email do usuario:"
                 style={css.input}
                 value={email}
                 onChangeText={(digitado) => setEmail(digitado)}
@@ -27,7 +29,7 @@ export default function Login() {
             />
             <TextInput
                 inputMode="text"
-                placeholder="Password"
+                placeholder="Senha:"
                 secureTextEntry={true}
                 style={css.input}
                 value={senha}
@@ -55,20 +57,25 @@ const css = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         alignContent: "center",
-        backgroundColor: "#191919"
+        backgroundColor: "#C7BB9D"
+    },
+    Caixalogo: {
+        width: 280,
+        height:60,
+        marginBottom:250,
     },
     logo: {
-        width: "60%",
-        resizeMode: "contain"
+        width: 300,
+        height:200,
     },
     input: {
         width: "90%",
-        height: 50,
+        height: 60,
         borderRadius: 10,
-        marginBottom: 15,
-        padding: 15,
-        backgroundColor: "#262626",
-        color: "white"
+        marginBottom: 30,
+        padding: 10,
+        backgroundColor: "#EFDFBE",
+        color: "#6d6d6d"
     },
     forgot: {
         width: "90%",
@@ -77,11 +84,11 @@ const css = StyleSheet.create({
         alignItems: "flex-end",
     },
     forgotText: {
-        color: "#0195fd",
+        color: "#C77529",
         fontWeight: "bold"
     },
     btnLogin: {
-        width: "90%",
+        width: "50%",
         height: 50,
         borderWidth: 1,
         borderRadius: 10,
