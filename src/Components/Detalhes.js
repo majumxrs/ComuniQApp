@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Image, Button } from 'react-native'
 import React from 'react'
 
-export default function Produto({ title, image, setDetalhes }) {
+export default function Detalhess({ title, image, setDetalhes, id }) {
     return (
         <View style={css.container}>
             <View style={css.boxTitle}>
@@ -13,10 +13,11 @@ export default function Produto({ title, image, setDetalhes }) {
             <View style={css.boxImage}>
                 <Image source={{ uri: image }} style={css.imagem} />
             </View>
-            <Button onPress={() => setDetalhes() } title="Detalhes "></Button>
+            <Button onPress={()=> {setDetalhes( false )}} title="Detalhes"></Button>
         </View>
     )
 }
+
 const css = StyleSheet.create({
     container: {
         width: "100%",
