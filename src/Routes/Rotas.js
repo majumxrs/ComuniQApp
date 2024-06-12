@@ -30,9 +30,12 @@ export default function Rotas() {
                     headerShown: false,
                     tabBarShowLabel: false,
                     tabBarStyle: {
-                        backgroundColor: '#191919',
+                        backgroundColor: '#C7BA9C',
+                        inactiveColor:"#B89C5B"
                     },
-                    tabBarActiveTintColor: "white"
+                    tabBarActiveTintColor: "white",
+                    tabBarInactiveTintColor: "#B89C5B"
+
                 }}
             >
                 <Tab.Screen
@@ -45,39 +48,11 @@ export default function Rotas() {
                     }}
                 />
                 <Tab.Screen
-                    name="Busca"
-                    component={Busca}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="magnify" color={color} size={size} />
-                        ),
-                    }}
-
-                />
-                <Tab.Screen
                     name="Inserir"
                     component={Inserir}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="plus-box" color={color} size={size} />
-                        ),
-                    }}
-                />
-                <Tab.Screen
-                    name="Videos"
-                    component={Videos}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="youtube-tv" color={color} size={size} />
-                        ),
-                    }}
-                />
-                <Tab.Screen
-                    name="Perfil"
-                    component={Perfil}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="account-circle" color={color} size={size} />
                         ),
                     }}
                 />

@@ -1,6 +1,7 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../Context/AuthContext';
+import Cadastro from '../Components/Cadastro';
 
 export default function Login() {
 
@@ -41,7 +42,9 @@ export default function Login() {
                     <Text>Ainda não tem uma conta?</Text>
                 </View>
                 <View style={css.forgot}>
-                    <Text style={css.forgotText}>Cadastre-Se?</Text>
+                    <TouchableOpacity onPress={Cadastro}>
+                        <Text style={css.forgotText}>Cadastre-se</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
             <TouchableOpacity style={css.btnLogin} onPress={RealizaLogin}>

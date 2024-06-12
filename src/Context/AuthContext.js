@@ -5,7 +5,7 @@ export const AuthContext = createContext(0);
 function AuthProvider({ children }) {
     const [logado, setLogado] = useState(true);
     const [error, setError] = useState(false);
-
+    const[ novaObservacao, setNovaObservacao ] = useState( false ); 
     async function Login(email, senha) {
 
         if (email != "" && senha != "") {
@@ -34,7 +34,7 @@ function AuthProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ logado: logado, Login, error: error }}>
+        <AuthContext.Provider value={{ logado: logado, Login, error: error, novaObservacao:novaObservacao, setNovaObservacao, }}>
             {children}
         </AuthContext.Provider>
     )
