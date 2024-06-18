@@ -5,26 +5,29 @@ export const AuthContext = createContext(0);
 function AuthProvider({ children }) {
     const [logado, setLogado] = useState(true);
     const [error, setError] = useState(false);
-    const[ novaObservacao, setNovaObservacao ] = useState( false ); 
+    const [ user, SetUser ] = useState(false);
+
     async function Login(email, senha) {
 
         if (email != "" && senha != "") {
-            await fetch('http://10.139.75.8:5251/swagger/index.html', {
+            await fetch('http://10.139.75.19:5251/api/Usuarios/Login', {
                 method: 'POST',
                 headers: {
-                    'content-type': 'application/json'
+                    'content-type': 'application/json; charset=UTF-8'
                 },
                 //metodo de login
                 body: JSON.stringify({
-                    username: email,
-                    password: senha
+                    usuarioEmail: email,
+                    usuarioSenha: senha
                 })
             })
             //PEGA AS INFORMAÇÕES DO JEITO QUE A API DEVOLVE
-                .then(res => (res.ok == true) ? res.json() : false)
+                .then(res => res.json())
                 .then(json => {
-                    setLogado((json.token) ? true : false);
-                    setError((json.token) ? false : true);
+                    if(json.usuarioId){
+                        SetUser( json );
+                        setLogado( true );
+                    }
                 }
                 )
                 .catch(err => setError(true))
@@ -34,7 +37,7 @@ function AuthProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ logado: logado, Login, error: error, novaObservacao:novaObservacao, setNovaObservacao, }}>
+        <AuthContext.Provider value={{ logado: logado, Login, error: error, user: user, setLogado}}>
             {children}
         </AuthContext.Provider>
     )

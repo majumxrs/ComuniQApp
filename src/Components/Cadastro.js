@@ -1,12 +1,12 @@
 
 import { Image, StyleSheet, Text, View, } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 
 export default function Cadastro() {
-    const [ email, setEmail ] = useState( "" );
-    const [ senha, setSenha ] = useState( "" );
-    const [ tel, setTel ] = useState( "" );
-    const [ nome, setNome ] = useState( "" );
+    const [ email, setEmail ] = useState("");
+    const [ senha, setSenha ] = useState("");
+    const [ tel, setTel ] = useState("");
+    const [ nome, setNome ] = useState("");
 
     return (
         <View style={css.CaixaTotal}>   

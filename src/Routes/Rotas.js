@@ -10,7 +10,6 @@ import Busca from '../Pages/Busca';
 import Login from '../Pages/Login';
 import Videos from '../Pages/Videos';
 import Perfil from '../Pages/Perfil';
-import Inserir from '../Pages/Inserir';
 
 
 const Tab = createBottomTabNavigator();
@@ -49,10 +48,10 @@ export default function Rotas() {
                 />
                 <Tab.Screen
                     name="Inserir"
-                    component={Inserir}
+                    component={Perfil}
                     options={{
                         tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="plus-box" color={color} size={size} />
+                            <MaterialCommunityIcons name="account-circle" color={color} size={size} />
                         ),
                     }}
                 />

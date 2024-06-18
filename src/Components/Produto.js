@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Image, Button } from 'react-native'
+import { View, Text, StyleSheet, Image, Button, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 export default function Produto({ title, image, setDetalhes }) {
@@ -13,7 +13,9 @@ export default function Produto({ title, image, setDetalhes }) {
             <View style={css.boxImage}>
                 <Image source={{ uri: image }} style={css.imagem} />
             </View>
-            <Button onPress={() => setDetalhes() } title="Detalhes "></Button>
+            <TouchableOpacity style={css.btnLogin} onPress={() => setDetalhes() } >
+                <Text style={css.btnLoginText}>Detalhes</Text>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -32,15 +34,16 @@ const css = StyleSheet.create({
         paddingLeft: 5
     },
     circleAvatar: {
-        width: 30,
-        height: 30,
+        width: 50,
+        height: 50,
         borderRadius: 50,
         backgroundColor: "white",
         marginRight: 10
     },
     title: {
         color: "white",
-        textAlign: "center"
+        textAlign: "center",
+        fontSize: 30,
     },
     boxImage: {
         width: 400,
@@ -51,24 +54,18 @@ const css = StyleSheet.create({
         height: "100%",
         resizeMode: "cover"
     },
-    categoryBox: {
+    btnLogin: {
         width: "100%",
-        marginTop: 15
+        height: 50,
+        borderRadius: 10,
+        marginTop: 10,
+        backgroundColor: "#C7BB9D"
     },
-    descriptionBox: {
-        width: "100%",
-        marginTop: 15,
-        padding: 10
+    btnLoginText: {
+        color: "black",
+        lineHeight: 45,
+        textAlign: "center",
+        fontSize: 30,
+        fontWeight: "bold"
     },
-    descriptionText: {
-        color: "white",
-        textAlign: "justify"
-    },
-    categoryBox: {
-        width: "100%",
-        padding: 10
-    },
-    categoryText: {
-        color: "white"
-    }
 })
