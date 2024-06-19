@@ -126,16 +126,18 @@ export default function Home() {
 
   //Item e um nome generico que vem da api que vc delimitou na data, podendo ser qualquer nome. dependendo para facilitar o entedimento pode colocar o memo nome do que vc vai buscar.
   return (
+    <>
     <View style={css.container}>
       {detalhes ?
+     <>
+      <View style={css.caixa}>
+      <Image
+        style={css.tinyLogo}
+        source={require("../../assets/LogoAppAchôCerta.png")}
+      />
+    </View >
         <SafeAreaView style={css.container}>
           <ScrollView>
-            <View style={css.caixa}>
-              <Image
-                style={css.tinyLogo}
-                source={require("../../assets/LogoAppAchôCerta.png")}
-              />
-            </View >
             <View style={css.containerDetalhes}>
               <TouchableOpacity>
                 <Text style={css.BTNVoltar} onPress={() => { setDetalhes(false), setObs(false) }}>❮</Text>
@@ -177,29 +179,31 @@ export default function Home() {
             </View>
           </ScrollView>
         </SafeAreaView>
+        </>
         :
         <>
-        <View style={css.caixa}>
-              <Image
-                style={css.tinyLogo}
-                source={require("../../assets/LogoAppAchôCerta.png")}
-              />
-            </View >
-        <FlatList
-          data={animais}
-          style={css.Flat}
-          renderItem={({ item }) => <Produto
-            title={item.animalNome}
-            image={item.animalFoto}
-            setDetalhes={() => { setDetalhes(true); getAnimal(item.animaisId) }}
-          />}
-          keyExtractor={(item) => item.animaisId}
-          contentContainerStyle={{ height: (animais.length * 600) + 110 }}
-        />
+          <View style={css.caixa}>
+            <Image
+              style={css.tinyLogo}
+              source={require("../../assets/LogoAppAchôCerta.png")}
+            />
+          </View >
+          <FlatList
+            data={animais}
+            style={css.Flat}
+            renderItem={({ item }) => <Produto
+              title={item.animalNome}
+              image={item.animalFoto}
+              setDetalhes={() => { setDetalhes(true); getAnimal(item.animaisId) }}
+            />}
+            keyExtractor={(item) => item.animaisId}
+            contentContainerStyle={{ height: (animais.length * 600) + 110 }}
+          />
         </>
-        
+
       }
     </View>
+    </>
   )
 }
 const css = StyleSheet.create({
@@ -207,9 +211,10 @@ const css = StyleSheet.create({
     backgroundColor: "#E6DACA",
     flexGrow: 1,
     color: "white",
-    width:"100%",
+    width: "100%",
     // justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    height: 30,
   },
   caixa: {
     height: 95,
@@ -226,15 +231,15 @@ const css = StyleSheet.create({
   },
   text: {
     color: "black",
-        lineHeight: 30,
-        fontSize: 20,
-        fontWeight: "bold"
+    lineHeight: 30,
+    fontSize: 20,
+    fontWeight: "bold"
   },
   boxImage: {
     width: 200,
     height: 200,
     borderRadius: 20,
-    marginLeft:90,
+    marginLeft: 90,
   },
   imagem: {
     minWidth: "100%",
@@ -257,7 +262,7 @@ const css = StyleSheet.create({
     color: "white",
     marginLeft: 12
   },
-  btn01:{
+  btn01: {
     marginTop: 15,
     backgroundColor: "#C7BB9D",
     width: "90%",
@@ -268,10 +273,10 @@ const css = StyleSheet.create({
   },
   TextoBTNC: {
     color: "black",
-        lineHeight: 45,
-        textAlign: "center",
-        fontSize: 30,
-        fontWeight: "bold"
+    lineHeight: 45,
+    textAlign: "center",
+    fontSize: 30,
+    fontWeight: "bold"
   },
   PaiInput: {
     display: "flex",
@@ -284,8 +289,8 @@ const css = StyleSheet.create({
     borderRadius: 15,
     borderWidth: 2,
     backgroundColor: "white",
-    marginBottom:5,
-    marginTop:5
+    marginBottom: 5,
+    marginTop: 5
   },
   Flat: {
     marginTop: 10

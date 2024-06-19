@@ -17,27 +17,37 @@ export default function Login() {
         Login(email, senha);
     }
 
+    async function SalvarCadastro() {
+        await fetch('http://10.139.75.19:5251/api/Usuarios/CreateUsuario', {
+            method: 'post',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                usuarioNome: nome,
+                usuarioTelefone: tel,
+                usuarioEmail: email,
+                usuarioSenha: senha
+            })
+        })
+            //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
+            .then(res => res.json())
+            .then(json => console.log(json))
+            .catch(err => console.log(err))
+    }
+
 
     return (
         <ScrollView contentContainerStyle={css.container}>
             {cadastro ?
-                <View style={css.CaixaTotal}>
-                    <View style={css.caixa}>
-                        <Image
-                            style={css.tinyLogo}
-                            source={require("../../assets/LogoAppAchôCerta.png")}
-                        />
+                <>
+                    <View style={css.Caixalogocadast}>
+                        <Image source={require("../../assets/LogoAppAchôCerta.png")} style={css.logo} />
                     </View>
-                    <SafeAreaView contentContainerStyle={css.container}>
+                    <SafeAreaView >
                         <ScrollView>
-                            <TouchableOpacity>
-                                <Text style={css.BTNVoltar} onPress={() => setCadastro(false)}>❮</Text>
-                            </TouchableOpacity>
                             <View style={css.PaiCadastrar}>
                                 <Text style={css.nomePag}>Cadastrar-se</Text>
-                            </View>
-                            <View style={css.PaiOu}>
-                                <Text style={css.ou}>Ou</Text>
                             </View>
                             <View style={css.PaiInput}>
                                 <TextInput style={css.input2} textInput={nome} value={nome} onChangeText={(digitado) => setNome(digitado)} placeholder="Nome Completo:" />
@@ -45,14 +55,17 @@ export default function Login() {
                                 <TextInput style={css.input2} textInput={email} value={email} onChangeText={(digitado) => setEmail(digitado)} placeholder="Email:" />
                                 <TextInput style={css.input2} textInput={senha} value={senha} onChangeText={(digitado) => setSenha(digitado)} placeholder="Senha:" />
                             </View>
-                            <View style={css.PaiCadastrar}>
-                                <TouchableOpacity style={css.btn}>
+                            <View style={css.PaiCadastrar2}>
+                                <TouchableOpacity style={css.btn} onPress={() => {SalvarCadastro(), setCadastro(false) } }>
                                     <Text style={css.Texto}>Cadastrar</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={css.btn2}>
+                                    <Text style={css.BTNVoltar} onPress={() => setCadastro(false)}>Voltar</Text>
                                 </TouchableOpacity>
                             </View>
                         </ScrollView>
                     </SafeAreaView>
-                </View>
+                </>
                 :
                 <>
                     <View style={css.Caixalogo}>
@@ -123,6 +136,24 @@ const css = StyleSheet.create({
         width: 300,
         height: 200,
     },
+    Caixalogocadast: {
+        marginTop: "40%",
+        width: "50%",
+        height: 95,
+        display: "flex",
+        alignItems: "center"
+    },
+    tinyLogo: {
+        width: 10,
+        height: 10
+    },
+    BTNVoltar: {
+        fontSize: 20,
+        width: 80,
+        height: 60,
+        color: "white",
+        marginTop: 1
+    },
     input: {
         width: "90%",
         height: 60,
@@ -180,25 +211,14 @@ const css = StyleSheet.create({
         flexDirection: "row",
         marginTop: 20
     },
-    Gogle: {
-        marginRight: 30,
-    },
-    Face: {
-        width: 60,
-        height: 70,
-        marginRight: 30,
-        marginTop: -5,
-    },
-    x: {
-        width: 60,
-        height: 70
-    },
     PaiInput: {
         display: "flex",
         alignItems: "center",
+        width: "100%"
+
     },
     input2: {
-        width: "80%",
+        width: 350,
         height: 50,
         borderColor: "#C9994D",
         borderRadius: 15,
@@ -207,17 +227,43 @@ const css = StyleSheet.create({
         marginBottom: 5,
         marginTop: 5
     },
-      caixa: {
-        height: 300,
-        width: "100%",
-        // backgroundColor: "red",
-        // display: "flex",
-        // alignItems: "center",
-        // justifyContent: "center"
-      },
-    tinyLogo: {
-        height: 100,
-        width: "100%",
-        marginTop: 15,
+    nomePag: {
+        fontSize: 30,
+        fontWeight: "bold"
     },
-});
+    PaiCadastrar: {
+        // display: "flex",
+        alignItems: "center",
+        marginTop: 100,
+    },
+    PaiCadastrar2: {
+        alignItems: "center"
+    },
+    btn: {
+        width: "50%",
+        height: 50,
+        borderRadius: 10,
+        marginTop: 30,
+        backgroundColor: "#EFDFBE",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    btn2: {
+        width: "20%",
+        height: 30,
+        borderRadius: 10,
+        marginTop: 30,
+        backgroundColor: "#EFDFBE",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    BTNVoltar: {
+        fontSize: 15,
+        fontWeight: "bold"
+    },
+    Texto: {
+        fontSize: 30,
+        fontWeight: "bold"
+    },
+
+})
