@@ -3,36 +3,52 @@
 import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity, Image, TextInput, image, SafeAreaView, ScrollView, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { useFocusEffect } from '@react-navigation/native';
-// import Produto from '../Components/Produto';
+import Denuncia from "../Components/Denuncias";
 import { AuthContext } from '../Context/AuthContext';
 
 
 export default function Home() {
 
-  const [animais, setAnimais] = useState([]);
-  const [detalhes, setDetalhes] = useState(false);
-  const [nomeAnimal, setNomeAnimal] = useState("");
-  const [imgAnimal, setImgAnimal] = useState();
-  const [idAnimal, setIdAnimal] = useState(0);
-  const [racaAnimal, setRacaAnimal] = useState("");
-  const [animalTipo, setAnimalTipo] = useState("");
-  const [animalCor, setAnimalCor] = useState("");
-  const [animalSexo, setAnimalSexo] = useState("");
-  const [animalObservacao, setAnimalObservacao] = useState("");
-  const [animalDataDesaparecimento, setAnimalDataDesaparecimento] = useState("");
-  const [animalDataEncontro, setAnimalDataEncontro] = useState("");
-  const [animalStatus, setAnimalStatus] = useState("");
-  const [usuarioId, setUsuarioId] = useState(0);
-  const [observacaoDescricao, setObservacaoDescricao] = useState("");
-  const [observacaoLocal, setObservacaoLocal] = useState("");
-  const [observacaoData, setObservacaoData] = useState("");
+  //Publicação
+  const [detalhes, setDetalhes] = useState(false); 
+  const [PublicacaoTitulo, setPublicacaoTitulo] = useState("");
+  const [PublicacaoMidia, setPublicacaoMidia] = useState();
+  const [PublicacaoId, setPublicacaoId] = useState(0);
+  const [PublicacaoDescricao, setPublicacaoDescricao] = useState("");
+  const [BairroId, setBairroId] = useState(0);
+  const [UsuarioId, setUsuarioId] = useState(0);
+
+  //"Resposta"
   const [Resposta, setResposta] = useState(false)
-  const [criarAnimal, setCrearAnimal] = useState(false);
   const [obs, setObs] = useState(false);
 
+  //denuncia
+  const [denunciaId, setDenunciaId] = useState(0);
+  const [denunciaTitulo, setDenunciaTitulo] = useState(""); 
+  const [denunciaMidia, setDenunciaMidia] = useState("");
+  const [denunciaDescricao, setDenunciaDescricao] = useState();
+  const [tipoDenunciaId, setTipoDenunciaId] = useState(0);
+  //BairroId Tambem tem!!
+
+  //Campanha
+  const [Campanha, setCampanha] = useState([]);
+  const [campanhaId, setCampanhaId] = useState(0);
+  const [campanhaTitulo, setCampanhaTitulo] = useState(""); 
+  const [campanhaMidia, setCampanhaMidia] = useState("");
+  const [campanhaDescricao, setCampanhaDescricao] = useState();
+  const [tipoCampanhaId, setTipoCampanhaId ] = useState(0);
+  const [cidadeId, setCidadeId] = useState(0);
+
+  //Comentarios
+  const[Comentarios, setComentarios] = useState([])
+  const [comentarioTexto, setComentarioTexto] = useState();
+  //Usuarios ja tem 
+  const [comentarioId, setComentarioId] = useState(0);
+
+
   //MINHA API 
-  async function getAnimais() {
-    await fetch('http://10.139.75.19:5251/api/Animais/GetAllAnimal', {
+  async function getCampanah() {
+    await fetch('https://10.139.75.29:5280/api/Campanhas/GetAllCampanhas', {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -41,12 +57,12 @@ export default function Home() {
 
       //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
       .then(res => res.json())
-      .then(json => setAnimais(json))
+      .then(json => setCampanha(json))
       .catch(err => console.log(err))
   }
 
-  async function getAnimal(id) {
-    await fetch('http://10.139.75.19:5251/api/Animais/GetAnimalId/' + id, {
+  async function getCampanahId(id) {
+    await fetch('https://10.139.75.29:5280/api/Campanhas/GetCampanhaId/' + id, {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -55,72 +71,61 @@ export default function Home() {
       //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
       .then(res => res.json())
       .then(json => {
-        setNomeAnimal(json.animalNome);
-        setImgAnimal(json.animalFoto);
-        setIdAnimal(json.animaisId);
-        setUsuarioId(json.usuarioId);
-        setRacaAnimal(json.animalRaca);
-        setAnimalTipo(json.animalTipo);
-        setAnimalCor(json.animalCor);
-        setAnimalSexo(json.animalSexo);
-        setAnimalStatus(json.animalStatus);
-        setAnimalObservacao(json.animalObservacao);
-        setAnimalDataDesaparecimento(json.animalDataDesaparecimento);
-        setAnimalDataEncontro(json.animalDataEncontro);
+        setCampanhaId(json.campanhaId);
+        setCampanhaTitulo(json.campanhaTitulo);
+        setCampanhaMidia(json.campanhaMidia);
+        setCampanhaDescricao(json.campanhaDescricao);
+        setCidadeId(json.cidadeId);
+        setTipoCampanhaId(json.tipoCampanhaId);
+       
       })
       .catch(err => console.log(err))
   }
 
-  async function getAnimaiss() {
-    await fetch('http://10.139.75.19:5251/api/Animais/CreateAnimal', {
-      method: 'post',
+  async function GetDenunciaId(id) {
+    await fetch('https://10.139.75.29:5280/api/Denuncia/GetDenunciaId/' + id, {
+      method: 'GET',
       headers: {
         'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        observacaoDescricao: "string",
-        observacaoLocal: "string",
-        observacaoData: "2024-06-12T15:01:27.669Z",
-        animaisId: 0,
-        usuarioId: 0
-      })
+      }
     })
-
       //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
       .then(res => res.json())
-      .then(json => setCrearAnimal(false))
+      .then(json => {
+        setDenunciaId(json.denunciaId);
+        setDenunciaTitulo(json.denunciaTitulo);
+        setDenunciaMidia(json.denunciaDescricao);
+        setDenunciaDescricao(json.denunciaMidia);
+        setTipoDenunciaId(json.tipoDenunciaId);
+        setBairroId(json.bairroId);
+       
+      })
       .catch(err => console.log(err))
   }
 
-  async function SalvarObs() {
-    await fetch('http://10.139.75.19:5251/api/Observacoes/CreateObservacao ', {
-      method: 'post',
+  async function GetComentarios() {
+    await fetch('https://10.139.75.29:5280/GetAllComentarios ', {
+      method: 'GET',
       headers: {
         'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        observacaoDescricao: observacaoDescricao,
-        observacaoLocal: observacaoLocal,
-        observacaoData: observacaoData,
-        animaisId: idAnimal,
-        usuarioId: usuarioId,
-      })
+      }
     })
+
       //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
       .then(res => res.json())
-      .then(json => console.log(json))
+      .then(json => setComentarios(json))
       .catch(err => console.log(err))
   }
 
   //FILTRO PARA AO ENTRAR NA PAGINA EXEGUTAR O GETPRODUTROS(API)
   useEffect(() => {
-    getAnimais();
-    getAnimaiss();
+    getCampanah();
+    GetDenunciaId();
   }, [])
 
   useFocusEffect(
     React.useCallback(() => {
-      getAnimais();
+      getCampanah();
     }, [])
   );
 
@@ -133,7 +138,7 @@ export default function Home() {
       <View style={css.caixa}>
       <Image
         style={css.tinyLogo}
-        source={require("../../assets/LogoAppAchôCerta.png")}
+        source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")}
       />
     </View >
         <SafeAreaView style={css.container}>
@@ -143,25 +148,20 @@ export default function Home() {
                 <Text style={css.BTNVoltar} onPress={() => { setDetalhes(false), setObs(false) }}>❮</Text>
               </TouchableOpacity>
               <View style={css.boxImage}>
-                <Image source={{ uri: imgAnimal }} style={css.imagem} />
+                <Image source={{ uri: denunciaMidia }} style={css.imagem} />
               </View>
               <View style={css.boxTitle}>
-                <Text style={css.text}>{nomeAnimal}</Text>
+                <Text style={css.text}>{denunciaTitulo}</Text>
               </View>
               <View>
-                <Text style={css.text}>Raça: {racaAnimal}</Text>
-                <Text style={css.text}>Tipo: {animalTipo}</Text>
-                <Text style={css.text}>Cor: {animalCor}</Text>
-                <Text style={css.text}>Sexo: {animalSexo}</Text>
-                <Text style={css.text}>Observação: {animalObservacao}</Text>
+                <Text style={css.text}>Raça: {denunciaDescricao}</Text>
+                <Text style={css.text}>Tipo: {tipoDenunciaId}</Text>
                
                 {
-                  animalStatus == 0 ?
+                  /*animalStatus == 0 ?
                    <Text style={css.text}>Desaparecido</Text>
-                   :  <Text style={css.text}>Encontrado</Text>
-                }
-                <Text style={css.text}>Data Desaparecimento: {animalDataDesaparecimento}</Text>
-                <Text style={css.text}>Data encontro: {animalDataEncontro}</Text>                
+                   :  <Text style={css.text}>Encontrado</Text>*/
+                }               
                 <TouchableOpacity style={css.btn01} onPress={() => setObs(true)}>
                   <Text style={css.TextoBTNC}>Nova Observação</Text>
                 </TouchableOpacity>
@@ -185,20 +185,10 @@ export default function Home() {
           <View style={css.caixa}>
             <Image
               style={css.tinyLogo}
-              source={require("../../assets/LogoAppAchôCerta.png")}
+              source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")}
             />
           </View >
-          <FlatList
-            data={animais}
-            style={css.Flat}
-            renderItem={({ item }) => <Produto
-              title={item.animalNome}
-              image={item.animalFoto}
-              setDetalhes={() => { setDetalhes(true); getAnimal(item.animaisId) }}
-            />}
-            keyExtractor={(item) => item.animaisId}
-            contentContainerStyle={{ height: (animais.length * 600) + 110 }}
-          />
+          
         </>
 
       }
@@ -208,7 +198,7 @@ export default function Home() {
 }
 const css = StyleSheet.create({
   container: {
-    backgroundColor: "#E6DACA",
+    backgroundColor: "#FFFFFF",
     flexGrow: 1,
     color: "white",
     width: "100%",
@@ -219,7 +209,7 @@ const css = StyleSheet.create({
   caixa: {
     height: 95,
     width: "100%",
-    backgroundColor: "#C7BB9D",
+    backgroundColor: "#20343F",
     display: "flex",
     alignItems: "center",
     justifyContent: "center"
@@ -255,7 +245,7 @@ const css = StyleSheet.create({
   },
   btn02: {
     marginTop: 5,
-    backgroundColor: "#C7BB9D",
+    backgroundColor: "red",
     width: "90%",
     height: 50,
     borderRadius: 10,
@@ -264,7 +254,7 @@ const css = StyleSheet.create({
   },
   btn01: {
     marginTop: 15,
-    backgroundColor: "#C7BB9D",
+    backgroundColor: "red",
     width: "90%",
     height: 50,
     borderRadius: 10,
@@ -285,7 +275,7 @@ const css = StyleSheet.create({
   input: {
     width: "80%",
     height: 50,
-    borderColor: "#C9994D",
+    borderColor: "red",
     borderRadius: 15,
     borderWidth: 2,
     backgroundColor: "white",
