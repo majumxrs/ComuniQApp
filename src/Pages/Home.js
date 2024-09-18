@@ -3,7 +3,7 @@
 import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity, Image, TextInput, image, SafeAreaView, ScrollView, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { useFocusEffect } from '@react-navigation/native';
-import Produto from '../Components/Produto';
+// import Produto from '../Components/Produto';
 import { AuthContext } from '../Context/AuthContext';
 
 
