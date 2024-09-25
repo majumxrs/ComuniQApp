@@ -26,11 +26,11 @@ export default function Rotas() {
                     headerShown: false,
                     tabBarShowLabel: false,
                     tabBarStyle: {
-                        backgroundColor: '#C7BA9C',
-                        inactiveColor:"#B89C5B"
+                        backgroundColor: '#20343F',
+                        inactiveColor:"#ffffff"
                     },
                     tabBarActiveTintColor: "white",
-                    tabBarInactiveTintColor: "#B89C5B"
+                    tabBarInactiveTintColor: "#fff"
 
                 }}
             >
