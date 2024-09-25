@@ -7,7 +7,7 @@ import { useFocusEffect } from '@react-navigation/native';
 import { AuthContext } from '../Context/AuthContext';
 
 
-export default function Home() {
+export default function Home({navigation}) {
 
   const [animais, setAnimais] = useState([]);
   const [detalhes, setDetalhes] = useState(false);
