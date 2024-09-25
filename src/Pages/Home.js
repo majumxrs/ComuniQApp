@@ -7,7 +7,7 @@ import Denuncia from "../Components/Denuncias";
 import { AuthContext } from '../Context/AuthContext';
 
 
-export default function Home() {
+export default function Home({navigation}) {
 
   //Publicação
   const [detalhes, setDetalhes] = useState(true);

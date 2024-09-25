@@ -1,15 +1,28 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image, SafeAreaView } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image, SafeAreaView, ImageBackground } from 'react-native'
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../Context/AuthContext';
-import Cadastro from '../Components/Cadastro';
+import { Link } from '@react-navigation/native';
+import RecupSenha from '../Components/RecupSenha';
 
-export default function Login() {
 
-    const [email, setEmail] = useState("");
-    const [senha, setSenha] = useState("");
-    const [cadastro, setCadastro] = useState(false);
-    const [tel, setTel] = useState("");
+export default function Login({navigation}) {
+
+
     const [nome, setNome] = useState("");
+    const [sobrenome, setSobrenome] = useState("");
+    const [apelido, setApelido] = useState("");
+    const [email, setEmail] = useState("");
+    const [telelfone, setTelefone] = useState(0);
+    const [CPF, setCpf] = useState("");
+    const [CEP, setCep] = useState(0);
+    const [cidade, setCidade] = useState("");
+    const [bairro, setBairro] = useState("");
+    const [estado, setEstado] = useState("");
+    const [senha, setSenha] = useState("");
+
+
+    const [cadastro, setCadastro] = useState(false);
+    const [ recupSenha, setRecupSenha ] = useState(false);
 
     const { Login, error } = useContext(AuthContext);
 
@@ -18,103 +31,220 @@ export default function Login() {
     }
 
     async function SalvarCadastro() {
-        await fetch('http://10.139.75.19:5251/api/Usuarios/CreateUsuario', {
-            method: 'post',
+        await fetch('http://10.139.75.18:5280/api/Usuarios/InsertUsuario', {
+            method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({
                 usuarioNome: nome,
-                usuarioTelefone: tel,
+                usuarioSobrenome: sobrenome,
+                usuarioApelido: apelido,
                 usuarioEmail: email,
+                usuarioTelefone: telelfone,
+                usuarioCPF: CPF,
+                usuarioCEP: CEP,
+                usuarioCidade: cidade,
+                ussuarioBairro: bairro,
+                usuarioEstado: estado,
                 usuarioSenha: senha
             })
         })
             //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
             .then(res => res.json())
-            .then(json => console.log(json))
+            .then(json => {
+                console.log(json);
+                
+                
+            })
             .catch(err => console.log(err))
+    }
+
+
+    if( recupSenha ) {
+        return( <RecupSenha setRecupSenha={setRecupSenha}  setCadastro={setCadastro} />)
     }
 
 
     return (
         <ScrollView contentContainerStyle={css.container}>
-            {cadastro ?
-                <>
-                    <View style={css.Caixalogocadast}>
-                        <Image source={require("../../assets/LogoAppAchôCerta.png")} style={css.logo} />
-                    </View>
-                    <SafeAreaView >
-                        <ScrollView>
-                            <View style={css.PaiCadastrar}>
-                                <Text style={css.nomePag}>Cadastrar-se</Text>
-                            </View>
-                            <View style={css.PaiInput}>
-                                <TextInput style={css.input2} textInput={nome} value={nome} onChangeText={(digitado) => setNome(digitado)} placeholder="Nome Completo:" />
-                                <TextInput style={css.input2} textInput={tel} value={tel} onChangeText={(digitado) => setTel(digitado)} placeholder="Telefone:" />
-                                <TextInput style={css.input2} textInput={email} value={email} onChangeText={(digitado) => setEmail(digitado)} placeholder="Email:" />
-                                <TextInput style={css.input2} textInput={senha} value={senha} onChangeText={(digitado) => setSenha(digitado)} placeholder="Senha:" />
-                            </View>
-                            <View style={css.PaiCadastrar2}>
-                                <TouchableOpacity style={css.btn} onPress={() => {SalvarCadastro(), setCadastro(false) } }>
-                                    <Text style={css.Texto}>Cadastrar</Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={css.btn2}>
-                                    <Text style={css.BTNVoltar} onPress={() => setCadastro(false)}>Voltar</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </ScrollView>
-                    </SafeAreaView>
-                </>
-                :
-                <>
-                    <View style={css.Caixalogo}>
-                        <Image source={require("../../assets/LogoAppAchôCerta.png")} style={css.logo} />
-                    </View>
-                    <TextInput
-                        inputMode="email"
-                        placeholder="Email do usuario:"
-                        style={css.input}
-                        value={email}
-                        onChangeText={(digitado) => setEmail(digitado)}
-                        placeholderTextColor="white"
-                    />
-                    <TextInput
-                        inputMode="text"
-                        placeholder="Senha:"
-                        secureTextEntry={true}
-                        style={css.input}
-                        value={senha}
-                        onChangeText={(digitado) => setSenha(digitado)}
-                        placeholderTextColor="white"
-                    />
-                    <View style={css.ViewCadastrar}>
-                        <View style={css.forgot2}>
-                            <Text>Ainda não tem uma conta?</Text>
-                        </View>
-                        <View style={css.forgot}>
-                            <TouchableOpacity onPress={() => setCadastro(true)}>
-                                <Text style={css.forgotText}>Cadastre-se</Text>
+            <ImageBackground source={require('../../assets/FotosComuniQ/WhatsApp Image 2024-09-18 at 12.04.50.jpeg')} resizeMode="cover" style={css.image}  >
+                {cadastro ?
+                    <> 
+                        <View style={css.Caixalogocadast}>
+                            <TouchableOpacity style={css.btnLogo} onPress={() => { setCadastro(false) }}>
+                                <Image source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")} style={css.logo} />
                             </TouchableOpacity>
                         </View>
-                    </View>
-                    <TouchableOpacity style={css.btnLogin} onPress={RealizaLogin}>
-                        <Text style={css.btnLoginText}>ENTRAR</Text>
-                    </TouchableOpacity>
-                    {error &&
-                        <View style={css.error}>
-                            <Text style={css.errorText}>Email ou Senha incorretos!</Text>
+                        <SafeAreaView >
+                            <ScrollView>
+                                <View style={css.PaiInput}>
+                                    <TextInput
+                                        style={css.input2}
+                                        textInput={nome}
+                                        value={nome}
+                                        onChangeText={(digitado) => setNome(digitado)}
+                                        placeholder="Nome Completo:"
+                                        placeholderTextColor="white"
+                                    />
+                                    <TextInput
+                                        style={css.input2}
+                                        textInput={sobrenome}
+                                        value={sobrenome}
+                                        onChangeText={(digitado) => setSobrenome(digitado)}
+                                        placeholder="Sobrenome:"
+                                        placeholderTextColor="white"
+                                    />
+                                    <TextInput
+                                        style={css.input2}
+                                        textInput={apelido}
+                                        value={apelido}
+                                        onChangeText={(digitado) => setApelido(digitado)}
+                                        placeholder="Apelido:"
+                                        placeholderTextColor="white"
+                                    />
+                                    <TextInput
+                                        style={css.input2}
+                                        textInput={email}
+                                        value={email}
+                                        onChangeText={(digitado) => setEmail(digitado)}
+                                        placeholder="Email:"
+                                        placeholderTextColor="white"
+                                    />
+                                    <TextInput
+                                        style={css.input2}
+                                        textInput={telelfone}
+                                        value={telelfone}
+                                        onChangeText={(digitado) => setTelefone(digitado)}
+                                        placeholder="Telefone:"
+                                        placeholderTextColor="white"
+                                    />
+                                    <TextInput
+                                        style={css.input2}
+                                        textInput={CPF}
+                                        value={CPF}
+                                        onChangeText={(digitado) => setCpf(digitado)}
+                                        placeholder="CPF:"
+                                        placeholderTextColor="white"
+                                    />
+                                    <TextInput
+                                        style={css.input2}
+                                        textInput={CEP}
+                                        value={CEP}
+                                        onChangeText={(digitado) => setCep(digitado)}
+                                        placeholder="CEP:"
+                                        placeholderTextColor="white"
+                                    />
+                                    <TextInput
+                                        style={css.input2}
+                                        textInput={cidade}
+                                        value={cidade}
+                                        onChangeText={(digitado) => setCidade(digitado)}
+                                        placeholder="Cidade:"
+                                        placeholderTextColor="white"
+                                    />
+                                    <TextInput
+                                        style={css.input2}
+                                        textInput={bairro}
+                                        value={bairro}
+                                        onChangeText={(digitado) => setBairro(digitado)}
+                                        placeholder="Bairro:"
+                                        placeholderTextColor="white"
+                                    />
+                                    <TextInput
+                                        style={css.input2}
+                                        textInput={estado}
+                                        value={estado}
+                                        onChangeText={(digitado) => setEstado(digitado)}
+                                        placeholder=" Estado:"
+                                        placeholderTextColor="white"
+                                    />
+                                    <TextInput
+                                        style={css.input2}
+                                        textInput={senha}
+                                        value={senha}
+                                        onChangeText={(digitado) => setSenha(digitado)}
+                                        placeholder="Senha:"
+                                        placeholderTextColor="white"
+                                    />
+                                    <View style={css.PaiCadastrar2}>
+                                        <TouchableOpacity style={css.btn} onPress={() => { SalvarCadastro(); setCadastro(false) }}>
+                                            <Text style={css.Texto}>Cadastrar</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            </ScrollView>
+                        </SafeAreaView>
+                    </>
+                    :
+                    <>
+                        <View style={css.Caixalogocadast}>
+                            <Image source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")} style={css.logo} />
                         </View>
-                    }
-                    <View>
-                        <View style={css.PaiImagens}>
-                            <Image source={require("../../assets/FotosAchô/facebook.png")} style={css.Face} />
-                            <Image source={require("../../assets/FotosAchô/google (1).png")} style={css.Gogle} />
-                            <Image source={require('../../assets/FotosAchô/twitter.png')} style={css.x} />
+                        <View style={css.PaiInput}>
+                            <TextInput
+                                inputMode="email"
+                                placeholder="Email do usuario:"
+                                style={css.input}
+                                value={email}
+                                onChangeText={(digitado) => setEmail(digitado)}
+                                placeholderTextColor="white"
+                            />
+                            <TextInput
+                                inputMode="text"
+                                placeholder="Senha:"
+                                secureTextEntry={true}
+                                style={css.input}
+                                value={senha}
+                                onChangeText={(digitado) => setSenha(digitado)}
+                                placeholderTextColor="white"
+                            />
+                            <View style={css.ViewCadastrar}>
+                                <View style={css.forgot2}>
+                                    <Text style={css.forgot2Texto}>Ja tem uma conta? Caso não</Text>
+                                </View>
+                                <View style={css.forgot}>
+                                    <TouchableOpacity onPress={() => setCadastro(true)}>
+                                        <Text style={css.forgotText}>Cadastre-se</Text>
+                                    </TouchableOpacity>
+                                </View>
+
+                            </View>
+                            <View style={css.ViewCadastrar}>
+                                <View style={css.forgot2}>
+                                    <Text style={css.forgot2Texto}>Esqueceu sua senha?</Text>
+                                </View>
+                                <View style={css.forgot}>
+                                    <TouchableOpacity onPress={() => setRecupSenha(true)}>                                       
+                                        <Text style={css.forgotText}>Recuperar Senha</Text>     
+                                    </TouchableOpacity>
+                                </View>
+
+                            </View>
+                            <TouchableOpacity style={css.btnLogin} onPress={RealizaLogin}>
+                                <Text style={css.btnLoginText}>Entrar</Text>
+                            </TouchableOpacity>
+                            {error &&
+                                <View style={css.error}>
+                                    <Text style={css.errorText}>Email ou Senha incorretos!</Text>
+                                </View>
+                            }
+                            <View>
+                            <View style={css.ou}>
+                                    <Text style={css.outexto}>Ou</Text>
+                                </View>
+                                <View style={css.PaiImagens}>
+                                    <Image source={require("../../assets/FotosComuniQ/ComuniQ (1).png")} style={css.Gogle} />
+                                    <Image source={require("../../assets/FotosComuniQ/ComuniQ (2).png")} style={css.winds} />
+                                    <Image source={require("../../assets/FotosComuniQ/ComuniQ (3).png")} style={css.maca} />
+                                </View>
+                            </View>
                         </View>
-                    </View>
-                </>
-            }
+
+                    </>
+                }
+
+            </ImageBackground>
         </ScrollView>
     )
 }
@@ -127,73 +257,76 @@ const css = StyleSheet.create({
         alignContent: "center",
         backgroundColor: "#C7BB9D"
     },
+    image: {
+        flex: 1,
+        width: 410,
+        opacity: 1.5
+    },
     Caixalogo: {
         width: 280,
         height: 60,
         marginBottom: 250,
     },
     logo: {
-        width: 300,
-        height: 200,
+        width: 180,
+        height: 180,
+        borderRadius: 200
     },
     Caixalogocadast: {
-        marginTop: "40%",
+        marginTop: "10%",
         width: "50%",
         height: 95,
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
+        marginLeft: 105,
     },
     tinyLogo: {
         width: 10,
         height: 10
     },
-    BTNVoltar: {
-        fontSize: 20,
-        width: 80,
-        height: 60,
-        color: "white",
-        marginTop: 1
-    },
     input: {
-        width: "90%",
-        height: 60,
+        width: "100%",
+        height: 45,
         borderRadius: 10,
-        marginBottom: 30,
+        marginBottom: 10,
         padding: 10,
-        backgroundColor: "#EFDFBE",
+        backgroundColor: "#B3B3B3",
         color: "black",
         borderWidth: 1,
+        marginTop:30
     },
     ViewCadastrar: {
         display: "flex",
         flexDirection: "row"
     },
     forgot2: {
-        width: "50%",
+        width: "60%",
         // marginTop: 10,
+        color: "white",
+        // marginLeft: 
     },
     forgot: {
-        width: "30%",
+        width: "40%",
         justifyContent: "flex-end",
         alignItems: "flex-end",
     },
     forgotText: {
-        color: "#C77529",
-        fontWeight: "bold"
+        color: "#47B8CA",
+        fontWeight: "400"
     },
     btnLogin: {
-        width: "50%",
+        width: "100%",
         height: 50,
         borderRadius: 10,
         marginTop: 30,
-        backgroundColor: "#EFDFBE"
+        backgroundColor: "#20343F"
     },
     btnLoginText: {
-        color: "black",
         lineHeight: 45,
         textAlign: "center",
         fontSize: 30,
-        fontWeight: "bold"
+        fontWeight: "400",
+        color: "white"
     },
     error: {
         width: "100%",
@@ -206,64 +339,75 @@ const css = StyleSheet.create({
     },
     PaiImagens: {
         display: "flex",
-        //alignItems:"center",
+        alignItems:"center",
         justifyContent: "center",
         flexDirection: "row",
-        marginTop: 20
+        marginTop: 40,
+        columnGap:30
     },
     PaiInput: {
+        marginLeft: "2%",
         display: "flex",
         alignItems: "center",
-        width: "100%"
+        width: "95%",
+        marginTop: "30%",
+        backgroundColor: "rgba(0,0,0,0.4)",
+        borderRadius: 15,
+        padding: 20
 
     },
     input2: {
         width: 350,
         height: 50,
-        borderColor: "#C9994D",
+        borderColor: "#000",
         borderRadius: 15,
         borderWidth: 2,
-        backgroundColor: "#EFDFBE",
+        backgroundColor: "#B3B3B3",
         marginBottom: 5,
-        marginTop: 5
-    },
-    nomePag: {
-        fontSize: 30,
-        fontWeight: "bold"
-    },
-    PaiCadastrar: {
-        // display: "flex",
-        alignItems: "center",
-        marginTop: 100,
+        marginTop: 5,
+        padding: 10,
     },
     PaiCadastrar2: {
         alignItems: "center"
     },
     btn: {
-        width: "50%",
+        width: 350,
         height: 50,
         borderRadius: 10,
         marginTop: 30,
-        backgroundColor: "#EFDFBE",
+        backgroundColor: "#20343F",
         alignItems: "center",
-        justifyContent: "center"
-    },
-    btn2: {
-        width: "20%",
-        height: 30,
-        borderRadius: 10,
-        marginTop: 30,
-        backgroundColor: "#EFDFBE",
-        alignItems: "center",
-        justifyContent: "center"
-    },
-    BTNVoltar: {
-        fontSize: 15,
-        fontWeight: "bold"
+        justifyContent: "center",
+        color: "white"
     },
     Texto: {
         fontSize: 30,
-        fontWeight: "bold"
+        fontWeight: "400",
+        color: "white"
+    },
+    Gogle: {
+        width: 60,
+        height: 60
+    },
+    winds: {
+        width: 50,
+        height: 50
+    },
+    maca: {
+        width: 70,
+        height: 70,
+    },
+    forgot2Texto: {
+        color: "#fff"
+    },
+    ou:{
+        marginTop:40,
+        marginLeft:90 
+    },
+    outexto:{
+        color:"#fff",
+        fontSize: 30,
+        fontWeight: "400",
     },
 
 })

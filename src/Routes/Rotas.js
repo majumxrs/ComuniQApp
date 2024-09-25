@@ -19,7 +19,6 @@ export default function Rotas() {
     if (!logado) {
         return (<Login />)
     }
-
     return (
         <NavigationContainer>
             <Tab.Navigator
