@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity, Image, TextInput, image, SafeAreaView, ScrollView, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 
-export default function Campanha({ setCampanhas }) {
+export default function Campanha({ setCampanhas, setDenunciaTro, setOutros }) {
     return (
         <>
             <SafeAreaView style={css.container}>
@@ -14,18 +14,18 @@ export default function Campanha({ setCampanhas }) {
                     </View >
                     <View style={css.CaixaPaiTresBtn} >
                         <View  style={css.Btn}>
-                            <TouchableOpacity style={css.btn} onPress={() => { setCampanhas(false) }}>
-                                <Text style={css.Texto}></Text>
+                            <TouchableOpacity style={css.btn} onPress={() => { setDenunciaTro(false) }}>
+                                <Text style={css.Texto}>Denuncias</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View>
+                            <TouchableOpacity style={css.btn} onPress={() => { setOutros(false) }}>
+                                <Text style={css.Texto}>Outros</Text>
                             </TouchableOpacity>
                         </View>
                         <View>
                             <TouchableOpacity style={css.btn} onPress={() => { setCampanhas(false) }}>
-                                <Text style={css.Texto}></Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View>
-                            <TouchableOpacity style={css.btn} onPress={() => { setCampanhas(false) }}>
-                                <Text style={css.Texto}></Text>
+                                <Text style={css.Texto}>Campanhas</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
