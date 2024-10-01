@@ -3,212 +3,140 @@
 import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity, Image, TextInput, image, SafeAreaView, ScrollView, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { useFocusEffect } from '@react-navigation/native';
-// import Produto from '../Components/Produto';
+import Denuncia from "../Components/Denuncias";
 import { AuthContext } from '../Context/AuthContext';
+import Campanhas from '../Components/Campanha';
+import Outros from '../Components/Outros';
 
 
-export default function Home() {
+export default function Home({ navigation }) {
 
-  const [animais, setAnimais] = useState([]);
-  const [detalhes, setDetalhes] = useState(false);
-  const [nomeAnimal, setNomeAnimal] = useState("");
-  const [imgAnimal, setImgAnimal] = useState();
-  const [idAnimal, setIdAnimal] = useState(0);
-  const [racaAnimal, setRacaAnimal] = useState("");
-  const [animalTipo, setAnimalTipo] = useState("");
-  const [animalCor, setAnimalCor] = useState("");
-  const [animalSexo, setAnimalSexo] = useState("");
-  const [animalObservacao, setAnimalObservacao] = useState("");
-  const [animalDataDesaparecimento, setAnimalDataDesaparecimento] = useState("");
-  const [animalDataEncontro, setAnimalDataEncontro] = useState("");
-  const [animalStatus, setAnimalStatus] = useState("");
-  const [usuarioId, setUsuarioId] = useState(0);
-  const [observacaoDescricao, setObservacaoDescricao] = useState("");
-  const [observacaoLocal, setObservacaoLocal] = useState("");
-  const [observacaoData, setObservacaoData] = useState("");
-  const [Resposta, setResposta] = useState(false)
-  const [criarAnimal, setCrearAnimal] = useState(false);
-  const [obs, setObs] = useState(false);
+  //Publicação
+  const [BairroId, setBairroId] = useState(0);
+  const [UsuarioId, setUsuarioId] = useState(0);
+
+  //"Resposta"
+
+
+  //denuncia
+  
+  const [denuncia, setDenuncia] = useState([]);
+  const [denunciaId, setDenunciaId] = useState([]);
+  const [denunciaTitulo, setDenunciaTitulo] = useState([]);
+  const [denunciaMidia, setDenunciaMidia] = useState("");
+  const [denunciaDescricao, setDenunciaDescricao] = useState([]);
+  const [tipoDenunciaId, setTipoDenunciaId] = useState(0);
+  //BairroId Tambem tem!!
+
+  //Usuarios ja tem 
+
+
 
   //MINHA API 
-  async function getAnimais() {
-    await fetch('http://10.139.75.19:5251/api/Animais/GetAllAnimal', {
+  async function getDenuncia() {
+    await fetch('https://10.139.75.99:5280/api/Denuncia/GetAllDenuncias', {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
       }
     })
-
-      //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
       .then(res => res.json())
-      .then(json => setAnimais(json))
+      .then(json => setDenuncia(json))
       .catch(err => console.log(err))
   }
 
-  async function getAnimal(id) {
-    await fetch('http://10.139.75.19:5251/api/Animais/GetAnimalId/' + id, {
+  async function getDenunciaId(id) {
+    await fetch('http://10.139.75.31:5251/api/Pessoa/GetPessoaId/' + id, {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
       }
     })
-      //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
       .then(res => res.json())
       .then(json => {
-        setNomeAnimal(json.animalNome);
-        setImgAnimal(json.animalFoto);
-        setIdAnimal(json.animaisId);
-        setUsuarioId(json.usuarioId);
-        setRacaAnimal(json.animalRaca);
-        setAnimalTipo(json.animalTipo);
-        setAnimalCor(json.animalCor);
-        setAnimalSexo(json.animalSexo);
-        setAnimalStatus(json.animalStatus);
-        setAnimalObservacao(json.animalObservacao);
-        setAnimalDataDesaparecimento(json.animalDataDesaparecimento);
-        setAnimalDataEncontro(json.animalDataEncontro);
+        setDenunciaId(json.denunciaId);
+        setDenunciaTitulo(json.denunciaTitulo);
+        setDenunciaMidia(json.denunciaMidia);
+        setDenunciaDescricao(json.denunciaDescricao);
+        setTipoDenunciaId(json.tipoDenunciaId);
+        setBairroId(json.bairroId);
       })
-      .catch(err => console.log(err))
-  }
-
-  async function getAnimaiss() {
-    await fetch('http://10.139.75.19:5251/api/Animais/CreateAnimal', {
-      method: 'post',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        observacaoDescricao: "string",
-        observacaoLocal: "string",
-        observacaoData: "2024-06-12T15:01:27.669Z",
-        animaisId: 0,
-        usuarioId: 0
-      })
-    })
-
-      //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
-      .then(res => res.json())
-      .then(json => setCrearAnimal(false))
-      .catch(err => console.log(err))
-  }
-
-  async function SalvarObs() {
-    await fetch('http://10.139.75.19:5251/api/Observacoes/CreateObservacao ', {
-      method: 'post',
-      headers: {
-        'content-type': 'application/json'
-      },
-      body: JSON.stringify({
-        observacaoDescricao: observacaoDescricao,
-        observacaoLocal: observacaoLocal,
-        observacaoData: observacaoData,
-        animaisId: idAnimal,
-        usuarioId: usuarioId,
-      })
-    })
-      //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
-      .then(res => res.json())
-      .then(json => console.log(json))
       .catch(err => console.log(err))
   }
 
   //FILTRO PARA AO ENTRAR NA PAGINA EXEGUTAR O GETPRODUTROS(API)
   useEffect(() => {
-    getAnimais();
-    getAnimaiss();
+    getDenunciaId();
+    getDenuncia();
   }, [])
 
   useFocusEffect(
     React.useCallback(() => {
-      getAnimais();
+      getDenuncia();
+      getDenunciaId();
     }, [])
   );
+  const [denunciatro, setDenunciaTro] = useState(false);
+  const [campanhas, setCampanhas] = useState(false);
+  const [outros, setOutros] = useState(false);
+
+  if (campanhas) {
+    return (<Campanhas setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros}   />)
+  }
+  if (outros) {
+    return (<Outros setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros}/>)
+  }
+  if (denunciatro) {
+    return (<Denuncia setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)
+  }
 
   //Item e um nome generico que vem da api que vc delimitou na data, podendo ser qualquer nome. dependendo para facilitar o entedimento pode colocar o memo nome do que vc vai buscar.
   return (
-    <>
     <View style={css.container}>
-      {detalhes ?
-     <>
       <View style={css.caixa}>
-      <Image
-        style={css.tinyLogo}
-        source={require("../../assets/LogoAppAchôCerta.png")}
-      />
-    </View >
-        <SafeAreaView style={css.container}>
-          <ScrollView>
-            <View style={css.containerDetalhes}>
-              <TouchableOpacity>
-                <Text style={css.BTNVoltar} onPress={() => { setDetalhes(false), setObs(false) }}>❮</Text>
-              </TouchableOpacity>
-              <View style={css.boxImage}>
-                <Image source={{ uri: imgAnimal }} style={css.imagem} />
-              </View>
-              <View style={css.boxTitle}>
-                <Text style={css.text}>{nomeAnimal}</Text>
-              </View>
-              <View>
-                <Text style={css.text}>Raça: {racaAnimal}</Text>
-                <Text style={css.text}>Tipo: {animalTipo}</Text>
-                <Text style={css.text}>Cor: {animalCor}</Text>
-                <Text style={css.text}>Sexo: {animalSexo}</Text>
-                <Text style={css.text}>Observação: {animalObservacao}</Text>
-               
-                {
-                  animalStatus == 0 ?
-                   <Text style={css.text}>Desaparecido</Text>
-                   :  <Text style={css.text}>Encontrado</Text>
-                }
-                <Text style={css.text}>Data Desaparecimento: {animalDataDesaparecimento}</Text>
-                <Text style={css.text}>Data encontro: {animalDataEncontro}</Text>                
-                <TouchableOpacity style={css.btn01} onPress={() => setObs(true)}>
-                  <Text style={css.TextoBTNC}>Nova Observação</Text>
-                </TouchableOpacity>
-                {obs &&
-                  <View style={css.PaiInput}>
-                    <TextInput style={css.input} textInput={observacaoDescricao} value={observacaoDescricao} onChangeText={(digitado) => setObservacaoDescricao(digitado)} placeholder="Nova Descrição:" />
-                    <TextInput style={css.input} textInput={observacaoLocal} value={observacaoLocal} onChangeText={(digitado) => setObservacaoLocal(digitado)} placeholder="Local de encontro:" />
-                    <TextInput style={css.input} textInput={observacaoData} value={observacaoData} onChangeText={(digitado) => setObservacaoData(digitado)} placeholder="Data:" />
-                    <TouchableOpacity style={css.btn02} onPress={() => SalvarObs()}>
-                      <Text style={css.TextoBTNC}>Salvar</Text>
-                    </TouchableOpacity>
-                  </View>
-                }
-              </View>
-            </View>
-          </ScrollView>
-        </SafeAreaView>
-        </>
-        :
-        <>
-          <View style={css.caixa}>
-            <Image
-              style={css.tinyLogo}
-              source={require("../../assets/LogoAppAchôCerta.png")}
-            />
-          </View >
-          <FlatList
-            data={animais}
-            style={css.Flat}
-            renderItem={({ item }) => <Produto
-              title={item.animalNome}
-              image={item.animalFoto}
-              setDetalhes={() => { setDetalhes(true); getAnimal(item.animaisId) }}
-            />}
-            keyExtractor={(item) => item.animaisId}
-            contentContainerStyle={{ height: (animais.length * 600) + 110 }}
-          />
-        </>
+        <Image style={css.tinyLogo} source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")}/>
+      </View >
+      <View style={css.containerDetalhes}>
+        <View style={css.boxImage}>
 
-      }
+          <View>
+            <TouchableOpacity style={css.btn} onPress={() => { setOutros(true) }}>
+              <Text style={css.Texto}>Denuncia</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity style={css.btn} onPress={() => { setCampanhas(true) }}>
+              <Text style={css.Texto}>Campanhas</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity style={css.btn} onPress={() => { setDenunciaTro(true) }}>
+              <Text style={css.Texto}>Denuncia</Text>
+            </TouchableOpacity>
+          </View>
+
+          <Text>Teste</Text>
+          <Text>OLa {denunciaTitulo}</Text>
+
+          <View style={css.Teste}>
+          <FlatList
+            data={denuncia}
+            renderItem={({ item }) => <Denuncia GetDenunciaId={getDenunciaId} getDenuncia={getDenuncia} denunciaTitulo={item.denunciaTitulo} denunciaMidia={item.denunciaMidia} tipoDenunciaId={item.tipoDenunciaId} bairroId={item.bairroId} denunciaDescricao={item.denunciaDescricao} />}
+            keyExtractor={(item) => item.denunciaId}
+            contentContainerStyle={{ height: (denuncia.length * 800) + 500 }}
+          />
+          </View>
+          
+
+        </View>
+      </View>
     </View>
-    </>
+
   )
 }
 const css = StyleSheet.create({
   container: {
-    backgroundColor: "#E6DACA",
+    backgroundColor: "#FFFFFF",
     flexGrow: 1,
     color: "white",
     width: "100%",
@@ -216,10 +144,14 @@ const css = StyleSheet.create({
     alignItems: "center",
     height: 30,
   },
+  Teste:{
+    backgroundColor: "red",
+    
+  },
   caixa: {
     height: 95,
     width: "100%",
-    backgroundColor: "#C7BB9D",
+    backgroundColor: "#20343F",
     display: "flex",
     alignItems: "center",
     justifyContent: "center"
@@ -255,7 +187,7 @@ const css = StyleSheet.create({
   },
   btn02: {
     marginTop: 5,
-    backgroundColor: "#C7BB9D",
+    backgroundColor: "red",
     width: "90%",
     height: 50,
     borderRadius: 10,
@@ -264,7 +196,7 @@ const css = StyleSheet.create({
   },
   btn01: {
     marginTop: 15,
-    backgroundColor: "#C7BB9D",
+    backgroundColor: "red",
     width: "90%",
     height: 50,
     borderRadius: 10,
@@ -285,7 +217,7 @@ const css = StyleSheet.create({
   input: {
     width: "80%",
     height: 50,
-    borderColor: "#C9994D",
+    borderColor: "red",
     borderRadius: 15,
     borderWidth: 2,
     backgroundColor: "white",
@@ -294,5 +226,20 @@ const css = StyleSheet.create({
   },
   Flat: {
     marginTop: 10
-  }
+  },
+  btn: {
+    width: 150,
+    height: 50,
+    borderRadius: 10,
+    marginTop: 30,
+    backgroundColor: "#20343F",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "white"
+  },
+  Texto: {
+    fontSize: 30,
+    fontWeight: "400",
+    color: "white"
+  },
 })

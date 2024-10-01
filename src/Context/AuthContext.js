@@ -6,11 +6,12 @@ function AuthProvider({ children }) {
     const [logado, setLogado] = useState(true);
     const [error, setError] = useState(false);
     const [ user, SetUser ] = useState(false);
+    const [ menRecupSenha, setMenReupSenha ] =useState(true);
 
     async function Login(email, senha) {
 
         if (email != "" && senha != "") {
-            await fetch('http://10.139.75.19:5251/api/Usuarios/Login', {
+            await fetch('http://10.139.75.18:5280/api/Usuarios/Login', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json; charset=UTF-8'
@@ -24,7 +25,7 @@ function AuthProvider({ children }) {
             //PEGA AS INFORMAÇÕES DO JEITO QUE A API DEVOLVE
                 .then(res => res.json())
                 .then(json => {
-                    if(json.usuarioId){
+                    if(json.usuarioEmail){
                         SetUser( json );
                         setLogado( true );
                     }
@@ -37,7 +38,7 @@ function AuthProvider({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ logado: logado, Login, error: error, user: user, setLogado}}>
+        <AuthContext.Provider value={{ logado: logado, Login, error: error, menRecupSenha: menRecupSenha, user: user, setLogado}}>
             {children}
         </AuthContext.Provider>
     )
