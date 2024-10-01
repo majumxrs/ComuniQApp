@@ -4,18 +4,19 @@ import React from 'react'
 export default function Produto({ setDenunciaTro, denunciaTitulo, denunciaMidia, denunciaDescricao, tipoDenunciaId, bairroId }) {
     return (
         <View style={css.container}>
-            <TouchableOpacity style={css.btn} onPress={() => {setDenunciaTro(false) }}>
-              <Text style={css.Texto}>Volta</Text>
+
+
+            <TouchableOpacity style={css.btn} onPress={() => { setDenunciaTro(false) }}>
+                <Text style={css.Texto}>Volta</Text>
             </TouchableOpacity>
+
+
             <View style={css.boxTitle}>
                 <Text>Olahtetse</Text>
-                <View style={css.circleAvatar}>
-                    <Image source={{ uri: denunciaMidia }} style={css.imagem} />
-                </View>
                 <Text style={css.title}>{denunciaTitulo}</Text>
             </View>
             <View style={css.boxImage}>
-                <Image source={{ uri: denunciaMidia }} style={css.imagemG} />
+                <Image source={{ uri: "https://cdn.pixabay.com/photo/2024/06/01/14/00/ai-8802304_1280.jpg" }} style={css.imagemG} />
             </View>
 
         </View>
@@ -37,18 +38,11 @@ const css = StyleSheet.create({
         marginBottom: 10,
         paddingLeft: 5
     },
-    circleAvatar: {
-        width: 50,
-        height: 50,
-        borderRadius: 50,
-        backgroundColor: "white",
-        marginRight: 10
-    },
     title: {
         color: "black",
         textAlign: "center",
         marginTop: 20,
-        fontSize:30,
+        fontSize: 30,
     },
     boxImage: {
         width: "100%",
@@ -58,13 +52,6 @@ const css = StyleSheet.create({
         width: "100%",
         height: "100%",
         resizeMode: "cover",
-    },
-    imagem: {
-        width: "100%",
-        height: "100%",
-        resizeMode: "cover",
-        borderRadius: 50,
-        marginTop: 10,
     },
     categoryBox: {
         width: "100%",

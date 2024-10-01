@@ -12,14 +12,11 @@ import Outros from '../Components/Outros';
 export default function Home({ navigation }) {
 
   //Publicação
-  const [detalhes, setDetalhes] = useState(true);
-
   const [BairroId, setBairroId] = useState(0);
   const [UsuarioId, setUsuarioId] = useState(0);
 
   //"Resposta"
-  const [Resposta, setResposta] = useState(false)
-  const [obs, setObs] = useState(false);
+
 
   //denuncia
   
@@ -67,43 +64,6 @@ export default function Home({ navigation }) {
       .catch(err => console.log(err))
   }
 
-  {/*async function getCampanah() {
-    await fetch('https://10.139.75.29:5280/api/Campanhas/GetAllCampanhas', {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-
-      //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
-      .then(res => res.json())
-      .then(json => setCampanha(json))
-      .catch(err => console.log(err))
-  }
-
-  async function getCampanahId(id) {
-    await fetch('https://10.139.75.29:5280/api/Campanhas/GetCampanhaId/' + id, {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-      //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
-      .then(res => res.json())
-      .then(json => {
-        setCampanhaId(json.campanhaId);
-        setCampanhaTitulo(json.campanhaTitulo);
-        setCampanhaMidia(json.campanhaMidia);
-        setCampanhaDescricao(json.campanhaDescricao);
-        setCidadeId(json.cidadeId);
-        setTipoCampanhaId(json.tipoCampanhaId);
-
-      })
-      .catch(err => console.log(err))
-    }*/}
-
-
-
   //FILTRO PARA AO ENTRAR NA PAGINA EXEGUTAR O GETPRODUTROS(API)
   useEffect(() => {
     getDenunciaId();
@@ -116,30 +76,25 @@ export default function Home({ navigation }) {
       getDenunciaId();
     }, [])
   );
-
-  const [comentarioId, setComentarioId] = useState(0);
   const [denunciatro, setDenunciaTro] = useState(false);
   const [campanhas, setCampanhas] = useState(false);
   const [outros, setOutros] = useState(false);
 
   if (campanhas) {
-    return (<Campanhas setCampanhas={setCampanhas} />)
+    return (<Campanhas setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros}   />)
   }
   if (outros) {
-    return (<Outros setOutros={setOutros} />)
+    return (<Outros setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros}/>)
   }
   if (denunciatro) {
-    return (<Denuncia setDenunciaTro={setDenunciaTro} />)
+    return (<Denuncia setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)
   }
 
   //Item e um nome generico que vem da api que vc delimitou na data, podendo ser qualquer nome. dependendo para facilitar o entedimento pode colocar o memo nome do que vc vai buscar.
   return (
     <View style={css.container}>
       <View style={css.caixa}>
-        <Image
-          style={css.tinyLogo}
-          source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")}
-        />
+        <Image style={css.tinyLogo} source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")}/>
       </View >
       <View style={css.containerDetalhes}>
         <View style={css.boxImage}>
