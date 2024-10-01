@@ -1,23 +1,20 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-export default function Produto({ denunciaId, denunciaTitulo, denunciaMidia, denunciaDescricao, tipoDenunciaId, bairroId  }) {
+export default function Denuncia({  denunciaId, denunciaTitulo, denunciaMidia, denunciaDescricao, tipoDenunciaId, bairroId  }) {
     return (
         <View style={css.container}>
             <View style={css.boxTitle}>
                 <View style={css.circleAvatar}>
-                    <Image source={{ uri: denunciaMidia }} style={css.imagem} />
-                </View>
-                <Text style={css.title}>{denunciaTitulo}</Text>
-            </View>
-            <View style={css.boxImage}>
-                <Image source={{ uri: denunciaMidia }} style={css.imagemG} />
-            </View>
+                    <Image source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCJsLKLfoI-V1WAbdYAJf7NNrO2ei208WOfw&s" , }} style={css.imagem} />
+                    <Text>teste052015</Text>
 
-            <TouchableOpacity onPress={() => { setDetalhes(false); getPessoaId(pessoaId); getObservação(pessoaId) }} style={css.btnDelete}>
-                <Text style={css.btbLoginText}>Detalhes</Text>
-            </TouchableOpacity>
 
+
+                    
+                </View> 
+                <Text style={css.title}>teste lalacse jbj {denunciaTitulo}</Text>
+            </View>
         </View>
     )
 }
@@ -28,7 +25,7 @@ const css = StyleSheet.create({
         backgroundColor: "white",
         marginTop: 25,
     },
-   /* boxTitle: {
+    boxTitle: {
         width: "100%",
         display: "flex",
         flexDirection: "row",
@@ -49,7 +46,7 @@ const css = StyleSheet.create({
         textAlign: "center",
         marginTop: 20,
         fontSize:30,
-    },*/
+    },
     boxImage: {
         width: "100%",
         height: 390,
@@ -66,6 +63,10 @@ const css = StyleSheet.create({
         resizeMode: "cover",
         borderRadius: 50,
         marginTop: 10,
+    },
+    testeTxto:{
+        fontSize:"5rem",
+        color: "red",
     },/*
     categoryBox: {
         width: "100%",
