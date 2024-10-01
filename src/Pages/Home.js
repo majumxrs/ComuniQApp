@@ -22,6 +22,7 @@ export default function Home({ navigation }) {
   const [obs, setObs] = useState(false);
 
   //denuncia
+  
   const [denuncia, setDenuncia] = useState([]);
   const [denunciaId, setDenunciaId] = useState([]);
   const [denunciaTitulo, setDenunciaTitulo] = useState([]);
@@ -31,7 +32,7 @@ export default function Home({ navigation }) {
   //BairroId Tambem tem!!
 
   //Usuarios ja tem 
- 
+
 
 
   //MINHA API 
@@ -117,15 +118,18 @@ export default function Home({ navigation }) {
   );
 
   const [comentarioId, setComentarioId] = useState(0);
+  const [denunciatro, setDenunciaTro] = useState(false);
+  const [campanhas, setCampanhas] = useState(false);
+  const [outros, setOutros] = useState(false);
 
-  const [ campanhas, setCampanhas ] = useState(false);
-  const [ outros, setOutros ] = useState(false);
-
-  if( campanhas ) {
-    return( <Campanhas setCampanhas={setCampanhas} />)
+  if (campanhas) {
+    return (<Campanhas setCampanhas={setCampanhas} />)
   }
-  if( outros ) {
-    return( <Outros setOutros={setOutros} />)
+  if (outros) {
+    return (<Outros setOutros={setOutros} />)
+  }
+  if (denunciatro) {
+    return (<Denuncia setDenunciaTro={setDenunciaTro} />)
   }
 
   //Item e um nome generico que vem da api que vc delimitou na data, podendo ser qualquer nome. dependendo para facilitar o entedimento pode colocar o memo nome do que vc vai buscar.
@@ -140,31 +144,35 @@ export default function Home({ navigation }) {
       <View style={css.containerDetalhes}>
         <View style={css.boxImage}>
 
-           <View>
+          <View>
             <TouchableOpacity style={css.btn} onPress={() => { setOutros(true) }}>
               <Text style={css.Texto}>Denuncia</Text>
             </TouchableOpacity>
-          </View> 
+          </View>
           <View>
-            <TouchableOpacity style={css.btn} onPress={() => {setCampanhas(true) }}>
+            <TouchableOpacity style={css.btn} onPress={() => { setCampanhas(true) }}>
               <Text style={css.Texto}>Campanhas</Text>
             </TouchableOpacity>
           </View>
-
-          {/* <View>
-            <TouchableOpacity style={css.btn} onPress={() => { SalvarCadastro(); setCadastro(false) }}>
-              <Text style={css.Texto}>Outros</Text>
+          <View>
+            <TouchableOpacity style={css.btn} onPress={() => { setDenunciaTro(true) }}>
+              <Text style={css.Texto}>Denuncia</Text>
             </TouchableOpacity>
-          </View> */}
+          </View>
 
           <Text>Teste</Text>
           <Text>OLa {denunciaTitulo}</Text>
+
+          <View style={css.Teste}>
           <FlatList
             data={denuncia}
             renderItem={({ item }) => <Denuncia GetDenunciaId={getDenunciaId} getDenuncia={getDenuncia} denunciaTitulo={item.denunciaTitulo} denunciaMidia={item.denunciaMidia} tipoDenunciaId={item.tipoDenunciaId} bairroId={item.bairroId} denunciaDescricao={item.denunciaDescricao} />}
             keyExtractor={(item) => item.denunciaId}
-            contentContainerStyle={{ height: (denuncia.length * 600) + 200 }}
+            contentContainerStyle={{ height: (denuncia.length * 800) + 500 }}
           />
+          </View>
+          
+
         </View>
       </View>
     </View>
@@ -180,6 +188,10 @@ const css = StyleSheet.create({
     // justifyContent: "center",
     alignItems: "center",
     height: 30,
+  },
+  Teste:{
+    backgroundColor: "red",
+    
   },
   caixa: {
     height: 95,
@@ -269,10 +281,10 @@ const css = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     color: "white"
-},
-Texto: {
+  },
+  Texto: {
     fontSize: 30,
     fontWeight: "400",
     color: "white"
-},
+  },
 })
