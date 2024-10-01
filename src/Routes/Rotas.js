@@ -8,6 +8,7 @@ import { AuthContext } from '../Context/AuthContext';
 import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Perfil from '../Pages/Perfil';
+import Chat from '../Pages/Chat';
 
 
 const Tab = createBottomTabNavigator();
@@ -46,6 +47,15 @@ export default function Rotas() {
                 <Tab.Screen
                     name="Inserir"
                     component={Perfil}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="account-circle" color={color} size={size} />
+                        ),
+                    }}
+                />
+                 <Tab.Screen
+                    name="Chat"
+                    component={Chat}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="account-circle" color={color} size={size} />

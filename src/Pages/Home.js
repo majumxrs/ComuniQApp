@@ -5,7 +5,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useFocusEffect } from '@react-navigation/native';
 import Denuncia from "../Components/Denuncias";
 import { AuthContext } from '../Context/AuthContext';
-import Campanhas from '../Components/Campanhas';
+import Campanhas from '../Components/Campanha';
 import Outros from '../Components/Outros';
 import Teste from '../Components/Teste';
 
