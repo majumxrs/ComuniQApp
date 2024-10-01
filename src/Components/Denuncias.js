@@ -1,27 +1,30 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-export default function Denuncia({  denunciaId, denunciaTitulo, denunciaMidia, denunciaDescricao, tipoDenunciaId, bairroId  }) {
+export default function Produto({ setDenunciaTro, denunciaTitulo, denunciaMidia, denunciaDescricao, tipoDenunciaId, bairroId }) {
     return (
         <View style={css.container}>
+            <TouchableOpacity style={css.btn} onPress={() => {setDenunciaTro(false) }}>
+              <Text style={css.Texto}>Volta</Text>
+            </TouchableOpacity>
             <View style={css.boxTitle}>
+                <Text>Olahtetse</Text>
                 <View style={css.circleAvatar}>
-                    <Image source={{ uri: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCJsLKLfoI-V1WAbdYAJf7NNrO2ei208WOfw&s" , }} style={css.imagem} />
-                    <Text>teste052015</Text>
-
-
-
-                    
-                </View> 
-                <Text style={css.title}>teste lalacse jbj {denunciaTitulo}</Text>
+                    <Image source={{ uri: denunciaMidia }} style={css.imagem} />
+                </View>
+                <Text style={css.title}>{denunciaTitulo}</Text>
             </View>
+            <View style={css.boxImage}>
+                <Image source={{ uri: denunciaMidia }} style={css.imagemG} />
+            </View>
+
         </View>
     )
 }
 const css = StyleSheet.create({
     container: {
-        width: 350,
-        height: 600,
+        width: 550,
+        height: 800,
         backgroundColor: "white",
         marginTop: 25,
     },
@@ -49,8 +52,7 @@ const css = StyleSheet.create({
     },
     boxImage: {
         width: "100%",
-        height: 390,
-        borderColor: "red",
+        height: 390
     },
     imagemG: {
         width: "100%",
@@ -64,10 +66,6 @@ const css = StyleSheet.create({
         borderRadius: 50,
         marginTop: 10,
     },
-    testeTxto:{
-        fontSize:"5rem",
-        color: "red",
-    },/*
     categoryBox: {
         width: "100%",
         marginTop: 15
@@ -103,5 +101,5 @@ const css = StyleSheet.create({
         color: "white",
         fontSize: 30,
         fontWeight: "850"
-    },*/
+    },
 })
