@@ -4,19 +4,12 @@ import React from 'react'
 export default function Produto({ setDenunciaTro, denunciaTitulo, denunciaMidia, denunciaDescricao, tipoDenunciaId, bairroId }) {
     return (
         <View style={css.container}>
-
-
-            <TouchableOpacity style={css.btn} onPress={() => { setDenunciaTro(false) }}>
-                <Text style={css.Texto}>Volta</Text>
-            </TouchableOpacity>
-
-
             <View style={css.boxTitle}>
-                <Text>Olahtetse</Text>
                 <Text style={css.title}>{denunciaTitulo}</Text>
+                <Text style={css.title2}>teste{denunciaDescricao}</Text>
             </View>
             <View style={css.boxImage}>
-                <Image source={{ uri: "https://cdn.pixabay.com/photo/2024/06/01/14/00/ai-8802304_1280.jpg" }} style={css.imagemG} />
+                <Image source={{ uri: denunciaMidia }} style={css.imagemG} />
             </View>
 
         </View>
@@ -24,9 +17,9 @@ export default function Produto({ setDenunciaTro, denunciaTitulo, denunciaMidia,
 }
 const css = StyleSheet.create({
     container: {
-        width: 550,
-        height: 800,
-        backgroundColor: "white",
+        height: 500,
+        width: 370,
+        backgroundColor: "red",
         marginTop: 25,
     },
     boxTitle: {
@@ -42,7 +35,7 @@ const css = StyleSheet.create({
         color: "black",
         textAlign: "center",
         marginTop: 20,
-        fontSize: 30,
+        fontSize: 10,
     },
     boxImage: {
         width: "100%",

@@ -10,7 +10,7 @@ export default function Campanhas({ setCampanhas }) {
                 <Text>teste052015</Text>
             </View>
 
-            <TouchableOpacity style={css.btn} onPress={() => {setCampanhas(false) }}>
+            <TouchableOpacity style={css.btn} onPress={() => {setCampanhas(true) }}>
               <Text style={css.Texto}>Campanhas</Text>
             </TouchableOpacity>
         </View>
