@@ -45,6 +45,15 @@ export default function Rotas() {
                     }}
                 />
                 <Tab.Screen
+                    name="Chat"
+                    component={Chat}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="chat-processing" color={color} size={size} />
+                        ),
+                    }}
+                />
+                <Tab.Screen
                     name="Inserir"
                     component={Perfil}
                     options={{
@@ -53,15 +62,7 @@ export default function Rotas() {
                         ),
                     }}
                 />
-                 <Tab.Screen
-                    name="Chat"
-                    component={Chat}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="account-circle" color={color} size={size} />
-                        ),
-                    }}
-                />
+                 
             </Tab.Navigator>
         </NavigationContainer>
     )

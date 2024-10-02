@@ -285,6 +285,14 @@ export default function Home({ navigation }) {
                     <TouchableOpacity style={css.btn} onPress={() => { setOutros(false), setCampanhas(false), setDenunciaTro(true) }}>
                       <Text style={css.Texto}>Denuncia</Text>
                     </TouchableOpacity>
+                    <View style={css.Teste}>
+                    <FlatList
+                      data={publicacao}
+                      renderItem={({ item }) => <Outros getPublicacao={getPublicacao} getPublicacaoId={getPublicacaoId} publicacaoTitulo={item.publicacaoTitulo} publicacaoMidia={item.publicacaoMidia} publicacaoDescricao={item.publicacaoDescricao} bairroId={item.bairroId} />}
+                      keyExtractor={(item) => item.publicacaoId}
+                      contentContainerStyle={{ height: (publicacao.length * 800) + 500 }}
+                    />
+                  </View>
                   </View>
             </>}
         </>}

@@ -1,21 +1,20 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Image } from 'react-native'
 import React from 'react'
 
-export default function Outros({ setOutros }) {
+export default function Outros({ publicacaoTitulo , publicacaoMidia, publicacaoDescricao, bairroId }) {
     return (
 
         <View style={css.container}>
-            <View style={css.boxTitle}>
-                <Text>teste052015</Text>
-            </View>
-
-
-            <TouchableOpacity style={css.btn} onPress={() => {setOutros(false) }}>
-              <Text style={css.Texto}>Voltar</Text>
-            </TouchableOpacity>
-
-
+        <View style={css.boxTitle}>
+            <Text style={css.title}>{publicacaoTitulo}</Text>
+            <Text style={css.title2}>{publicacaoDescricao}</Text>
+            <Text style={css.tBairro}>{bairroId}</Text>
         </View>
+        <View style={css.boxImage}>
+            <Image source={{ uri: publicacaoMidia }} style={css.imagemG} />
+        </View>
+
+    </View>
     )
 }
 const css = StyleSheet.create({
@@ -24,5 +23,10 @@ const css = StyleSheet.create({
         height: 600,
         backgroundColor: "white",
         marginTop: 25,
+    },
+    imagemG:{
+        width:50,
+        height:50,
+        marginLeft:50,
     }
 })
