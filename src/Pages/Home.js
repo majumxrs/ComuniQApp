@@ -1,11 +1,9 @@
-//BUSCA PRODUTOS DA API
-
 import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity, Image, TextInput, image, SafeAreaView, ScrollView, StatusBar } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { useFocusEffect } from '@react-navigation/native';
 import Denuncia from "../Components/Denuncias";
 import { AuthContext } from '../Context/AuthContext';
-import Campanhas from '../Components/Campanha';
+import Campanhas from '../Components/Campanhas';
 import Outros from '../Components/Outros';
 import Teste from '../Components/Teste';
 
@@ -13,13 +11,29 @@ import Teste from '../Components/Teste';
 export default function Home({ navigation }) {
 
   //Publicação
+  const [publicacao, setPublicacao] = useState([]);
+  const [PublicacaoTitulo, setPublicacaoTitulo] = useState([]);
+  const [PublicacaoMidia, setPublicacaoMidia] = useState("");
+  const [PublicacaoDescricao, setPublicacaoDescricao] = useState([]);
+
 
   const [UsuarioId, setUsuarioId] = useState(0);
 
-  //"Resposta"
-
+  //"Campanha"
+  const [campanha, setCampanha] = useState([]);
+  const [campanhaId, setCampanhaId] = useState([]);
+  const [campanhaTitulo, setCampanhaTitulo] = useState([]);
+  const [campanhaMidia, setCampanhaMidia] = useState("");
+  const [campanhaDescricao, setCampanhaDescricao] = useState([]);
+  const [tipoCampanhaId, setTipoCampanhaId] = useState(0);
+  const [cidadeId, setCidadeId] = useState(0);
 
   //denuncia
+
+  const [comentario, setComentario] = useState([]);
+  const [comentarioId, setComentarioId] = useState([]);
+  const [comentarioTexto, setComentarioTexto] = useState([]);
+  const [publicacaoId, setPublicacaoId] = useState(0);
 
   const [denuncia, setDenuncia] = useState([]);
   const [denunciaId, setDenunciaId] = useState([]);
@@ -28,14 +42,13 @@ export default function Home({ navigation }) {
   const [denunciaDescricao, setDenunciaDescricao] = useState([]);
   const [tipoDenunciaId, setTipoDenunciaId] = useState(0);
   const [BairroId, setBairroId] = useState(0);
-  //BairroId Tambem tem!!
 
   //Usuarios ja tem 
 
-  const [denunciatro, setDenunciaTro] = useState(true);
+  const [denunciatro, setDenunciaTro] = useState(false);
   const [campanhas, setCampanhas] = useState(false);
   const [outros, setOutros] = useState(false);
-  const [teste, setTeste] = useState(false);
+  const [home, setHome] = useState(true);
 
   //MINHA API 
   async function getDenuncia() {
@@ -72,16 +85,97 @@ export default function Home({ navigation }) {
       .catch(err => console.log(err))
   }
 
+
+
+
+  async function getCampanhas() {
+    await fetch('http://10.139.75.99:5280/api/Campanhas/GetAllCampanhas', {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(json => {
+        setCampanha(json);
+      })
+
+      .catch(err => console.log(err))
+  }
+
+  async function getCampanhaId(id) {
+    await fetch('http://10.139.75.99:5280/api/Campanhas/GetCampanhaId/' + id, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(json => {
+        setCampanhaId(json.campanhaId);
+        setCampanhaTitulo(json.campanhaTitulo);
+        setCampanhaMidia(json.campanhaMidia);
+        setCampanhaDescricao(json.campanhaDescricao);
+        setTipoCampanhaId(json.tipoCampanhaId);
+        setCidadeId(json.cidadeId);
+      })
+      .catch(err => console.log(err))
+  }
+
+
+  async function getPublicacao() {
+    await fetch('http://10.139.75.99:5280/api/Publicacoes/GetAllPublicacoes', {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(json => {
+        setPublicacao(json);
+      })
+
+      .catch(err => console.log(err))
+  }
+
+  async function getPublicacaoId(id) {
+    await fetch('http://10.139.75.99:5280/api/Publicacoes/GetPublicacaoId/' + id, {
+      method: 'GET',
+      headers: {
+        'content-type': 'application/json'
+      }
+    })
+      .then(res => res.json())
+      .then(json => {
+        setPublicacaoId(json.publicacaoId);
+        setPublicacaoTitulo(json.publicacaoTitulo);
+        setPublicacaoMidia(json.publicacaoMidia);
+        setPublicacaoDescricao(json.publicacaoDescricao);
+        setBairroId(json.bairroId);
+      })
+      .catch(err => console.log(err))
+  }
+
+
+
   //FILTRO PARA AO ENTRAR NA PAGINA EXEGUTAR O GETPRODUTROS(API)
   useEffect(() => {
     getDenunciaId();
     getDenuncia();
+    getCampanhas();
+    getCampanhaId();
+    getPublicacao();
+    getPublicacaoId();
   }, [])
 
   useFocusEffect(
     React.useCallback(() => {
       getDenuncia();
       getDenunciaId();
+      getCampanhas();
+      getCampanhaId();
+      getPublicacao();
+      getPublicacaoId();
     }, [])
   );
   // const [denunciatro, setDenunciaTro] = useState(false);
@@ -112,25 +206,20 @@ export default function Home({ navigation }) {
         <>
           <View style={css.containerDetalhes}>
             <View style={css.boxImage}>
-
+              <Text>Denuncia</Text>
               <View>
-                <TouchableOpacity style={css.btn} onPress={() => { setOutros(true) }}>
-                  <Text style={css.Texto}>Denuncia</Text>
+                <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(false), setDenunciaTro(false) }}>
+                  <Text style={css.Texto}>Outros</Text>
                 </TouchableOpacity>
               </View>
               <View>
-                <TouchableOpacity style={css.btn} onPress={() => { setCampanhas(true) }}>
+                <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(true), setDenunciaTro(false) }}>
                   <Text style={css.Texto}>Campanhas</Text>
                 </TouchableOpacity>
               </View>
               <View>
-                <TouchableOpacity style={css.btn} onPress={() => { setDenunciaTro(true) }}>
+                <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(false), setDenunciaTro(true) }}>
                   <Text style={css.Texto}>Denuncia</Text>
-                </TouchableOpacity>
-              </View>
-              <View>
-                <TouchableOpacity style={css.btn} onPress={() => { setTeste(true) }}>
-                  <Text style={css.Texto}>Teste</Text>
                 </TouchableOpacity>
               </View>
               <View style={css.Teste}>
@@ -146,33 +235,58 @@ export default function Home({ navigation }) {
         </>
         :
         <>
-          <View>
-            <View>
-              <TouchableOpacity style={css.btn} onPress={() => { setOutros(true) }}>
-                <Text style={css.Texto}>Denuncia</Text>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity style={css.btn} onPress={() => { setCampanhas(true) }}>
-                <Text style={css.Texto}>Campanhas</Text>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity style={css.btn} onPress={() => { setDenunciaTro(true) }}>
-                <Text style={css.Texto}>Denuncia</Text>
-              </TouchableOpacity>
-            </View>
+          {campanhas ?
+            <>
+              <View style={css.containerDetalhes}>
+                <View style={css.boxImage}>
 
-            <View style={css.Teste}>
-              <FlatList
-                data={denuncia}
-                renderItem={({ item }) => <Denuncia GetDenunciaId={getDenunciaId} getDenuncia={getDenuncia} denunciaTitulo={item.denunciaTitulo} denunciaMidia={item.denunciaMidia} tipoDenunciaId={item.tipoDenunciaId} bairroId={item.bairroId} denunciaDescricao={item.denunciaDescricao} />}
-                keyExtractor={(item) => item.denunciaId}
-                contentContainerStyle={{ height: (denuncia.length * 800) + 500 }}
-              />
-            </View>
+                  <View>
+                  <Text>campanhas</Text>
+                    <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(false), setDenunciaTro(false) }}>
+                      <Text style={css.Texto}>Outros</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View>
+                    <TouchableOpacity style={css.btn} onPress={() => { setOutros(false), setCampanhas(true), setDenunciaTro(false) }}>
+                      <Text style={css.Texto}>Campanhas</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View>
+                    <TouchableOpacity style={css.btn} onPress={() => { setOutros(false), setCampanhas(false), setDenunciaTro(true) }}>
+                      <Text style={css.Texto}>Denuncia</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View style={css.Teste}>
+                    <FlatList
+                      data={campanha}
+                      renderItem={({ item }) => <Campanhas getCampanhas={getCampanhas} getCampanhaId={getCampanhaId} campanhaTitulo={item.campanhaTitulo} campanhaMidia={item.campanhaMidia} campanhaDescricao={item.campanhaDescricao} tipoCampanhaId={item.tipoCampanhaId} cidadeId={item.cidadeId} />}
+                      keyExtractor={(item) => item.campanhaId}
+                      contentContainerStyle={{ height: (denuncia.length * 800) + 500 }}
+                    />
+                  </View>
+                </View>
+              </View>
+            </>
 
-          </View>
+            :
+            <>
+              <View>
+                <Text>Outros</Text>
+                    <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(false), setDenunciaTro(false) }}>
+                      <Text style={css.Texto}>Outros</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View>
+                    <TouchableOpacity style={css.btn} onPress={() => { setOutros(false), setCampanhas(true), setDenunciaTro(false) }}>
+                      <Text style={css.Texto}>Campanhas</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <View>
+                    <TouchableOpacity style={css.btn} onPress={() => { setOutros(false), setCampanhas(false), setDenunciaTro(true) }}>
+                      <Text style={css.Texto}>Denuncia</Text>
+                    </TouchableOpacity>
+                  </View>
+            </>}
         </>}
 
     </View>
