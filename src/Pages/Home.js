@@ -32,8 +32,8 @@ export default function Home({ navigation }) {
 
   //Usuarios ja tem 
 
-  const [denunciatro, setDenunciaTro] = useState(true);
-  const [campanhas, setCampanhas] = useState(false);
+  const [denunciatro, setDenunciaTro] = useState(false);
+  // const [campanhas, setCampanhas] = useState(false);
   const [outros, setOutros] = useState(false);
   const [teste, setTeste] = useState(false);
 
@@ -85,22 +85,22 @@ export default function Home({ navigation }) {
     }, [])
   );
   // const [denunciatro, setDenunciaTro] = useState(false);
-  // const [campanhas, setCampanhas] = useState(false);
+  const [campanhas, setCampanhas] = useState(false);
   // const [outros, setOutros] = useState(false);
-  // const [teste, setTeste] = useState(false);
+  // const [teste, setTeste] = useState(false);+
 
-  // if (campanhas) {
-  //   return (<Campanhas setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)
-  // }
-  // if (outros) {
-  //   return (<Outros setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)
-  // }
-  // if (denunciatro) {
-  //   return (<Denuncia setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)
-  // }
-  // if (teste) {
-  //   return (<Teste setTeste={setTeste} setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)
-  // }
+  if (campanhas) {
+    return (<Campanhas setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)
+  }
+  if (outros) {
+    return (<Outros setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)
+  }
+  if (denunciatro) {
+    return (<Denuncia setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)
+  }
+  if (teste) {
+    return (<Teste setTeste={setTeste} setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)
+  }
 
   //Item e um nome generico que vem da api que vc delimitou na data, podendo ser qualquer nome. dependendo para facilitar o entedimento pode colocar o memo nome do que vc vai buscar.
   return (
