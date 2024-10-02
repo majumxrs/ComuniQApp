@@ -179,9 +179,9 @@ export default function Home({ navigation }) {
     }, [])
   );
   // const [denunciatro, setDenunciaTro] = useState(false);
-  // const [campanhas, setCampanhas] = useState(false);
+  //const [campanhas, setCampanhas] = useState(false);
   // const [outros, setOutros] = useState(false);
-  // const [teste, setTeste] = useState(false);
+  // const [teste, setTeste] = useState(false);+
 
   // if (campanhas) {
   //   return (<Campanhas setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)

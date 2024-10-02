@@ -8,7 +8,7 @@ export default function Campanha({ setCampanhas }) {
     const [denunciatro, setDenunciaTro] = useState(false);
     const [outros, setOutros] = useState(false);
     const [denunciaApi, setDenunciaApi] = useState([]);
-    const [ campanhaTitulo, setCampanhaTitulo ] = useState("");
+    const [campanhaTitulo, setCampanhaTitulo] = useState("");
     const [campanhaMidia, setCampanhaMidia] = useState();
     const [campanhaDescricao, setCampanhaDescricao] = useState("");
     const [tipoCampanha, setTipoCampanha] = useState("");
@@ -81,17 +81,13 @@ export default function Campanha({ setCampanhas }) {
                                 <Text style={css.Texto}>Campanhas</Text>
                             </TouchableOpacity>
                         </View>
-                        <FlatList
-                            data={animais}
-                            style={css.Flat}
-                            renderItem={({ item }) => <Produto
-                                title={item.campanhaTitulo}
-                                image={item.animalFoto}
-                                setDetalhes={() => { setDetalhes(true); getAnimal(item.animaisId) }}
-                            />}
-                            keyExtractor={(item) => item.animaisId}
-                            contentContainerStyle={{ height: (animais.length * 600) + 110 }}
-                        />
+                        {/* <View style={css.boxTitle}>
+                            <Text style={css.title}>{denunciaTitulo}</Text>
+                            <Text style={css.title2}>teste{denunciaDescricao}</Text>
+                        </View>
+                        <View style={css.boxImage}>
+                            <Image source={{ uri: denunciaMidia }} style={css.imagemG} />
+                        </View> */}
 
                     </View>
                 </ScrollView>
