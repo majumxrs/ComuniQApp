@@ -31,7 +31,7 @@ export default function Login({navigation}) {
     }
 
     async function SalvarCadastro() {
-        await fetch('http://10.139.75.18:5280/api/Usuarios/InsertUsuario', {
+        await fetch('http://10.139.75.14:5251/api/Usuarios/InsertUsuario', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -47,7 +47,9 @@ export default function Login({navigation}) {
                 usuarioCidade: cidade,
                 ussuarioBairro: bairro,
                 usuarioEstado: estado,
-                usuarioSenha: senha
+                usuarioSenha: senha,
+                usuarioFoto: null,
+                tipoPerfilId: 1
             })
         })
             //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
