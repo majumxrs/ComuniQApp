@@ -3,9 +3,15 @@ import React from 'react'
 
 
 
-export default function Denuncia({ setDenunciaTro, denunciaTitulo, denunciaMidia, denunciaDescricao, tipoDenunciaId, bairroId }) {
+export default function Denuncia({ denunciaTitulo, denunciaMidia, denunciaDescricao, tipoDenunciaId, publicacaoTitulo, publicacaoMidia, publicacaoDescricao, bairroId, campanhaTitulo, campanhaMidia, campanhaDescricao, tipoCampanhaId, cidadeId }) {
     const getImageSource = () => {
         return `data:image/jpeg;base64,${denunciaMidia}`
+    }
+    const getImageSource1 = () => {
+        return `data:image/jpeg;base64,${campanhaMidia}`
+    }
+    const getImageSource2 = () => {
+        return `data:image/jpeg;base64,${publicacaoMidia}`
     }
     return (
 
@@ -17,7 +23,17 @@ export default function Denuncia({ setDenunciaTro, denunciaTitulo, denunciaMidia
             <View style={css.boxImage}>
                 <Image style={css.imagemG} source={{ uri: getImageSource() }} />
             </View>
-
+            <Text style={css.title}>{campanhaTitulo}</Text>
+            <Text style={css.title2}>{campanhaDescricao}</Text>
+            <View style={css.boxImage}>
+                <Image source={{ uri: getImageSource1() }} style={css.imagemG} />
+            </View>
+            <Text style={css.title}>{publicacaoTitulo}</Text>
+            <Text style={css.title2}>{publicacaoDescricao}</Text>
+            <Text style={css.tBairro}>{bairroId}</Text>
+            <View style={css.boxImage}>
+                <Image source={{ uri: getImageSource2() }} style={css.imagemG} />
+            </View>
         </View>
     )
 }
@@ -34,7 +50,7 @@ const css = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "flex-start",
         alignItems: "center",
-        marginBottom: 10,
+        marginBottom: 50,
         paddingLeft: 5
     },
     title: {
@@ -52,40 +68,16 @@ const css = StyleSheet.create({
         height: "100%",
         resizeMode: "cover",
     },
-    categoryBox: {
-        width: "100%",
-        marginTop: 15
-    },
-    descriptionBox: {
-        width: "100%",
-        marginTop: 15,
-        padding: 10
-    },
-    descriptionText: {
-        color: "white",
-        textAlign: "justify"
-    },
-    categoryBox: {
-        width: "100%",
-        padding: 10
-    },
     categoryText: {
         color: "white"
     },
-    btnDelete: {
-        width: 200,
-        height: 50,
-        margin: 58,
-        borderRadius: 10,
-        backgroundColor: "#191919",
+    boxTitle1: {
+        width: "100%",
         display: "flex",
-        justifyContent: "center",
+        flexDirection: "row",
+        justifyContent: "flex-start",
         alignItems: "center",
-        marginBottom: 120,
-    },
-    btbLoginText: {
-        color: "white",
-        fontSize: 30,
-        fontWeight: "850"
+        marginBottom: 50,
+        paddingLeft: 5
     },
 })

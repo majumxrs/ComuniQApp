@@ -2,6 +2,9 @@ import { View, Text, StyleSheet, Image } from 'react-native'
 import React from 'react'
 
 export default function Outros({ publicacaoTitulo , publicacaoMidia, publicacaoDescricao, bairroId }) {
+    const getImageSource = () => {
+        return `data:image/jpeg;base64,${publicacaoMidia}`
+    }
     return (
 
         <View style={css.container}>
@@ -11,7 +14,7 @@ export default function Outros({ publicacaoTitulo , publicacaoMidia, publicacaoD
             <Text style={css.tBairro}>{bairroId}</Text>
         </View>
         <View style={css.boxImage}>
-            <Image source={{ uri: publicacaoMidia }} style={css.imagemG} />
+            <Image source={{ uri: getImageSource() }} style={css.imagemG} />
         </View>
 
     </View>

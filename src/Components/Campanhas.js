@@ -3,7 +3,9 @@ import React from 'react'
 
 
 export default function Campanhas({ campanhaTitulo, campanhaMidia, campanhaDescricao, tipoCampanhaId, cidadeId  }) {
-
+    const getImageSource = () => {
+        return `data:image/jpeg;base64,${campanhaMidia}`
+    }
     return (
         <View style={css.container}>
         <View style={css.boxTitle}>
@@ -11,7 +13,7 @@ export default function Campanhas({ campanhaTitulo, campanhaMidia, campanhaDescr
             <Text style={css.title2}>{campanhaDescricao}</Text>
         </View>
         <View style={css.boxImage}>
-            <Image source={{ uri: campanhaMidia }} style={css.imagemG} />
+            <Image source={{ uri: getImageSource() }} style={css.imagemG} />
         </View>
 
     </View>
