@@ -31,7 +31,7 @@ export default function Login({navigation}) {
     }
 
     async function SalvarCadastro() {
-        await fetch('http://10.139.75.17:5251/api/Usuarios/InsertUsuario', {
+        await fetch('http://10.139.75.14:5251/api/Usuarios/InsertUsuario', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -117,6 +117,7 @@ export default function Login({navigation}) {
                                         style={css.input2}
                                         textInput={telelfone}
                                         value={telelfone}
+                                        type="number"
                                         onChangeText={(digitado) => setTelefone(digitado)}
                                         placeholder="Telefone:"
                                         placeholderTextColor="white"
@@ -133,6 +134,7 @@ export default function Login({navigation}) {
                                         style={css.input2}
                                         textInput={CEP}
                                         value={CEP}
+                                        type="number"
                                         onChangeText={(digitado) => setCep(digitado)}
                                         placeholder="CEP:"
                                         placeholderTextColor="white"
@@ -165,6 +167,7 @@ export default function Login({navigation}) {
                                         style={css.input2}
                                         textInput={senha}
                                         value={senha}
+                                        secureTextEntry={true}
                                         onChangeText={(digitado) => setSenha(digitado)}
                                         placeholder="Senha:"
                                         placeholderTextColor="white"

@@ -178,23 +178,6 @@ export default function Home({ navigation }) {
       getPublicacaoId();
     }, [])
   );
-  // const [denunciatro, setDenunciaTro] = useState(false);
-  //const [campanhas, setCampanhas] = useState(false);
-  // const [outros, setOutros] = useState(false);
-  // const [teste, setTeste] = useState(false);+
-
-  // if (campanhas) {
-  //   return (<Campanhas setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)
-  // }
-  // if (outros) {
-  //   return (<Outros setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)
-  // }
-  // if (denunciatro) {
-  //   return (<Denuncia setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)
-  // }
-  // if (teste) {
-  //   return (<Teste setTeste={setTeste} setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)
-  // }
 
   //Item e um nome generico que vem da api que vc delimitou na data, podendo ser qualquer nome. dependendo para facilitar o entedimento pode colocar o memo nome do que vc vai buscar.
   return (
@@ -204,48 +187,46 @@ export default function Home({ navigation }) {
           <Image style={css.tinyLogo} source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")} />
         </TouchableOpacity>
       </View >
+      <View style={css.CaixaPai3bnt}>
+        <View style={css.btnOutros}>
+          <TouchableOpacity style={css.btnOutros}
+            onPress={() => {
+              setOutros(true),
+                setCampanhas(false),
+                setDenunciaTro(false),
+                setHome(false)
+            }}
+          >
+            <Text style={css.Texto}>Outros</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <TouchableOpacity style={css.btnCamp}
+            onPress={() => {
+              setOutros(true),
+                setCampanhas(true),
+                setDenunciaTro(false),
+                setHome(false)
+            }}
+          >
+            <Text style={css.Texto}>Campanhas</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <TouchableOpacity style={css.btnDenun}
+            onPress={() => {
+              setOutros(true),
+                setCampanhas(false),
+                setDenunciaTro(true),
+                setHome(false)
+            }}
+          >
+            <Text style={css.Texto}>Denuncia</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
       {home ?
-
         <>
-          <View style={css.CaixaPai3bnt}>
-            <View style={css.btnOutros}>
-              <TouchableOpacity style={css.btnOutros}
-                onPress={() => {
-                  setOutros(true),
-                    setCampanhas(false),
-                    setDenunciaTro(false),
-                    setHome(false)
-                }}
-              >
-                <Text style={css.Texto}>Outros</Text>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity style={css.btnCamp}
-                onPress={() => {
-                  setOutros(true),
-                    setCampanhas(true),
-                    setDenunciaTro(false),
-                    setHome(false)
-                }}
-              >
-                <Text style={css.Texto}>Campanhas</Text>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity style={css.btnDenun}
-                onPress={() => {
-                  setOutros(true),
-                    setCampanhas(false),
-                    setDenunciaTro(true),
-                    setHome(false)
-                }}
-              >
-                <Text style={css.Texto}>Denuncia</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-
           <View style={css.Teste}>
             <FlatList
               data={denuncia}
@@ -285,39 +266,6 @@ export default function Home({ navigation }) {
         <>
           {denunciatro ?
             <>
-              <View style={css.containerDetalhes}>
-                <View style={css.boxImage}>
-                  <Text>Denuncia</Text>
-                  <View>
-                    <TouchableOpacity style={css.btn}
-                      onPress={() => {
-                        setOutros(true),
-                          setCampanhas(false),
-                          setDenunciaTro(false)
-                      }}>
-                      <Text style={css.Texto}>Outros</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View>
-                    <TouchableOpacity style={css.btn}
-                      onPress={() => {
-                        setOutros(true),
-                          setCampanhas(true),
-                          setDenunciaTro(false)
-                      }}>
-                      <Text style={css.Texto}>Campanhas</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View>
-                    <TouchableOpacity style={css.btn}
-                      onPress={() => {
-                        setOutros(true),
-                          setCampanhas(false),
-                          setDenunciaTro(true)
-                      }}>
-                      <Text style={css.Texto}>Denuncia</Text>
-                    </TouchableOpacity>
-                  </View>
                   <View style={css.Teste}>
                     <FlatList
                       data={denuncia}
@@ -336,45 +284,11 @@ export default function Home({ navigation }) {
                       contentContainerStyle={{ height: (denuncia.length * 800) + 500 }}
                     />
                   </View>
-                </View>
-              </View>
             </>
             :
             <>
               {campanhas ?
                 <>
-                  <View style={css.containerDetalhes}>
-                    <View style={css.boxImage}>
-
-                      <View>
-                        <Text>campanhas</Text>
-                        <TouchableOpacity style={css.btn} onPress={() => {
-                          setOutros(true),
-                            setCampanhas(false),
-                            setDenunciaTro(false)
-                        }}>
-                          <Text style={css.Texto}>Outros</Text>
-                        </TouchableOpacity>
-                      </View>
-                      <View>
-                        <TouchableOpacity style={css.btn} onPress={() => {
-                          setOutros(false),
-                            setCampanhas(true),
-                            setDenunciaTro(false)
-                        }}>
-                          <Text style={css.Texto}>Campanhas</Text>
-                        </TouchableOpacity>
-                      </View>
-                      <View>
-                        <TouchableOpacity style={css.btn}
-                          onPress={() => {
-                            setOutros(false),
-                              setCampanhas(false),
-                              setDenunciaTro(true)
-                          }}>
-                          <Text style={css.Texto}>Denuncia</Text>
-                        </TouchableOpacity>
-                      </View>
                       <View style={css.Teste}>
                         <FlatList
                           data={campanha}
@@ -393,42 +307,11 @@ export default function Home({ navigation }) {
                           contentContainerStyle={{ height: (denuncia.length * 800) + 500 }}
                         />
                       </View>
-                    </View>
-                  </View>
+
                 </>
 
                 :
                 <>
-                  <View>
-                    <Text>Outros</Text>
-                    <TouchableOpacity style={css.btn}
-                      onPress={() => {
-                        setOutros(true),
-                          setCampanhas(false),
-                          setDenunciaTro(false)
-                      }}>
-                      <Text style={css.Texto}>Outros</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View>
-                    <TouchableOpacity style={css.btn}
-                      onPress={() => {
-                        setOutros(false),
-                          setCampanhas(true),
-                          setDenunciaTro(false)
-                      }}>
-                      <Text style={css.Texto}>Campanhas</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View>
-                    <TouchableOpacity style={css.btn}
-                      onPress={() => {
-                        setOutros(false),
-                          setCampanhas(false),
-                          setDenunciaTro(true)
-                      }}>
-                      <Text style={css.Texto}>Denuncia</Text>
-                    </TouchableOpacity>
                     <View style={css.Teste}>
                       <FlatList
                         data={publicacao}
@@ -445,7 +328,6 @@ export default function Home({ navigation }) {
                         contentContainerStyle={{ height: (publicacao.length * 800) + 500 }}
                       />
                     </View>
-                  </View>
                 </>}
             </>}
         </>}
@@ -471,8 +353,8 @@ const css = StyleSheet.create({
     justifyContent: "center"
   },
   tinyLogo: {
-   width:'100%',
-   height:'100%'
+    width: '100%',
+    height: '100%'
   },
   btnLogo: {
     height: 60,
@@ -530,68 +412,10 @@ const css = StyleSheet.create({
     color: "white"
   },
   Teste: {
-    backgroundColor: "blue",
     height: 620,
     width: "100%",
-    display:"flex",
-    justifyContent:"center",
-    alignItems:"center",
-    
-  },
-
-  imagem: {
-    minWidth: "100%",
-    // width: "100%",
-    height: 200,
-    resizeMode: "contain",
-    borderRadius: 20
-  },
-  BTNVoltar: {
-    fontSize: 25,
-    marginRight: 380,
-    color: "white"
-  },
-  btn02: {
-    marginTop: 5,
-    backgroundColor: "red",
-    width: "90%",
-    height: 50,
-    borderRadius: 10,
-    color: "white",
-    marginLeft: 12
-  },
-  btn01: {
-    marginTop: 15,
-    backgroundColor: "red",
-    width: "90%",
-    height: 50,
-    borderRadius: 10,
-    color: "white",
-    marginLeft: 22
-  },
-  TextoBTNC: {
-    color: "black",
-    lineHeight: 45,
-    textAlign: "center",
-    fontSize: 30,
-    fontWeight: "bold"
-  },
-  PaiInput: {
     display: "flex",
+    justifyContent: "center",
     alignItems: "center",
   },
-  input: {
-    width: "80%",
-    height: 50,
-    borderColor: "red",
-    borderRadius: 15,
-    borderWidth: 2,
-    backgroundColor: "white",
-    marginBottom: 5,
-    marginTop: 5
-  },
-  // Flat: {
-  //   marginTop: 10
-  // },
-
 })
