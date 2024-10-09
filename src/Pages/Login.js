@@ -24,14 +24,14 @@ export default function Login({navigation}) {
     const [cadastro, setCadastro] = useState(false);
     const [ recupSenha, setRecupSenha ] = useState(false);
 
-    const { Login, error } = useContext(AuthContext);
+    const { Login, error} = useContext(AuthContext);
 
     function RealizaLogin() {
         Login(email, senha);
     }
 
     async function SalvarCadastro() {
-        await fetch('http://10.139.75.14:5251/api/Usuarios/InsertUsuario', {
+        await fetch('http://10.139.75.17:5251/api/Usuarios/InsertUsuario', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
