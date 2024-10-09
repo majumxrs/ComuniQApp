@@ -52,7 +52,7 @@ export default function Home({ navigation }) {
 
   //MINHA API 
   async function getDenuncia() {
-    await fetch('http://10.139.75.99:5251/api/Denuncia/GetAllDenuncias', {
+    await fetch('http://10.139.75.14:5251/api/Denuncia/GetAllDenuncias', {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -67,7 +67,7 @@ export default function Home({ navigation }) {
   }
 
   async function getDenunciaId(id) {
-    await fetch('http://10.139.75.99:5251/api/Denuncia/GetDenunciaId/' + id, {
+    await fetch('http://10.139.75.14:5251/api/Denuncia/GetDenunciaId/' + id, {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -89,7 +89,7 @@ export default function Home({ navigation }) {
 
 
   async function getCampanhas() {
-    await fetch('http://10.139.75.99:5251/api/Campanhas/GetAllCampanhas', {
+    await fetch('http://10.139.75.14:5251/api/Campanhas/GetAllCampanhas', {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -104,7 +104,7 @@ export default function Home({ navigation }) {
   }
 
   async function getCampanhaId(id) {
-    await fetch('http://10.139.75.99:5251/api/Campanhas/GetCampanhaId/' + id, {
+    await fetch('http://10.139.75.14:5251/api/Campanhas/GetCampanhaId/' + id, {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -124,7 +124,7 @@ export default function Home({ navigation }) {
 
 
   async function getPublicacao() {
-    await fetch('http://10.139.75.99:5251/api/Publicacoes/GetAllPublicacoes', {
+    await fetch('http://10.139.75.14:5251/api/Publicacoes/GetAllPublicacoes', {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -139,7 +139,7 @@ export default function Home({ navigation }) {
   }
 
   async function getPublicacaoId(id) {
-    await fetch('http://10.139.75.99:5251/api/Publicacoes/GetPublicacaoId/' + id, {
+    await fetch('http://10.139.75.14:5251/api/Publicacoes/GetPublicacaoId/' + id, {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -203,25 +203,44 @@ export default function Home({ navigation }) {
         <TouchableOpacity style={css.btnLogo} onPress={() => { setHome(true) }}>
           <Image style={css.tinyLogo} source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")} />
         </TouchableOpacity>
-
       </View >
       {home ?
 
         <>
-          <View style={css.boxImage}>
-            <Text>Home</Text>
-            <View>
-              <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(false), setDenunciaTro(false), setHome(false) }}>
+          <View style={css.CaixaPai3bnt}>
+            <View style={css.btnOutros}>
+              <TouchableOpacity style={css.btnOutros}
+                onPress={() => {
+                  setOutros(true),
+                    setCampanhas(false),
+                    setDenunciaTro(false),
+                    setHome(false)
+                }}
+              >
                 <Text style={css.Texto}>Outros</Text>
               </TouchableOpacity>
             </View>
             <View>
-              <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(true), setDenunciaTro(false), setHome(false) }}>
+              <TouchableOpacity style={css.btnCamp}
+                onPress={() => {
+                  setOutros(true),
+                    setCampanhas(true),
+                    setDenunciaTro(false),
+                    setHome(false)
+                }}
+              >
                 <Text style={css.Texto}>Campanhas</Text>
               </TouchableOpacity>
             </View>
             <View>
-              <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(false), setDenunciaTro(true), setHome(false) }}>
+              <TouchableOpacity style={css.btnDenun}
+                onPress={() => {
+                  setOutros(true),
+                    setCampanhas(false),
+                    setDenunciaTro(true),
+                    setHome(false)
+                }}
+              >
                 <Text style={css.Texto}>Denuncia</Text>
               </TouchableOpacity>
             </View>
@@ -230,7 +249,31 @@ export default function Home({ navigation }) {
           <View style={css.Teste}>
             <FlatList
               data={denuncia}
-              renderItem={({ item }) => <HomeCom GetDenunciaId={getDenunciaId} getDenuncia={getDenuncia} denunciaTitulo={item.denunciaTitulo} denunciaMidia={item.denunciaMidia} tipoDenunciaId={item.tipoDenunciaId} bairroId={item.bairroId} denunciaDescricao={item.denunciaDescricao} /*Campanha*/ getCampanhas={getCampanhas} getCampanhaId={getCampanhaId} campanhaTitulo={item.campanhaTitulo} campanhaMidia={item.campanhaMidia} campanhaDescricao={item.campanhaDescricao} tipoCampanhaId={item.tipoCampanhaId} cidadeId={item.cidadeId} /**/ getPublicacao={getPublicacao} getPublicacaoId={getPublicacaoId} publicacaoTitulo={item.publicacaoTitulo} publicacaoMidia={item.publicacaoMidia} publicacaoDescricao={item.publicacaoDescricao} />}
+              renderItem={({ item }) =>
+                <HomeCom
+                  GetDenunciaId={getDenunciaId}
+                  getDenuncia={getDenuncia}
+                  denunciaTitulo={item.denunciaTitulo}
+                  denunciaMidia={item.denunciaMidia}
+                  tipoDenunciaId={item.tipoDenunciaId}
+                  bairroId={item.bairroId}
+                  denunciaDescricao={item.denunciaDescricao}
+                  /*Campanha*/
+                  getCampanhas={getCampanhas}
+                  getCampanhaId={getCampanhaId}
+                  campanhaTitulo={item.campanhaTitulo}
+                  campanhaMidia={item.campanhaMidia}
+                  campanhaDescricao={item.campanhaDescricao}
+                  tipoCampanhaId={item.tipoCampanhaId}
+                  cidadeId={item.cidadeId}
+                  /**/
+                  getPublicacao={getPublicacao}
+                  getPublicacaoId={getPublicacaoId}
+                  publicacaoTitulo={item.publicacaoTitulo}
+                  publicacaoMidia={item.publicacaoMidia}
+                  publicacaoDescricao={item.publicacaoDescricao}
+                />
+              }
               keyExtractor={(item) => item.denunciaId}
               contentContainerStyle={{ height: (denuncia.length * 800) + 500 }}
             />
@@ -246,24 +289,49 @@ export default function Home({ navigation }) {
                 <View style={css.boxImage}>
                   <Text>Denuncia</Text>
                   <View>
-                    <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(false), setDenunciaTro(false) }}>
+                    <TouchableOpacity style={css.btn}
+                      onPress={() => {
+                        setOutros(true),
+                          setCampanhas(false),
+                          setDenunciaTro(false)
+                      }}>
                       <Text style={css.Texto}>Outros</Text>
                     </TouchableOpacity>
                   </View>
                   <View>
-                    <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(true), setDenunciaTro(false) }}>
+                    <TouchableOpacity style={css.btn}
+                      onPress={() => {
+                        setOutros(true),
+                          setCampanhas(true),
+                          setDenunciaTro(false)
+                      }}>
                       <Text style={css.Texto}>Campanhas</Text>
                     </TouchableOpacity>
                   </View>
                   <View>
-                    <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(false), setDenunciaTro(true) }}>
+                    <TouchableOpacity style={css.btn}
+                      onPress={() => {
+                        setOutros(true),
+                          setCampanhas(false),
+                          setDenunciaTro(true)
+                      }}>
                       <Text style={css.Texto}>Denuncia</Text>
                     </TouchableOpacity>
                   </View>
                   <View style={css.Teste}>
                     <FlatList
                       data={denuncia}
-                      renderItem={({ item }) => <Denuncia GetDenunciaId={getDenunciaId} getDenuncia={getDenuncia} denunciaTitulo={item.denunciaTitulo} denunciaMidia={item.denunciaMidia} tipoDenunciaId={item.tipoDenunciaId} bairroId={item.bairroId} denunciaDescricao={item.denunciaDescricao} />}
+                      renderItem={({ item }) =>
+                        <Denuncia
+                          GetDenunciaId={getDenunciaId}
+                          getDenuncia={getDenuncia}
+                          denunciaTitulo={item.denunciaTitulo}
+                          denunciaMidia={item.denunciaMidia}
+                          tipoDenunciaId={item.tipoDenunciaId}
+                          bairroId={item.bairroId}
+                          denunciaDescricao={item.denunciaDescricao}
+                        />
+                      }
                       keyExtractor={(item) => item.denunciaId}
                       contentContainerStyle={{ height: (denuncia.length * 800) + 500 }}
                     />
@@ -280,24 +348,47 @@ export default function Home({ navigation }) {
 
                       <View>
                         <Text>campanhas</Text>
-                        <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(false), setDenunciaTro(false) }}>
+                        <TouchableOpacity style={css.btn} onPress={() => {
+                          setOutros(true),
+                            setCampanhas(false),
+                            setDenunciaTro(false)
+                        }}>
                           <Text style={css.Texto}>Outros</Text>
                         </TouchableOpacity>
                       </View>
                       <View>
-                        <TouchableOpacity style={css.btn} onPress={() => { setOutros(false), setCampanhas(true), setDenunciaTro(false) }}>
+                        <TouchableOpacity style={css.btn} onPress={() => {
+                          setOutros(false),
+                            setCampanhas(true),
+                            setDenunciaTro(false)
+                        }}>
                           <Text style={css.Texto}>Campanhas</Text>
                         </TouchableOpacity>
                       </View>
                       <View>
-                        <TouchableOpacity style={css.btn} onPress={() => { setOutros(false), setCampanhas(false), setDenunciaTro(true) }}>
+                        <TouchableOpacity style={css.btn}
+                          onPress={() => {
+                            setOutros(false),
+                              setCampanhas(false),
+                              setDenunciaTro(true)
+                          }}>
                           <Text style={css.Texto}>Denuncia</Text>
                         </TouchableOpacity>
                       </View>
                       <View style={css.Teste}>
                         <FlatList
                           data={campanha}
-                          renderItem={({ item }) => <Campanhas getCampanhas={getCampanhas} getCampanhaId={getCampanhaId} campanhaTitulo={item.campanhaTitulo} campanhaMidia={item.campanhaMidia} campanhaDescricao={item.campanhaDescricao} tipoCampanhaId={item.tipoCampanhaId} cidadeId={item.cidadeId} />}
+                          renderItem={({ item }) =>
+                            <Campanhas
+                              getCampanhas={getCampanhas}
+                              getCampanhaId={getCampanhaId}
+                              campanhaTitulo={item.campanhaTitulo}
+                              campanhaMidia={item.campanhaMidia}
+                              campanhaDescricao={item.campanhaDescricao}
+                              tipoCampanhaId={item.tipoCampanhaId}
+                              cidadeId={item.cidadeId}
+                            />
+                          }
                           keyExtractor={(item) => item.campanhaId}
                           contentContainerStyle={{ height: (denuncia.length * 800) + 500 }}
                         />
@@ -310,23 +401,46 @@ export default function Home({ navigation }) {
                 <>
                   <View>
                     <Text>Outros</Text>
-                    <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(false), setDenunciaTro(false) }}>
+                    <TouchableOpacity style={css.btn}
+                      onPress={() => {
+                        setOutros(true),
+                          setCampanhas(false),
+                          setDenunciaTro(false)
+                      }}>
                       <Text style={css.Texto}>Outros</Text>
                     </TouchableOpacity>
                   </View>
                   <View>
-                    <TouchableOpacity style={css.btn} onPress={() => { setOutros(false), setCampanhas(true), setDenunciaTro(false) }}>
+                    <TouchableOpacity style={css.btn}
+                      onPress={() => {
+                        setOutros(false),
+                          setCampanhas(true),
+                          setDenunciaTro(false)
+                      }}>
                       <Text style={css.Texto}>Campanhas</Text>
                     </TouchableOpacity>
                   </View>
                   <View>
-                    <TouchableOpacity style={css.btn} onPress={() => { setOutros(false), setCampanhas(false), setDenunciaTro(true) }}>
+                    <TouchableOpacity style={css.btn}
+                      onPress={() => {
+                        setOutros(false),
+                          setCampanhas(false),
+                          setDenunciaTro(true)
+                      }}>
                       <Text style={css.Texto}>Denuncia</Text>
                     </TouchableOpacity>
                     <View style={css.Teste}>
                       <FlatList
                         data={publicacao}
-                        renderItem={({ item }) => <Outros getPublicacao={getPublicacao} getPublicacaoId={getPublicacaoId} publicacaoTitulo={item.publicacaoTitulo} publicacaoMidia={item.publicacaoMidia} publicacaoDescricao={item.publicacaoDescricao} bairroId={item.bairroId} />}
+                        renderItem={({ item }) => <Outros
+                          getPublicacao={getPublicacao}
+                          getPublicacaoId={getPublicacaoId}
+                          publicacaoTitulo={item.publicacaoTitulo}
+                          publicacaoMidia={item.publicacaoMidia}
+                          publicacaoDescricao={item.publicacaoDescricao}
+                          bairroId={item.bairroId}
+                        />
+                        }
                         keyExtractor={(item) => item.publicacaoId}
                         contentContainerStyle={{ height: (publicacao.length * 800) + 500 }}
                       />
@@ -343,23 +457,13 @@ export default function Home({ navigation }) {
 }
 const css = StyleSheet.create({
   container: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffff",
     flexGrow: 1,
     color: "white",
-    width: "100%",
-    //justifyContent: "center",
     alignItems: "center",
-    height: 30,
-  },
-  Teste: {
-    backgroundColor: "blue",
-    height: 550,
-    width: 370,
-    marginLeft: -16,
-    marginTop:100,
   },
   caixa: {
-    height: 95,
+    height: 100,
     width: "100%",
     backgroundColor: "#20343F",
     display: "flex",
@@ -367,6 +471,10 @@ const css = StyleSheet.create({
     justifyContent: "center"
   },
   tinyLogo: {
+   width:'100%',
+   height:'100%'
+  },
+  btnLogo: {
     height: 60,
     width: "25%",
     marginTop: 15,
@@ -377,12 +485,60 @@ const css = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold"
   },
-  boxImage: {
-    width: 200,
-    height: 200,
-    borderRadius: 20,
-    marginLeft: 90,
+  CaixaPai3bnt: {
+    flexDirection: "row",
+    width: "100%",
+    height: 100,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
   },
+  btnOutros: {
+    width: 120,
+    height: 50,
+    borderRadius: 10,
+    backgroundColor: "#20343F",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "white",
+    marginRight: 10,
+    marginLeft: 10,
+  },
+  btnCamp: {
+    width: 120,
+    height: 50,
+    borderRadius: 10,
+    backgroundColor: "#20343F",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "white",
+    marginRight: 10
+  },
+  btnDenun: {
+    width: 120,
+    height: 50,
+    borderRadius: 10,
+    backgroundColor: "#20343F",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "white",
+    marginRight: 10
+  },
+  Texto: {
+    fontSize: 22,
+    fontWeight: "400",
+    color: "white"
+  },
+  Teste: {
+    backgroundColor: "blue",
+    height: 620,
+    width: "100%",
+    display:"flex",
+    justifyContent:"center",
+    alignItems:"center",
+    
+  },
+
   imagem: {
     minWidth: "100%",
     // width: "100%",
@@ -434,30 +590,8 @@ const css = StyleSheet.create({
     marginBottom: 5,
     marginTop: 5
   },
-  Flat: {
-    marginTop: 10
-  },
-  btn: {
-    width: 150,
-    height: 50,
-    borderRadius: 10,
-    marginTop: 30,
-    backgroundColor: "#20343F",
-    alignItems: "center",
-    justifyContent: "center",
-    color: "white"
-  },
-  Texto: {
-    fontSize: 30,
-    fontWeight: "400",
-    color: "white"
-  },
-  btnLogo: {
-    marginTop: "10%",
-    width: "50%",
-    height: 95,
-    display: "flex",
-    alignItems: "center",
-    marginLeft: 105,
-  }
+  // Flat: {
+  //   marginTop: 10
+  // },
+
 })

@@ -17,7 +17,12 @@ export default function Denuncia({ denunciaTitulo, denunciaMidia, denunciaDescri
 
         <View style={css.container}>
             <View style={css.boxTitle}>
-                <Text style={css.title}>{denunciaTitulo}</Text>
+                <View style={css.BoxTitulo}>
+                    <Image style={css.Avatar}
+                        source={{ uri: "https://pics.craiyon.com/2023-06-27/287f2a60c2e74386b5a89c517eb527dc.webp" }}
+                    />
+                    <Text style={css.CategoryText}>{denunciaTitulo}</Text>
+                </View>
                 <Text style={css.title2}>teste{denunciaDescricao}</Text>
             </View>
             <View style={css.boxImage}>
@@ -41,8 +46,9 @@ const css = StyleSheet.create({
     container: {
         height: 500,
         width: 370,
-        backgroundColor: "red",
+        backgroundColor: "#fff",
         marginTop: 25,
+        borderRadius: 10
     },
     boxTitle: {
         width: "100%",
@@ -79,5 +85,18 @@ const css = StyleSheet.create({
         alignItems: "center",
         marginBottom: 50,
         paddingLeft: 5
+    },
+    BoxTitulo: {
+        width: "100%",
+        height: 60,
+        flexDirection: "row",
+        alignItems: "center",
+
+    },
+    Avatar: {
+        width: 50,
+        height: 50,
+        //backgroundColor:"red",
+        borderRadius: 50
     },
 })
