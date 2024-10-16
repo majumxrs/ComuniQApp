@@ -52,7 +52,7 @@ export default function Home({ navigation }) {
 
   //MINHA API 
   async function getDenuncia() {
-    await fetch('http://10.139.75.14:5251/api/Denuncia/GetAllDenuncias', {
+    await fetch('http://10.139.75.22:5251/api/Denuncia/GetAllDenuncias', {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -67,7 +67,7 @@ export default function Home({ navigation }) {
   }
 
   async function getDenunciaId(id) {
-    await fetch('http://10.139.75.14:5251/api/Denuncia/GetDenunciaId/' + id, {
+    await fetch('http://10.139.75.22:5251/api/Denuncia/GetDenunciaId/' + id, {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -89,7 +89,7 @@ export default function Home({ navigation }) {
 
 
   async function getCampanhas() {
-    await fetch('http://10.139.75.14:5251/api/Campanhas/GetAllCampanhas', {
+    await fetch('http://10.139.75.22:5251/api/Campanhas/GetAllCampanhas', {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -104,7 +104,7 @@ export default function Home({ navigation }) {
   }
 
   async function getCampanhaId(id) {
-    await fetch('http://10.139.75.14:5251/api/Campanhas/GetCampanhaId/' + id, {
+    await fetch('http://10.139.75.22:5251/api/Campanhas/GetCampanhaId/' + id, {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -124,7 +124,7 @@ export default function Home({ navigation }) {
 
 
   async function getPublicacao() {
-    await fetch('http://10.139.75.14:5251/api/Publicacoes/GetAllPublicacoes', {
+    await fetch('http://10.139.75.22:5251/api/Publicacoes/GetAllPublicacoes', {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -139,7 +139,7 @@ export default function Home({ navigation }) {
   }
 
   async function getPublicacaoId(id) {
-    await fetch('http://10.139.75.14:5251/api/Publicacoes/GetPublicacaoId/' + id, {
+    await fetch('http://10.139.75.22:5251/api/Publicacoes/GetPublicacaoId/' + id, {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
