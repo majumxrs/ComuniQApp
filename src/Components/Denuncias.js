@@ -1,8 +1,6 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-
-
 export default function Denuncia({ setDenunciaTro, denunciaTitulo, denunciaMidia, denunciaDescricao, tipoDenunciaId, bairroId }) {
     const getImageSource = () => {
         return `data:image/jpeg;base64,${denunciaMidia}`
@@ -11,7 +9,12 @@ export default function Denuncia({ setDenunciaTro, denunciaTitulo, denunciaMidia
 
         <View style={css.container}>
             <View style={css.boxTitle}>
-                <Text style={css.title}>{denunciaTitulo}</Text>
+            <View style={css.BoxTitulo}>
+                    <Image style={css.Avatar}
+                         source={require('../../assets/FotosComuniQ/UsuarioSem.png')}
+                    />
+                    <Text style={css.CategoryText}>Anônimo</Text>
+                </View>
                 <Text style={css.title2}>teste{denunciaDescricao}</Text>
             </View>
             <View style={css.boxImage}>
@@ -25,8 +28,9 @@ const css = StyleSheet.create({
     container: {
         height: 500,
         width: 370,
-        backgroundColor: "red",
+        backgroundColor:"#D9D9D9",
         marginTop: 25,
+        borderRadius: 10
     },
     boxTitle: {
         width: "100%",
@@ -36,6 +40,19 @@ const css = StyleSheet.create({
         alignItems: "center",
         marginBottom: 10,
         paddingLeft: 5
+    },
+    BoxTitulo: {
+        width: "100%",
+        height: 60,
+        flexDirection: "row",
+        alignItems: "center",
+
+    },
+    Avatar: {
+        width: 50,
+        height: 50,
+        //backgroundColor:"red",
+        borderRadius: 50
     },
     title: {
         color: "black",

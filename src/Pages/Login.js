@@ -24,14 +24,14 @@ export default function Login({navigation}) {
     const [cadastro, setCadastro] = useState(false);
     const [ recupSenha, setRecupSenha ] = useState(false);
 
-    const { Login, error } = useContext(AuthContext);
+    const { Login, error} = useContext(AuthContext);
 
     function RealizaLogin() {
         Login(email, senha);
     }
 
     async function SalvarCadastro() {
-        await fetch('http://10.139.75.18:5280/api/Usuarios/InsertUsuario', {
+        await fetch('http://10.139.75.14:5251/api/Usuarios/InsertUsuario', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -47,7 +47,9 @@ export default function Login({navigation}) {
                 usuarioCidade: cidade,
                 ussuarioBairro: bairro,
                 usuarioEstado: estado,
-                usuarioSenha: senha
+                usuarioSenha: senha,
+                usuarioFoto: null,
+                tipoPerfilId: 1
             })
         })
             //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
@@ -115,6 +117,7 @@ export default function Login({navigation}) {
                                         style={css.input2}
                                         textInput={telelfone}
                                         value={telelfone}
+                                        type="number"
                                         onChangeText={(digitado) => setTelefone(digitado)}
                                         placeholder="Telefone:"
                                         placeholderTextColor="white"
@@ -131,6 +134,7 @@ export default function Login({navigation}) {
                                         style={css.input2}
                                         textInput={CEP}
                                         value={CEP}
+                                        type="number"
                                         onChangeText={(digitado) => setCep(digitado)}
                                         placeholder="CEP:"
                                         placeholderTextColor="white"
@@ -163,6 +167,7 @@ export default function Login({navigation}) {
                                         style={css.input2}
                                         textInput={senha}
                                         value={senha}
+                                        secureTextEntry={true}
                                         onChangeText={(digitado) => setSenha(digitado)}
                                         placeholder="Senha:"
                                         placeholderTextColor="white"
