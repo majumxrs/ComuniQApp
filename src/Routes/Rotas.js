@@ -9,6 +9,7 @@ import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Perfil from '../Pages/Perfil';
 import Chat from '../Pages/Chat';
+import teste from '../Components/NovaPupli';
 
 
 const Tab = createBottomTabNavigator();
@@ -28,7 +29,7 @@ export default function Rotas() {
                     tabBarShowLabel: false,
                     tabBarStyle: {
                         backgroundColor: '#20343F',
-                        inactiveColor:"#ffffff"
+                        inactiveColor: "#ffffff"
                     },
                     tabBarActiveTintColor: "white",
                     tabBarInactiveTintColor: "#fff"
@@ -62,7 +63,18 @@ export default function Rotas() {
                         ),
                     }}
                 />
-                 
+
+                <Tab.Screen
+                    name="Teste"
+                    component={teste}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="account-circle" color={color} size={size} />
+                        ),
+                    }}
+                />
+
+
             </Tab.Navigator>
         </NavigationContainer>
     )

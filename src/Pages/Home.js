@@ -49,6 +49,7 @@ export default function Home({ navigation }) {
   const [campanhas, setCampanhas] = useState(false);
   const [outros, setOutros] = useState(false);
   const [home, setHome] = useState(true);
+  const [voltarD, setVoltarD] = useState(false)
 
   //MINHA API 
   async function getDenuncia() {
@@ -260,6 +261,9 @@ export default function Home({ navigation }) {
                       <Text style={css.Texto}>Denuncia</Text>
                     </TouchableOpacity>
                   </View>
+                  <TouchableOpacity style={css.btnLogo} onPress={() => { setVoltarD(true) }}>
+                    <Text>+</Text>
+                  </TouchableOpacity>
                   <View style={css.Teste}>
                     <FlatList
                       data={denuncia}
@@ -356,7 +360,7 @@ const css = StyleSheet.create({
     height: 550,
     width: 370,
     marginLeft: -16,
-    marginTop:100,
+    marginTop: 100,
   },
   caixa: {
     height: 95,
