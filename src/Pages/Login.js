@@ -45,7 +45,7 @@ export default function Login({navigation}) {
                 usuarioCPF: CPF,
                 usuarioCEP: CEP,
                 usuarioCidade: cidade,
-                ussuarioBairro: bairro,
+                usuarioBairro: bairro,
                 usuarioEstado: estado,
                 usuarioSenha: senha,
                 usuarioFoto: null,
