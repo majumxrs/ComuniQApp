@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-export default function Denuncia({ setDenunciaTro, denunciaTitulo, denunciaMidia, denunciaDescricao, tipoDenunciaId, bairroId }) {
+export default function Denuncia({ denunciaMidia, denunciaDescricao }) {
     const getImageSource = () => {
         return `data:image/jpeg;base64,${denunciaMidia}`
     }
@@ -9,16 +9,18 @@ export default function Denuncia({ setDenunciaTro, denunciaTitulo, denunciaMidia
 
         <View style={css.container}>
             <View style={css.boxTitle}>
-            <View style={css.BoxTitulo}>
+                <View style={css.BoxTitulo}>
                     <Image style={css.Avatar}
-                         source={require('../../assets/FotosComuniQ/UsuarioSem.png')}
+                        source={require('../../assets/FotosComuniQ/UsuarioSem.png')}
                     />
                     <Text style={css.CategoryText}>Anônimo</Text>
                 </View>
-                <Text style={css.title2}>teste{denunciaDescricao}</Text>
             </View>
             <View style={css.boxImage}>
                 <Image style={css.imagemG} source={{ uri: getImageSource() }} />
+            </View>
+            <View style={css.boxTitle2}>
+                <Text style={css.title2}>teste{denunciaDescricao}</Text>
             </View>
 
         </View>
@@ -28,7 +30,7 @@ const css = StyleSheet.create({
     container: {
         height: 500,
         width: 370,
-        backgroundColor:"#D9D9D9",
+        backgroundColor: "#D9D9D9",
         marginTop: 25,
         borderRadius: 10
     },
@@ -104,5 +106,14 @@ const css = StyleSheet.create({
         color: "white",
         fontSize: 30,
         fontWeight: "850"
+    },
+    boxTitle2: {
+        width: "100%"
+    },
+    title2: {
+        fontSize: 15,
+        fontWeight: "400",
+        marginLeft: 15,
+        marginTop: 5
     },
 })

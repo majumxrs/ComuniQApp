@@ -9,7 +9,7 @@ import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Perfil from '../Pages/Perfil';
 import Chat from '../Pages/Chat';
-import teste from '../Components/NovaPupli';
+import teste from '../Components/NovaCamp';
 
 
 const Tab = createBottomTabNavigator();

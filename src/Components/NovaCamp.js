@@ -2,31 +2,32 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 
 import React, { useContext, useEffect, useState } from 'react'
 import RNPickerSelect from 'react-native-picker-select';
 
-export default function NovaPupli({ }) {
+export default function NovaDenucia({ }) {
 
     const [titulo, setTitulo] = useState("");
     const [midia, setMidia] = useState("");
     const [descricao, setDescricao] = useState("");
 
-    const [denunciaId, setDenunciaId] = useState([]);
+    const [puplicacaId, setPuplicacaoId] = useState([]);
     const [bairroId, setBairro] = useState([]);
 
     const [deubom, setDeubom] = useState(false);
     const [error, setError] = useState(false);
 
-    async function SalvarPupli(setVoltarD) {
+    async function SalvarCamp(setVoltarD) {
 
         if (titulo != "" || descricao != "") {
-            fetch('http://10.139.75.99:5251/api/Publicacoes/InsertPublicacao', {
+            fetch('http://10.139.75.99:5251/api/Campanhas/InsertCampanha', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
                 },
                 body: JSON.stringify({
-                    publicacaoTitulo: titulo,
-                    //publicacaoMidia: midia,
-                    publicacaoDescricao: descricao,
-                    bairroId: bairroId,
+                    campanhaTitulo: titulo,
+                    //campanhaMidia: midia,
+                    campanhaDescricao: descricao,
+                    tipoCampanhaId: puplicacaId,
+                    cidadeId: bairroId,
                 })
             })
                 .then((res) => res.json())
@@ -86,6 +87,17 @@ export default function NovaPupli({ }) {
                         ]}
                     />
 
+                    <Text style={css.mensagem} >Qual tipo da campanha?</Text>
+                    <RNPickerSelect
+
+                        onValueChange={(setPuplicacaoId)}
+                        items={[
+                            { label: 'institucional	', value: 1 },
+                            { label: 'promocional', value: 2 },
+                            { label: 'comunitárias', value: 3 },
+                        ]}
+                    />
+
                     {deubom &&
                         <>
                             <Text style={css.deuBom}>DEU Bom porra!</Text>
@@ -98,7 +110,7 @@ export default function NovaPupli({ }) {
                     }
 
                     <View style={css.PaiCadastrar2}>
-                        <TouchableOpacity style={css.btn} onPress={() => { SalvarPupli(); }}>
+                        <TouchableOpacity style={css.btn} onPress={() => { SalvarCamp(); }}>
                             <Text style={css.btnLoginText}>Adicionar</Text>
                         </TouchableOpacity>
                     </View>

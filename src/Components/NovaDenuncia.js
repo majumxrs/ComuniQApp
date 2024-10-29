@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 
 import React, { useContext, useEffect, useState } from 'react'
 import RNPickerSelect from 'react-native-picker-select';
 
-export default function NovaPupli({ }) {
+export default function NovaDenucia({ }) {
 
     const [titulo, setTitulo] = useState("");
     const [midia, setMidia] = useState("");
@@ -17,15 +17,16 @@ export default function NovaPupli({ }) {
     async function SalvarPupli(setVoltarD) {
 
         if (titulo != "" || descricao != "") {
-            fetch('http://10.139.75.99:5251/api/Publicacoes/InsertPublicacao', {
+            fetch('http://10.139.75.99:5251/api/Denuncia/InsertDenuncia', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
                 },
                 body: JSON.stringify({
-                    publicacaoTitulo: titulo,
-                    //publicacaoMidia: midia,
-                    publicacaoDescricao: descricao,
+                    denunciaTitulo: titulo,
+                    //denunciaMidia: midia,
+                    denunciaDescricao: descricao,
+                    tipoDenunciaId: denunciaId,
                     bairroId: bairroId,
                 })
             })
@@ -86,6 +87,17 @@ export default function NovaPupli({ }) {
                         ]}
                     />
 
+                    <Text style={css.mensagem} >Qual é o problema?</Text>
+                    <RNPickerSelect
+
+                        onValueChange={(setDenunciaId)}
+                        items={[
+                            { label: 'Assédio Moral	', value: 1 },
+                            { label: 'Assédio', value: 2 },
+                            { label: 'Roubo', value: 3 },
+                        ]}
+                    />
+
                     {deubom &&
                         <>
                             <Text style={css.deuBom}>DEU Bom porra!</Text>
@@ -98,7 +110,7 @@ export default function NovaPupli({ }) {
                     }
 
                     <View style={css.PaiCadastrar2}>
-                        <TouchableOpacity style={css.btn} onPress={() => { SalvarPupli(); }}>
+                        <TouchableOpacity style={css.btn} onPress={() => { NovaDenucia(); }}>
                             <Text style={css.btnLoginText}>Adicionar</Text>
                         </TouchableOpacity>
                     </View>

@@ -27,12 +27,8 @@
     "react-native-screens": "~3.29.0",
     "react-native-uuid": "^2.0.2",
     "typescript": "^5.3.0",
-<<<<<<< HEAD
     "uuid": "^10.0.0",
     "expo-image-picker": "~14.7.1"
-=======
-    "uuid": "^10.0.0"
->>>>>>> 93c0b5544ce9ce04f4f81cb6c2da206993d0aa31
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"
