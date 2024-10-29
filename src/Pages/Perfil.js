@@ -33,7 +33,7 @@ export default function Inserir() {
           setCep(json.usuarioCEP);
           setBairro(json.usuarioBairro);
           setCidade(json.usuarioCidade);
-          setFoto(json.usuarioFoto)
+          setFoto(json.usuarioFoto);
         }
       })
       .catch(err => console.log(err))
