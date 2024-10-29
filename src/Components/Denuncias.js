@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-export default function Denuncia({ setDenunciaTro, denunciaTitulo, denunciaMidia, denunciaDescricao, tipoDenunciaId, bairroId }) {
+export default function Denuncia({ denunciaMidia, denunciaDescricao }) {
     const getImageSource = () => {
         return `data:image/jpeg;base64,${denunciaMidia}`
     }
@@ -9,100 +9,63 @@ export default function Denuncia({ setDenunciaTro, denunciaTitulo, denunciaMidia
 
         <View style={css.container}>
             <View style={css.boxTitle}>
-            <View style={css.BoxTitulo}>
-                    <Image style={css.Avatar}
-                         source={require('../../assets/FotosComuniQ/UsuarioSem.png')}
-                    />
-                    <Text style={css.CategoryText}>Anônimo</Text>
-                </View>
-                <Text style={css.title2}>teste{denunciaDescricao}</Text>
+                <Image style={css.Avatar}
+                    source={require('../../assets/FotosComuniQ/UsuarioSem.png')}
+                />
+                <Text style={css.CategoryText}>Anônimo</Text>
             </View>
             <View style={css.boxImage}>
                 <Image style={css.imagemG} source={{ uri: getImageSource() }} />
             </View>
-
+            <View style={css.boxTitle2} >
+                <Text style={css.title2}>{denunciaDescricao}</Text>
+            </View>
         </View>
     )
 }
 const css = StyleSheet.create({
     container: {
-        height: 500,
         width: 370,
-        backgroundColor:"#D9D9D9",
+        backgroundColor: "#D9D9D9",
         marginTop: 25,
-        borderRadius: 10
-    },
-    boxTitle: {
-        width: "100%",
+        borderRadius: 10,
         display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-start",
         alignItems: "center",
-        marginBottom: 10,
-        paddingLeft: 5
-    },
-    BoxTitulo: {
-        width: "100%",
-        height: 60,
-        flexDirection: "row",
-        alignItems: "center",
-
-    },
-    Avatar: {
-        width: 50,
-        height: 50,
-        //backgroundColor:"red",
-        borderRadius: 50
-    },
-    title: {
-        color: "black",
-        textAlign: "center",
-        marginTop: 20,
-        fontSize: 10,
+        justifyContent: "center",
+        paddingVertical: 30,
+        paddingHorizontal: 10,
     },
     boxImage: {
-        width: "100%",
-        height: 390
+        width: "90%",
+        height: 390,
+        marginTop: 10
     },
     imagemG: {
         width: "100%",
         height: "100%",
         resizeMode: "cover",
+        borderRadius: 10
     },
-    categoryBox: {
+    boxTitle: {
         width: "100%",
-        marginTop: 15
-    },
-    descriptionBox: {
-        width: "100%",
-        marginTop: 15,
-        padding: 10
-    },
-    descriptionText: {
-        color: "white",
-        textAlign: "justify"
-    },
-    categoryBox: {
-        width: "100%",
-        padding: 10
-    },
-    categoryText: {
-        color: "white"
-    },
-    btnDelete: {
-        width: 200,
-        height: 50,
-        margin: 58,
-        borderRadius: 10,
-        backgroundColor: "#191919",
+        height: 60,
         display: "flex",
-        justifyContent: "center",
         alignItems: "center",
-        marginBottom: 120,
+        justifyContent: "center"
     },
-    btbLoginText: {
-        color: "white",
-        fontSize: 30,
-        fontWeight: "850"
+    title: {
+        fontSize: 25,
+        fontWeight: "400",
+        marginLeft: 10,
+        marginTop: 5,
+    },
+    boxTitle2: {
+        width: "100%"
+    },
+    title2: {
+        fontSize: 15,
+        fontWeight: "400",
+        marginLeft: 15,
+        marginTop: 5
     },
 })
