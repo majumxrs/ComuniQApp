@@ -11,7 +11,12 @@ import HomeCom from '../Components/HomeComp';
 export default function Home({ navigation }) {
 
   //Publicação
+
+  const [dados, setDados] = useState([]);
   const [publicacao, setPublicacao] = useState([]);
+  const [campanha, setCampanha] = useState([]);
+  const [denuncia, setDenuncia] = useState([]);
+
   const [PublicacaoTitulo, setPublicacaoTitulo] = useState([]);
   const [PublicacaoMidia, setPublicacaoMidia] = useState(null);
   const [PublicacaoDescricao, setPublicacaoDescricao] = useState([]);
@@ -20,7 +25,7 @@ export default function Home({ navigation }) {
   const [UsuarioId, setUsuarioId] = useState(0);
 
   //"Campanha"
-  const [campanha, setCampanha] = useState([]);
+
   const [campanhaId, setCampanhaId] = useState([]);
   const [campanhaTitulo, setCampanhaTitulo] = useState([]);
   const [campanhaMidia, setCampanhaMidia] = useState(null);
@@ -35,7 +40,7 @@ export default function Home({ navigation }) {
   const [comentarioTexto, setComentarioTexto] = useState([]);
   const [publicacaoId, setPublicacaoId] = useState(0);
 
-  const [denuncia, setDenuncia] = useState([]);
+
   const [denunciaId, setDenunciaId] = useState([]);
   const [denunciaTitulo, setDenunciaTitulo] = useState([]);
   const [denunciaMidia, setDenunciaMidia] = useState(null);
@@ -53,7 +58,11 @@ export default function Home({ navigation }) {
 
   //MINHA API 
   async function getDenuncia() {
+<<<<<<< HEAD
     await fetch('http://10.139.75.99:5251/api/Denuncia/GetAllDenuncias', {
+=======
+    await fetch( process.env.EXPO_PUBLIC_URL +  '/api/Denuncia/GetAllDenuncias', {
+>>>>>>> 831c62e0ea71fea13323d0cb7777690a1ef74458
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -67,6 +76,7 @@ export default function Home({ navigation }) {
       .catch(err => console.log(err))
   }
 
+<<<<<<< HEAD
   async function getDenunciaId(id) {
     await fetch('http://10.139.75.99:5251/api/Denuncia/GetDenunciaId/' + id, {
       method: 'GET',
@@ -91,6 +101,11 @@ export default function Home({ navigation }) {
 
   async function getCampanhas() {
     await fetch('http://10.139.75.99:5251/api/Campanhas/GetAllCampanhas', {
+=======
+
+  async function getCampanhas() {
+    await fetch(process.env.EXPO_PUBLIC_URL + '/api/Campanhas/GetAllCampanhas', {
+>>>>>>> 831c62e0ea71fea13323d0cb7777690a1ef74458
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -104,6 +119,7 @@ export default function Home({ navigation }) {
       .catch(err => console.log(err))
   }
 
+<<<<<<< HEAD
   async function getCampanhaId(id) {
     await fetch('http://10.139.75.99:5251/api/Campanhas/GetCampanhaId/' + id, {
       method: 'GET',
@@ -126,6 +142,10 @@ export default function Home({ navigation }) {
 
   async function getPublicacao() {
     await fetch('http://10.139.75.99:5251/api/Publicacoes/GetAllPublicacoes', {
+=======
+  async function getPublicacao() {
+    await fetch(process.env.EXPO_PUBLIC_URL + '/api/Publicacoes/GetAllPublicacoes', {
+>>>>>>> 831c62e0ea71fea13323d0cb7777690a1ef74458
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -138,6 +158,7 @@ export default function Home({ navigation }) {
 
       .catch(err => console.log(err))
   }
+<<<<<<< HEAD
 
   async function getPublicacaoId(id) {
     await fetch('http://10.139.75.99:5251/api/Publicacoes/GetPublicacaoId/' + id, {
@@ -156,27 +177,22 @@ export default function Home({ navigation }) {
       })
       .catch(err => console.log(err))
   }
+=======
+  
+  
+>>>>>>> 831c62e0ea71fea13323d0cb7777690a1ef74458
 
 
-
-  //FILTRO PARA AO ENTRAR NA PAGINA EXEGUTAR O GETPRODUTROS(API)
-  useEffect(() => {
-    getDenunciaId();
-    getDenuncia();
+  function getAll() {
     getCampanhas();
-    getCampanhaId();
+    getDenuncia();
     getPublicacao();
-    getPublicacaoId();
-  }, [])
+    setDados([...campanha, ...publicacao, ...denuncia ]);
+  }
 
   useFocusEffect(
     React.useCallback(() => {
-      getDenuncia();
-      getDenunciaId();
-      getCampanhas();
-      getCampanhaId();
-      getPublicacao();
-      getPublicacaoId();
+      getAll();
     }, [])
   );
 
@@ -184,156 +200,48 @@ export default function Home({ navigation }) {
   return (
     <View style={css.container}>
       <View style={css.caixa}>
-        <TouchableOpacity style={css.btnLogo} onPress={() => { setHome(true) }}>
+        <TouchableOpacity style={css.btnLogo} onPress={() => { getAll() }}>
           <Image style={css.tinyLogo} source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")} />
         </TouchableOpacity>
       </View >
+      
       <View style={css.CaixaPai3bnt}>
         <View style={css.btnOutros}>
           <TouchableOpacity style={css.btnOutros}
-            onPress={() => {
-              setOutros(true),
-                setCampanhas(false),
-                setDenunciaTro(false),
-                setHome(false)
-            }}
+            onPress={() => { getPublicacao(); setDados( publicacao ); }}
           >
             <Text style={css.Texto}>Outros</Text>
           </TouchableOpacity>
         </View>
         <View>
           <TouchableOpacity style={css.btnCamp}
-            onPress={() => {
-              setOutros(true),
-                setCampanhas(true),
-                setDenunciaTro(false),
-                setHome(false)
-            }}
+            onPress={() => { getCampanhas(); setDados( campanha ); }}
           >
             <Text style={css.Texto}>Campanhas</Text>
           </TouchableOpacity>
         </View>
         <View>
           <TouchableOpacity style={css.btnDenun}
-            onPress={() => {
-              setOutros(true),
-                setCampanhas(false),
-                setDenunciaTro(true),
-                setHome(false)
-            }}
+            onPress={() => { getDenuncia(); setDados( denuncia ); }}
           >
             <Text style={css.Texto}>Denuncia</Text>
           </TouchableOpacity>
         </View>
       </View>
-      {home ?
-        <>
-          <View style={css.Teste}>
-            <FlatList
-              data={denuncia}
-              renderItem={({ item }) =>
-                <HomeCom
-                  GetDenunciaId={getDenunciaId}
-                  getDenuncia={getDenuncia}
-                  denunciaTitulo={item.denunciaTitulo}
-                  denunciaMidia={item.denunciaMidia}
-                  tipoDenunciaId={item.tipoDenunciaId}
-                  bairroId={item.bairroId}
-                  denunciaDescricao={item.denunciaDescricao}
-                  /*Campanha*/
-                  getCampanhas={getCampanhas}
-                  getCampanhaId={getCampanhaId}
-                  campanhaTitulo={item.campanhaTitulo}
-                  campanhaMidia={item.campanhaMidia}
-                  campanhaDescricao={item.campanhaDescricao}
-                  tipoCampanhaId={item.tipoCampanhaId}
-                  cidadeId={item.cidadeId}
-                  /**/
-                  getPublicacao={getPublicacao}
-                  getPublicacaoId={getPublicacaoId}
-                  publicacaoTitulo={item.publicacaoTitulo}
-                  publicacaoMidia={item.publicacaoMidia}
-                  publicacaoDescricao={item.publicacaoDescricao}
-                />
-              }
-              keyExtractor={(item) => item.denunciaId}
-              contentContainerStyle={{ height: (denuncia.length * 800) + 500 }}
-            />
-          </View>
-        </>
-
-        :
-
-        <>
-          {denunciatro ?
-            <>
-                  <View style={css.Teste}>
-                    <FlatList
-                      data={denuncia}
-                      renderItem={({ item }) =>
-                        <Denuncia
-                          GetDenunciaId={getDenunciaId}
-                          getDenuncia={getDenuncia}
-                          denunciaTitulo={item.denunciaTitulo}
-                          denunciaMidia={item.denunciaMidia}
-                          tipoDenunciaId={item.tipoDenunciaId}
-                          bairroId={item.bairroId}
-                          denunciaDescricao={item.denunciaDescricao}
-                        />
-                      }
-                      keyExtractor={(item) => item.denunciaId}
-                      contentContainerStyle={{ height: (denuncia.length * 800) + 500 }}
-                    />
-                  </View>
-            </>
-            :
-            <>
-              {campanhas ?
-                <>
-                      <View style={css.Teste}>
-                        <FlatList
-                          data={campanha}
-                          renderItem={({ item }) =>
-                            <Campanhas
-                              getCampanhas={getCampanhas}
-                              getCampanhaId={getCampanhaId}
-                              campanhaTitulo={item.campanhaTitulo}
-                              campanhaMidia={item.campanhaMidia}
-                              campanhaDescricao={item.campanhaDescricao}
-                              tipoCampanhaId={item.tipoCampanhaId}
-                              cidadeId={item.cidadeId}
-                            />
-                          }
-                          keyExtractor={(item) => item.campanhaId}
-                          contentContainerStyle={{ height: (denuncia.length * 800) + 500 }}
-                        />
-                      </View>
-
-                </>
-
-                :
-                <>
-                    <View style={css.Teste}>
-                      <FlatList
-                        data={publicacao}
-                        renderItem={({ item }) => <Outros
-                          getPublicacao={getPublicacao}
-                          getPublicacaoId={getPublicacaoId}
-                          publicacaoTitulo={item.publicacaoTitulo}
-                          publicacaoMidia={item.publicacaoMidia}
-                          publicacaoDescricao={item.publicacaoDescricao}
-                          bairroId={item.bairroId}
-                        />
-                        }
-                        keyExtractor={(item) => item.publicacaoId}
-                        contentContainerStyle={{ height: (publicacao.length * 800) + 500 }}
-                      />
-                    </View>
-                </>}
-            </>}
-        </>}
-
-
+      {dados &&
+        <View style={css.Teste}>
+          <FlatList
+            data={dados}
+            renderItem={({ item, index }) =>
+              <HomeCom
+                item={item}
+              />
+            }
+            keyExtractor={(item, index) => index}
+            contentContainerStyle={{ paddingBottom: dados.length * 10 }}
+          />
+        </View>
+      }
     </View>
 
   )
