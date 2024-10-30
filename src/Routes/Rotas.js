@@ -9,6 +9,7 @@ import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Perfil from '../Pages/Perfil';
 import Chat from '../Pages/Chat';
+import EditarPerfil from '../Pages/EditarPerfil'
 
 
 const Tab = createBottomTabNavigator();
@@ -54,8 +55,17 @@ export default function Rotas() {
                     }}
                 />
                 <Tab.Screen
-                    name="Inserir"
+                    name="Perfil"
                     component={Perfil}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="account-circle" color={color} size={size} />
+                        ),
+                    }}
+                />
+                  <Tab.Screen
+                    name="Editar Perfil"
+                    component={EditarPerfil}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="account-circle" color={color} size={size} />

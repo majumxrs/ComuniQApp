@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Button, Image, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, Button, Image, TouchableOpacity, TextInput } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../Context/AuthContext'
 
@@ -41,10 +41,39 @@ export default function Inserir() {
   const conversorimg = () => {
     return `data:image/jpeg;base64,${foto}`
 }
+
+async function Salvar() {
+  await fetch('http://10.139.75.25:5251/api/Usuarios/UpdateUsuario/' + id, {
+    method: 'PUT',
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify({
+      usuarioNome: nome,
+      usuarioSobrenome: sobrenome,
+      usuarioApelido: apelido,
+      usuarioEmail: email,
+      usuarioTelefone: telefone,
+      usuarioCPF: cpf,
+      usuarioCEP: cep,
+      usuarioBairro: bairro,
+      usuarioCidade: cidade,
+      usuarioFoto: "",
+      tipoPerfilId: 1
+  })
+  })
+    .then(res => res.json())
+    .then(json => {
+      console.log(json.usuarioNome)
+      console.log("Perfil atualizado com sucesso:", json);
+    })
+    .catch(err => console.log("deu erro", err))
+}
+
   useEffect(() => {
     infoUsuario()
   }, [])
-  const { setLogado, id, Login/* nome, sobrenome, apelido, email, telefone, cpf, cep, bairro, cidade, foto */ } = useContext(AuthContext);
+  const { id, Login } = useContext(AuthContext);
 
   return (
     <>
@@ -55,56 +84,54 @@ export default function Inserir() {
         />
       </View >
       <View style={css.container}>
-        <View style={css.foto}>
+        <TouchableOpacity style={css.foto}>
           <Image style={css.fotousu} source={{ uri: "https://comuniq.s3.amazonaws.com/" + foto  }} />
-        </View>
+        </TouchableOpacity>
         <View style={css.parte1}>
           <View style={css.campo1}>
             <Text style={css.tit}>Nome</Text>
-            <Text>{nome}</Text>
+            <TextInput 
+            onChangeText={(digitado) => setNome(digitado)}>{nome}</TextInput>
           </View>
           <View style={css.campo2}>
             <Text style={css.tit}>Sobrenome</Text>
-            <Text>{sobrenome}</Text>
+            <TextInput onChangeText={(digitado) => setSobrenome(digitado)}>{sobrenome}</TextInput>
           </View>
         </View>
         <View style={css.campo3}>
           <Text style={css.tit}>Apelido</Text>
-          <Text>{apelido}</Text>
+          <TextInput onChangeText={(digitado) => setApelido(digitado)}>{apelido}</TextInput>
         </View>
         <View style={css.campo3}>
           <Text style={css.tit}>Email</Text>
-          <Text>{email}</Text>
+          <TextInput onChangeText={(digitado) => setEmail(digitado)}>{email}</TextInput>
         </View>
         <View style={css.parte1}>
           <View style={css.campo4}>
             <Text style={css.tit}>Telefone</Text>
-            <Text>{telefone}</Text>
+            <TextInput onChangeText={(digitado) => setTelefone(digitado)}>{telefone}</TextInput>
           </View>
           <View style={css.campo5}>
             <Text style={css.tit}>CPF</Text>
-            <Text>{cpf}</Text>
+            <TextInput onChangeText={(digitado) => setCpf(digitado)}>{cpf}</TextInput>
           </View>
         </View>
         <View style={css.parte1}>
           <View style={css.campo4}>
             <Text style={css.tit}>CEP</Text>
-            <Text>{cep}</Text>
+            <TextInput onChangeText={(digitado) => setCep(digitado)}>{cep}</TextInput>
           </View>
           <View style={css.campo5}>
             <Text style={css.tit}>Cidade</Text>
-            <Text>{cidade}</Text>
+            <TextInput onChangeText={(digitado) => setCidade(digitado)}>{cidade}</TextInput>
           </View>
         </View>
         <View style={css.campo3}>
           <Text style={css.tit}>Bairro</Text>
-          <Text>{bairro}</Text>
+          <TextInput onChangeText={(digitado) => setBairro(digitado)}>{bairro}</TextInput>
         </View>
-        <TouchableOpacity style={css.btn}>
-          <Text style={css.txtbtn}>Editar Perfil</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={css.btn}>
-          <Text style={css.txtbtn} onPress={() => setLogado(false)}>Sair da Conta</Text>
+        <TouchableOpacity onPress={Salvar} style={css.btn}>
+          <Text style={css.txtbtn} >Salvar</Text>
         </TouchableOpacity>
       </View>
     </>
