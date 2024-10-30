@@ -111,6 +111,7 @@ export default function Home({ navigation }) {
     getDenuncia();
     getPublicacao();
     setDados([...campanha, ...publicacao, ...denuncia ]);
+    
   }
 
   useFocusEffect(
