@@ -58,11 +58,7 @@ export default function Home({ navigation }) {
 
   //MINHA API 
   async function getDenuncia() {
-<<<<<<< HEAD
-    await fetch('http://10.139.75.99:5251/api/Denuncia/GetAllDenuncias', {
-=======
     await fetch( process.env.EXPO_PUBLIC_URL +  '/api/Denuncia/GetAllDenuncias', {
->>>>>>> 831c62e0ea71fea13323d0cb7777690a1ef74458
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -76,36 +72,9 @@ export default function Home({ navigation }) {
       .catch(err => console.log(err))
   }
 
-<<<<<<< HEAD
-  async function getDenunciaId(id) {
-    await fetch('http://10.139.75.99:5251/api/Denuncia/GetDenunciaId/' + id, {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then(json => {
-        setDenunciaId(json.denunciaId);
-        setDenunciaTitulo(json.denunciaTitulo);
-        setDenunciaMidia(json.denunciaMidia);
-        setDenunciaDescricao(json.denunciaDescricao);
-        setTipoDenunciaId(json.tipoDenunciaId);
-        setBairroId(json.bairroId);
-      })
-      .catch(err => console.log(err))
-  }
-
-
-
-
-  async function getCampanhas() {
-    await fetch('http://10.139.75.99:5251/api/Campanhas/GetAllCampanhas', {
-=======
 
   async function getCampanhas() {
     await fetch(process.env.EXPO_PUBLIC_URL + '/api/Campanhas/GetAllCampanhas', {
->>>>>>> 831c62e0ea71fea13323d0cb7777690a1ef74458
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -119,33 +88,8 @@ export default function Home({ navigation }) {
       .catch(err => console.log(err))
   }
 
-<<<<<<< HEAD
-  async function getCampanhaId(id) {
-    await fetch('http://10.139.75.99:5251/api/Campanhas/GetCampanhaId/' + id, {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then(json => {
-        setCampanhaId(json.campanhaId);
-        setCampanhaTitulo(json.campanhaTitulo);
-        setCampanhaMidia(json.campanhaMidia);
-        setCampanhaDescricao(json.campanhaDescricao);
-        setTipoCampanhaId(json.tipoCampanhaId);
-        setCidadeId(json.cidadeId);
-      })
-      .catch(err => console.log(err))
-  }
-
-
-  async function getPublicacao() {
-    await fetch('http://10.139.75.99:5251/api/Publicacoes/GetAllPublicacoes', {
-=======
   async function getPublicacao() {
     await fetch(process.env.EXPO_PUBLIC_URL + '/api/Publicacoes/GetAllPublicacoes', {
->>>>>>> 831c62e0ea71fea13323d0cb7777690a1ef74458
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -158,29 +102,8 @@ export default function Home({ navigation }) {
 
       .catch(err => console.log(err))
   }
-<<<<<<< HEAD
-
-  async function getPublicacaoId(id) {
-    await fetch('http://10.139.75.99:5251/api/Publicacoes/GetPublicacaoId/' + id, {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then(json => {
-        setPublicacaoId(json.publicacaoId);
-        setPublicacaoTitulo(json.publicacaoTitulo);
-        setPublicacaoMidia(json.publicacaoMidia);
-        setPublicacaoDescricao(json.publicacaoDescricao);
-        setBairroId(json.bairroId);
-      })
-      .catch(err => console.log(err))
-  }
-=======
   
   
->>>>>>> 831c62e0ea71fea13323d0cb7777690a1ef74458
 
 
   function getAll() {
