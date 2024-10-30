@@ -1,81 +1,110 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { View, Text, StyleSheet, Image, TouchableOpacity, Button, TextInput } from 'react-native'
+import React, { useContext, useState } from 'react'
+import { AuthContext } from '../Context/AuthContext';
 
 
+export default function Denuncia({ item }) {
+    const [comentario, setComentario] = useState(false);
+    const [comentarioTexto, setComentarioTexto] = useState("");
+    const [usuarioId, setUsuarioId] = useState(0);
+    const [publicacaoId, setPublicacaoId] = useState(0);
 
-export default function Denuncia({ denunciaTitulo, denunciaMidia, denunciaDescricao, tipoDenunciaId, publicacaoTitulo, publicacaoMidia, publicacaoDescricao, bairroId, campanhaTitulo, campanhaMidia, campanhaDescricao, tipoCampanhaId, cidadeId }) {
-    const getImageSource = () => {
-        return `data:image/jpeg;base64,${denunciaMidia}`
+    const { id } = useContext(AuthContext);
+
+    async function SalvarObs() {
+        await fetch(process.env.EXPO_PUBLIC_URL + '/InsertComentario ', {
+            method: 'post',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                comentarioTexto: comentarioTexto,
+                usuarioId: usuarioId,
+                publicacaoId: publicacaoId
+            })
+        })
+            //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
+            .then(res => res.json())
+            .then(json => console.log(json))
+            .catch(err => console.log(err))
     }
-    const getImageSource1 = () => {
-        return `data:image/jpeg;base64,${campanhaMidia}`
-    }
-    const getImageSource2 = () => {
-        return `data:image/jpeg;base64,${publicacaoMidia}`
-    }
+
     return (
-
         <View style={css.container}>
             <View style={css.CaixaTitulo}>
                 <View style={css.BoxTitulo}>
                     <Image style={css.Avatar}
-                         source={require('../../assets/FotosComuniQ/UsuarioSem.png')}
+                        source={require('../../assets/FotosComuniQ/UsuarioSem.png')}
                     />
                     <Text style={css.TextoNOme}>Anônimo</Text>
                 </View>
-                <Text style={css.title2}>teste{denunciaDescricao}</Text>
+                {item.campanhaTitulo && <Text style={css.title}>{item.campanhaTitulo}</Text>}
+                {item.denunciaTitutlo && <Text style={css.title}>{item.denunciaTitutlo}</Text>}
+                {item.publicacaoTitulo && <Text style={css.title}>{item.publicacaoTitulo}</Text>}
             </View>
             <View style={css.CaixaImagem}>
-                <Image style={css.imagemG} source={{ uri: getImageSource() }} />
+                {item.denunciaMidia && <Image style={css.imagemG} source={{ uri: "http://comuniq.s3.amazonaws.com/" + item.denunciaMidia }} />}
+                {item.publicacaoMidia && <Image style={css.imagemG} source={{ uri: "http://comuniq.s3.amazonaws.com/" + item.publicacaoMidia }} />}
+                {item.campanhaMidia && <Image style={css.imagemG} source={{ uri: "http://comuniq.s3.amazonaws.com/" + item.campanhaMidia }} />}
             </View>
-            <Text style={css.title}>{campanhaTitulo}</Text>
-            <Text style={css.title2}>{campanhaDescricao}</Text>
-            <View style={css.CaixaImagem}>
-                <Image source={{ uri: getImageSource1() }} style={css.imagemG} />
+            <View style={css.CaixaTitulo}>
+                {item.campanhaDescricao && <Text style={css.title2}>{item.campanhaDescricao}</Text>}
+                {item.publicacaoDescricao && <Text style={css.title2}>{item.publicacaoDescricao}</Text>}
+                {item.denunciaDescricao && <Text style={css.title2}>{item.denunciaDescricao}</Text>}
             </View>
-            <Text style={css.title}>{publicacaoTitulo}</Text>
-            <Text style={css.title2}>{publicacaoDescricao}</Text>
-            <Text style={css.tBairro}>{bairroId}</Text>
-            <View style={css.CaixaImagem}>
-                <Image source={{ uri: getImageSource2() }} style={css.imagemG} />
+            <View>
+                {item.publicacaoId &&
+                    <TouchableOpacity style={css.btn01} onPress={() => setComentario(true)}>
+                        <Text style={css.TextoBTNC}>Comentarios</Text>
+                    </TouchableOpacity>
+                }
+                {comentario &&
+                    <View style={css.PaiInput}>
+                       <TextInput style={css.input} textInput={comentarioTexto} value={comentarioTexto} onChangeText={(digitado) => setComentarioTexto(digitado)} placeholder="Novo Comentario" />
+                        <TouchableOpacity style={css.btn02} onPress={() => SalvarObs()}>
+                            <Text style={css.TextoBTNC}>Salvar</Text>
+                        </TouchableOpacity>
+                    </View>
+                }
             </View>
         </View>
     )
 }
 const css = StyleSheet.create({
     container: {
-        height: 500,
         width: 370,
-        backgroundColor: "#fff",
+        backgroundColor: "#D9D9D9",
         marginTop: 25,
-        borderRadius: 10
+        borderRadius: 10,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        paddingVertical: 30,
     },
     CaixaTitulo: {
         width: "100%",
         display: "flex",
-        flexDirection: "row",
-        justifyContent: "flex-start",
-        alignItems: "center",
-        marginBottom: 50,
+        marginBottom: 20,
         paddingLeft: 5
     },
     title: {
         color: "black",
-        textAlign: "center",
         marginTop: 20,
-        fontSize: 10,
+        fontSize: 20,
     },
     CaixaImagem: {
         width: "100%",
-        height: 390
+        height: 200,
+
     },
     imagemG: {
         width: "100%",
         height: "100%",
-        resizeMode: "cover",
+        resizeMode: "contain",
     },
     TextoNOme: {
-        color: "white"
+        marginLeft: 10,
+        fontSize: 20,
     },
     BoxTitulo: {
         width: "100%",
@@ -90,7 +119,45 @@ const css = StyleSheet.create({
         //backgroundColor:"red",
         borderRadius: 50
     },
-    title2:{
-        color:"#000"
+    title2: {
+        fontSize: 18,
+        fontWeight: "400",
+        marginTop: 20
     },
+    btn01: {
+        marginTop: 15,
+        backgroundColor: "#20343F",
+        width: 320,
+        height: 50,
+        borderRadius: 10,
+        color: "white",
+      },
+    btn02: {
+        marginTop: 5,
+        backgroundColor: "#20343F",
+        width: 320,
+        height: 50,
+        borderRadius: 10,
+        color: "white",
+    },
+    TextoBTNC: {
+        color: "white",
+        lineHeight: 45,
+        textAlign: "center",
+        fontSize: 20,
+        fontWeight:"400"
+      },
+    input: {
+        width: 300,
+        height: 50,
+        borderColor: "#20343F",
+        borderRadius: 15,
+        borderWidth: 2,
+        backgroundColor: "white",
+        marginBottom: 5,
+        marginTop: 10,
+        marginLeft:10,
+        padding:5
+      },
+
 })

@@ -10,6 +10,7 @@ import Login from '../Pages/Login';
 import Perfil from '../Pages/Perfil';
 import Chat from '../Pages/Chat';
 import EditarPerfil from '../Pages/EditarPerfil'
+import teste from '../Components/NovaCamp';
 
 
 const Tab = createBottomTabNavigator();
@@ -29,7 +30,7 @@ export default function Rotas() {
                     tabBarShowLabel: false,
                     tabBarStyle: {
                         backgroundColor: '#20343F',
-                        inactiveColor:"#ffffff"
+                        inactiveColor: "#ffffff"
                     },
                     tabBarActiveTintColor: "white",
                     tabBarInactiveTintColor: "#fff"
