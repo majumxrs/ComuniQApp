@@ -4,7 +4,7 @@ export const AuthContext = createContext(0);
 
 function AuthProvider({ children }) {
     const [id, setId] = useState()
-    const [logado, setLogado] = useState(true);
+    const [logado, setLogado] = useState(false);
     const [error, setError] = useState(false);
     const [user, SetUser] = useState(false);
     const [menRecupSenha, setMenReupSenha] = useState(true);
@@ -12,7 +12,7 @@ function AuthProvider({ children }) {
     async function Login(email, senha) {
 
         if (email != "" && senha != "") {
-            await fetch('http://10.139.75.27:5251/api/Usuarios/Login', {
+            await fetch('http://10.139.75.25:5251/api/Usuarios/Login', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json; charset=UTF-8'
