@@ -13,7 +13,10 @@
     "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/native": "^6.1.18",
     "expo": "~50.0.19",
+<<<<<<< HEAD
+=======
     "expo-image-picker": "~14.7.1",
+>>>>>>> 93a31590ca7a8eb3c47c38f5069b899e491d83e0
     "expo-linear-gradient": "~12.7.2",
     "expo-status-bar": "~1.11.1",
     "react": "18.2.0",
