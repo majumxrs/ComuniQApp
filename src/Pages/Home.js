@@ -11,7 +11,12 @@ import HomeCom from '../Components/HomeComp';
 export default function Home({ navigation }) {
 
   //Publicação
+
+  const [dados, setDados] = useState([]);
   const [publicacao, setPublicacao] = useState([]);
+  const [campanha, setCampanha] = useState([]);
+  const [denuncia, setDenuncia] = useState([]);
+
   const [PublicacaoTitulo, setPublicacaoTitulo] = useState([]);
   const [PublicacaoMidia, setPublicacaoMidia] = useState(null);
   const [PublicacaoDescricao, setPublicacaoDescricao] = useState([]);
@@ -20,7 +25,7 @@ export default function Home({ navigation }) {
   const [UsuarioId, setUsuarioId] = useState(0);
 
   //"Campanha"
-  const [campanha, setCampanha] = useState([]);
+
   const [campanhaId, setCampanhaId] = useState([]);
   const [campanhaTitulo, setCampanhaTitulo] = useState([]);
   const [campanhaMidia, setCampanhaMidia] = useState(null);
@@ -35,7 +40,7 @@ export default function Home({ navigation }) {
   const [comentarioTexto, setComentarioTexto] = useState([]);
   const [publicacaoId, setPublicacaoId] = useState(0);
 
-  const [denuncia, setDenuncia] = useState([]);
+
   const [denunciaId, setDenunciaId] = useState([]);
   const [denunciaTitulo, setDenunciaTitulo] = useState([]);
   const [denunciaMidia, setDenunciaMidia] = useState(null);
@@ -49,10 +54,11 @@ export default function Home({ navigation }) {
   const [campanhas, setCampanhas] = useState(false);
   const [outros, setOutros] = useState(false);
   const [home, setHome] = useState(true);
+  const [voltarD, setVoltarD] = useState(false)
 
   //MINHA API 
   async function getDenuncia() {
-    await fetch('http://10.139.75.99:5251/api/Denuncia/GetAllDenuncias', {
+    await fetch( process.env.EXPO_PUBLIC_URL +  '/api/Denuncia/GetAllDenuncias', {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -66,30 +72,9 @@ export default function Home({ navigation }) {
       .catch(err => console.log(err))
   }
 
-  async function getDenunciaId(id) {
-    await fetch('http://10.139.75.99:5251/api/Denuncia/GetDenunciaId/' + id, {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then(json => {
-        setDenunciaId(json.denunciaId);
-        setDenunciaTitulo(json.denunciaTitulo);
-        setDenunciaMidia(json.denunciaMidia);
-        setDenunciaDescricao(json.denunciaDescricao);
-        setTipoDenunciaId(json.tipoDenunciaId);
-        setBairroId(json.bairroId);
-      })
-      .catch(err => console.log(err))
-  }
-
-
-
 
   async function getCampanhas() {
-    await fetch('http://10.139.75.99:5251/api/Campanhas/GetAllCampanhas', {
+    await fetch(process.env.EXPO_PUBLIC_URL + '/api/Campanhas/GetAllCampanhas', {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -103,28 +88,8 @@ export default function Home({ navigation }) {
       .catch(err => console.log(err))
   }
 
-  async function getCampanhaId(id) {
-    await fetch('http://10.139.75.99:5251/api/Campanhas/GetCampanhaId/' + id, {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then(json => {
-        setCampanhaId(json.campanhaId);
-        setCampanhaTitulo(json.campanhaTitulo);
-        setCampanhaMidia(json.campanhaMidia);
-        setCampanhaDescricao(json.campanhaDescricao);
-        setTipoCampanhaId(json.tipoCampanhaId);
-        setCidadeId(json.cidadeId);
-      })
-      .catch(err => console.log(err))
-  }
-
-
   async function getPublicacao() {
-    await fetch('http://10.139.75.99:5251/api/Publicacoes/GetAllPublicacoes', {
+    await fetch(process.env.EXPO_PUBLIC_URL + '/api/Publicacoes/GetAllPublicacoes', {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -137,229 +102,83 @@ export default function Home({ navigation }) {
 
       .catch(err => console.log(err))
   }
-
-  async function getPublicacaoId(id) {
-    await fetch('http://10.139.75.99:5251/api/Publicacoes/GetPublicacaoId/' + id, {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then(json => {
-        setPublicacaoId(json.publicacaoId);
-        setPublicacaoTitulo(json.publicacaoTitulo);
-        setPublicacaoMidia(json.publicacaoMidia);
-        setPublicacaoDescricao(json.publicacaoDescricao);
-        setBairroId(json.bairroId);
-      })
-      .catch(err => console.log(err))
-  }
+  
+  
 
 
-
-  //FILTRO PARA AO ENTRAR NA PAGINA EXEGUTAR O GETPRODUTROS(API)
-  useEffect(() => {
-    getDenunciaId();
-    getDenuncia();
+  function getAll() {
     getCampanhas();
-    getCampanhaId();
+    getDenuncia();
     getPublicacao();
-    getPublicacaoId();
-  }, [])
+    setDados([...campanha, ...publicacao, ...denuncia ]);
+    
+  }
 
   useFocusEffect(
     React.useCallback(() => {
-      getDenuncia();
-      getDenunciaId();
-      getCampanhas();
-      getCampanhaId();
-      getPublicacao();
-      getPublicacaoId();
+      getAll();
     }, [])
   );
-  // const [denunciatro, setDenunciaTro] = useState(false);
-  //const [campanhas, setCampanhas] = useState(false);
-  // const [outros, setOutros] = useState(false);
-  // const [teste, setTeste] = useState(false);+
-
-  // if (campanhas) {
-  //   return (<Campanhas setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)
-  // }
-  // if (outros) {
-  //   return (<Outros setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)
-  // }
-  // if (denunciatro) {
-  //   return (<Denuncia setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)
-  // }
-  // if (teste) {
-  //   return (<Teste setTeste={setTeste} setCampanhas={setCampanhas} setDenunciaTro={setDenunciaTro} setOutros={setOutros} />)
-  // }
 
   //Item e um nome generico que vem da api que vc delimitou na data, podendo ser qualquer nome. dependendo para facilitar o entedimento pode colocar o memo nome do que vc vai buscar.
   return (
     <View style={css.container}>
       <View style={css.caixa}>
-        <TouchableOpacity style={css.btnLogo} onPress={() => { setHome(true) }}>
+        <TouchableOpacity style={css.btnLogo} onPress={() => { getAll() }}>
           <Image style={css.tinyLogo} source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")} />
         </TouchableOpacity>
-
       </View >
-      {home ?
-
-        <>
-          <View style={css.boxImage}>
-            <Text>Home</Text>
-            <View>
-              <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(false), setDenunciaTro(false), setHome(false) }}>
-                <Text style={css.Texto}>Outros</Text>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(true), setDenunciaTro(false), setHome(false) }}>
-                <Text style={css.Texto}>Campanhas</Text>
-              </TouchableOpacity>
-            </View>
-            <View>
-              <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(false), setDenunciaTro(true), setHome(false) }}>
-                <Text style={css.Texto}>Denuncia</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-
-          <View style={css.Teste}>
-            <FlatList
-              data={denuncia}
-              renderItem={({ item }) => <HomeCom GetDenunciaId={getDenunciaId} getDenuncia={getDenuncia} denunciaTitulo={item.denunciaTitulo} denunciaMidia={item.denunciaMidia} tipoDenunciaId={item.tipoDenunciaId} bairroId={item.bairroId} denunciaDescricao={item.denunciaDescricao} /*Campanha*/ getCampanhas={getCampanhas} getCampanhaId={getCampanhaId} campanhaTitulo={item.campanhaTitulo} campanhaMidia={item.campanhaMidia} campanhaDescricao={item.campanhaDescricao} tipoCampanhaId={item.tipoCampanhaId} cidadeId={item.cidadeId} /**/ getPublicacao={getPublicacao} getPublicacaoId={getPublicacaoId} publicacaoTitulo={item.publicacaoTitulo} publicacaoMidia={item.publicacaoMidia} publicacaoDescricao={item.publicacaoDescricao} />}
-              keyExtractor={(item) => item.denunciaId}
-              contentContainerStyle={{ height: (denuncia.length * 800) + 500 }}
-            />
-          </View>
-        </>
-
-        :
-
-        <>
-          {denunciatro ?
-            <>
-              <View style={css.containerDetalhes}>
-                <View style={css.boxImage}>
-                  <Text>Denuncia</Text>
-                  <View>
-                    <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(false), setDenunciaTro(false) }}>
-                      <Text style={css.Texto}>Outros</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View>
-                    <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(true), setDenunciaTro(false) }}>
-                      <Text style={css.Texto}>Campanhas</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View>
-                    <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(false), setDenunciaTro(true) }}>
-                      <Text style={css.Texto}>Denuncia</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View style={css.Teste}>
-                    <FlatList
-                      data={denuncia}
-                      renderItem={({ item }) => <Denuncia GetDenunciaId={getDenunciaId} getDenuncia={getDenuncia} denunciaTitulo={item.denunciaTitulo} denunciaMidia={item.denunciaMidia} tipoDenunciaId={item.tipoDenunciaId} bairroId={item.bairroId} denunciaDescricao={item.denunciaDescricao} />}
-                      keyExtractor={(item) => item.denunciaId}
-                      contentContainerStyle={{ height: (denuncia.length * 800) + 500 }}
-                    />
-                  </View>
-                </View>
-              </View>
-            </>
-            :
-            <>
-              {campanhas ?
-                <>
-                  <View style={css.containerDetalhes}>
-                    <View style={css.boxImage}>
-
-                      <View>
-                        <Text>campanhas</Text>
-                        <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(false), setDenunciaTro(false) }}>
-                          <Text style={css.Texto}>Outros</Text>
-                        </TouchableOpacity>
-                      </View>
-                      <View>
-                        <TouchableOpacity style={css.btn} onPress={() => { setOutros(false), setCampanhas(true), setDenunciaTro(false) }}>
-                          <Text style={css.Texto}>Campanhas</Text>
-                        </TouchableOpacity>
-                      </View>
-                      <View>
-                        <TouchableOpacity style={css.btn} onPress={() => { setOutros(false), setCampanhas(false), setDenunciaTro(true) }}>
-                          <Text style={css.Texto}>Denuncia</Text>
-                        </TouchableOpacity>
-                      </View>
-                      <View style={css.Teste}>
-                        <FlatList
-                          data={campanha}
-                          renderItem={({ item }) => <Campanhas getCampanhas={getCampanhas} getCampanhaId={getCampanhaId} campanhaTitulo={item.campanhaTitulo} campanhaMidia={item.campanhaMidia} campanhaDescricao={item.campanhaDescricao} tipoCampanhaId={item.tipoCampanhaId} cidadeId={item.cidadeId} />}
-                          keyExtractor={(item) => item.campanhaId}
-                          contentContainerStyle={{ height: (denuncia.length * 800) + 500 }}
-                        />
-                      </View>
-                    </View>
-                  </View>
-                </>
-
-                :
-                <>
-                  <View>
-                    <Text>Outros</Text>
-                    <TouchableOpacity style={css.btn} onPress={() => { setOutros(true), setCampanhas(false), setDenunciaTro(false) }}>
-                      <Text style={css.Texto}>Outros</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View>
-                    <TouchableOpacity style={css.btn} onPress={() => { setOutros(false), setCampanhas(true), setDenunciaTro(false) }}>
-                      <Text style={css.Texto}>Campanhas</Text>
-                    </TouchableOpacity>
-                  </View>
-                  <View>
-                    <TouchableOpacity style={css.btn} onPress={() => { setOutros(false), setCampanhas(false), setDenunciaTro(true) }}>
-                      <Text style={css.Texto}>Denuncia</Text>
-                    </TouchableOpacity>
-                    <View style={css.Teste}>
-                      <FlatList
-                        data={publicacao}
-                        renderItem={({ item }) => <Outros getPublicacao={getPublicacao} getPublicacaoId={getPublicacaoId} publicacaoTitulo={item.publicacaoTitulo} publicacaoMidia={item.publicacaoMidia} publicacaoDescricao={item.publicacaoDescricao} bairroId={item.bairroId} />}
-                        keyExtractor={(item) => item.publicacaoId}
-                        contentContainerStyle={{ height: (publicacao.length * 800) + 500 }}
-                      />
-                    </View>
-                  </View>
-                </>}
-            </>}
-        </>}
-
-
+      
+      <View style={css.CaixaPai3bnt}>
+        <View style={css.btnOutros}>
+          <TouchableOpacity style={css.btnOutros}
+            onPress={() => { getPublicacao(); setDados( publicacao ); }}
+          >
+            <Text style={css.Texto}>Outros</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <TouchableOpacity style={css.btnCamp}
+            onPress={() => { getCampanhas(); setDados( campanha ); }}
+          >
+            <Text style={css.Texto}>Campanhas</Text>
+          </TouchableOpacity>
+        </View>
+        <View>
+          <TouchableOpacity style={css.btnDenun}
+            onPress={() => { getDenuncia(); setDados( denuncia ); }}
+          >
+            <Text style={css.Texto}>Denuncia</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      {dados &&
+        <View style={css.Teste}>
+          <FlatList
+            data={dados}
+            renderItem={({ item, index }) =>
+              <HomeCom
+                item={item}
+              />
+            }
+            keyExtractor={(item, index) => index}
+            contentContainerStyle={{ paddingBottom: dados.length * 10 }}
+          />
+        </View>
+      }
     </View>
 
   )
 }
 const css = StyleSheet.create({
   container: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#ffff",
     flexGrow: 1,
     color: "white",
-    width: "100%",
-    //justifyContent: "center",
     alignItems: "center",
-    height: 30,
-  },
-  Teste: {
-    backgroundColor: "blue",
-    height: 550,
-    width: 370,
-    marginLeft: -16,
-    marginTop:100,
   },
   caixa: {
-    height: 95,
+    height: 100,
     width: "100%",
     backgroundColor: "#20343F",
     display: "flex",
@@ -367,6 +186,10 @@ const css = StyleSheet.create({
     justifyContent: "center"
   },
   tinyLogo: {
+    width: '100%',
+    height: '100%'
+  },
+  btnLogo: {
     height: 60,
     width: "25%",
     marginTop: 15,
@@ -377,87 +200,55 @@ const css = StyleSheet.create({
     fontSize: 20,
     fontWeight: "bold"
   },
-  boxImage: {
-    width: 200,
-    height: 200,
-    borderRadius: 20,
-    marginLeft: 90,
-  },
-  imagem: {
-    minWidth: "100%",
-    // width: "100%",
-    height: 200,
-    resizeMode: "contain",
-    borderRadius: 20
-  },
-  BTNVoltar: {
-    fontSize: 25,
-    marginRight: 380,
-    color: "white"
-  },
-  btn02: {
-    marginTop: 5,
-    backgroundColor: "red",
-    width: "90%",
-    height: 50,
-    borderRadius: 10,
-    color: "white",
-    marginLeft: 12
-  },
-  btn01: {
-    marginTop: 15,
-    backgroundColor: "red",
-    width: "90%",
-    height: 50,
-    borderRadius: 10,
-    color: "white",
-    marginLeft: 22
-  },
-  TextoBTNC: {
-    color: "black",
-    lineHeight: 45,
-    textAlign: "center",
-    fontSize: 30,
-    fontWeight: "bold"
-  },
-  PaiInput: {
+  CaixaPai3bnt: {
+    flexDirection: "row",
+    width: "100%",
+    height: 100,
     display: "flex",
     alignItems: "center",
+    justifyContent: "center"
   },
-  input: {
-    width: "80%",
-    height: 50,
-    borderColor: "red",
-    borderRadius: 15,
-    borderWidth: 2,
-    backgroundColor: "white",
-    marginBottom: 5,
-    marginTop: 5
-  },
-  Flat: {
-    marginTop: 10
-  },
-  btn: {
-    width: 150,
+  btnOutros: {
+    width: 120,
     height: 50,
     borderRadius: 10,
-    marginTop: 30,
     backgroundColor: "#20343F",
     alignItems: "center",
     justifyContent: "center",
-    color: "white"
+    color: "white",
+    marginRight: 10,
+    marginLeft: 10,
+  },
+  btnCamp: {
+    width: 120,
+    height: 50,
+    borderRadius: 10,
+    backgroundColor: "#20343F",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "white",
+    marginRight: 10
+  },
+  btnDenun: {
+    width: 120,
+    height: 50,
+    borderRadius: 10,
+    backgroundColor: "#20343F",
+    alignItems: "center",
+    justifyContent: "center",
+    color: "white",
+    marginRight: 10
   },
   Texto: {
-    fontSize: 30,
+    fontSize: 22,
     fontWeight: "400",
     color: "white"
   },
-  btnLogo: {
-    marginTop: "10%",
-    width: "50%",
-    height: 95,
+  Teste: {
+    height: 620,
+    width: "100%",
     display: "flex",
+    justifyContent: "center",
     alignItems: "center",
-    marginLeft: 105,
-  }
+  },
 })

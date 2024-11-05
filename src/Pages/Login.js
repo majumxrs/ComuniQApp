@@ -5,16 +5,16 @@ import { Link } from '@react-navigation/native';
 import RecupSenha from '../Components/RecupSenha';
 
 
-export default function Login({navigation}) {
+export default function Login({ navigation }) {
 
 
     const [nome, setNome] = useState("");
     const [sobrenome, setSobrenome] = useState("");
     const [apelido, setApelido] = useState("");
     const [email, setEmail] = useState("");
-    const [telelfone, setTelefone] = useState(0);
+    const [telelfone, setTelefone] = useState("");
     const [CPF, setCpf] = useState("");
-    const [CEP, setCep] = useState(0);
+    const [CEP, setCep] = useState("");
     const [cidade, setCidade] = useState("");
     const [bairro, setBairro] = useState("");
     const [estado, setEstado] = useState("");
@@ -22,7 +22,7 @@ export default function Login({navigation}) {
 
 
     const [cadastro, setCadastro] = useState(false);
-    const [ recupSenha, setRecupSenha ] = useState(false);
+    const [recupSenha, setRecupSenha] = useState(false);
 
     const { Login, error } = useContext(AuthContext);
 
@@ -31,7 +31,7 @@ export default function Login({navigation}) {
     }
 
     async function SalvarCadastro() {
-        await fetch('http://10.139.75.14:5251/api/Usuarios/InsertUsuario', {
+        await fetch('http://10.139.75.27:5251/api/Usuarios/InsertUsuario', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'
@@ -45,7 +45,7 @@ export default function Login({navigation}) {
                 usuarioCPF: CPF,
                 usuarioCEP: CEP,
                 usuarioCidade: cidade,
-                ussuarioBairro: bairro,
+                usuarioBairro: bairro,
                 usuarioEstado: estado,
                 usuarioSenha: senha,
                 usuarioFoto: null,
@@ -56,15 +56,23 @@ export default function Login({navigation}) {
             .then(res => res.json())
             .then(json => {
                 console.log(json);
-                
-                
+                // usuarioNome: setNome( " " )
+                // usuarioSobrenome: setSobrenome( " " )
+                // usuarioApelido: setApelido( " " )
+                // usuarioEmail: setEmail( " " )
+                // usuarioTelefone: setTelefone( " " )
+                // usuarioCPF: setCpf( " " )
+                // usuarioCEP: setCep( " " )
+                // usuarioCidade: setCidade( " " )
+                // usuarioBairro: setBairro( " " )
+                // usuarioEstado: setEstado( " " )
+                // usuarioSenha: setSenha( " " )
             })
             .catch(err => console.log(err))
     }
 
-
-    if( recupSenha ) {
-        return( <RecupSenha setRecupSenha={setRecupSenha}  setCadastro={setCadastro} />)
+     if (recupSenha) {
+        return (<RecupSenha setRecupSenha={setRecupSenha} setCadastro={setCadastro} />)
     }
 
 
@@ -72,7 +80,7 @@ export default function Login({navigation}) {
         <ScrollView contentContainerStyle={css.container}>
             <ImageBackground source={require('../../assets/FotosComuniQ/WhatsApp Image 2024-09-18 at 12.04.50.jpeg')} resizeMode="cover" style={css.image}  >
                 {cadastro ?
-                    <> 
+                    <>
                         <View style={css.Caixalogocadast}>
                             <TouchableOpacity style={css.btnLogo} onPress={() => { setCadastro(false) }}>
                                 <Image source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")} style={css.logo} />
@@ -117,6 +125,7 @@ export default function Login({navigation}) {
                                         style={css.input2}
                                         textInput={telelfone}
                                         value={telelfone}
+                                        type="number"
                                         onChangeText={(digitado) => setTelefone(digitado)}
                                         placeholder="Telefone:"
                                         placeholderTextColor="white"
@@ -165,6 +174,7 @@ export default function Login({navigation}) {
                                         style={css.input2}
                                         textInput={senha}
                                         value={senha}
+                                        secureTextEntry={true}
                                         onChangeText={(digitado) => setSenha(digitado)}
                                         placeholder="Senha:"
                                         placeholderTextColor="white"
@@ -217,8 +227,8 @@ export default function Login({navigation}) {
                                     <Text style={css.forgot2Texto}>Esqueceu sua senha?</Text>
                                 </View>
                                 <View style={css.forgot}>
-                                    <TouchableOpacity onPress={() => setRecupSenha(true)}>                                       
-                                        <Text style={css.forgotText}>Recuperar Senha</Text>     
+                                    <TouchableOpacity onPress={ () => setRecupSenha(true)}>
+                                        <Text style={css.forgotText}>Recuperar Senha</Text>
                                     </TouchableOpacity>
                                 </View>
 
@@ -232,7 +242,7 @@ export default function Login({navigation}) {
                                 </View>
                             }
                             <View>
-                            <View style={css.ou}>
+                                <View style={css.ou}>
                                     <Text style={css.outexto}>Ou</Text>
                                 </View>
                                 <View style={css.PaiImagens}>
@@ -295,7 +305,7 @@ const css = StyleSheet.create({
         backgroundColor: "#B3B3B3",
         color: "black",
         borderWidth: 1,
-        marginTop:30
+        marginTop: 30
     },
     ViewCadastrar: {
         display: "flex",
@@ -341,11 +351,11 @@ const css = StyleSheet.create({
     },
     PaiImagens: {
         display: "flex",
-        alignItems:"center",
+        alignItems: "center",
         justifyContent: "center",
         flexDirection: "row",
         marginTop: 40,
-        columnGap:30
+        columnGap: 30
     },
     PaiInput: {
         marginLeft: "2%",
@@ -402,12 +412,12 @@ const css = StyleSheet.create({
     forgot2Texto: {
         color: "#fff"
     },
-    ou:{
-        marginTop:40,
-        marginLeft:90 
+    ou: {
+        marginTop: 40,
+        marginLeft: 90
     },
-    outexto:{
-        color:"#fff",
+    outexto: {
+        color: "#fff",
         fontSize: 30,
         fontWeight: "400",
     },
