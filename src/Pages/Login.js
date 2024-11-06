@@ -31,7 +31,7 @@ export default function Login({ navigation }) {
     }
 
     async function SalvarCadastro() {
-        await fetch('http://10.139.75.27:5251/api/Usuarios/InsertUsuario', {
+        await fetch('http://10.139.75.25:5251/api/Usuarios/InsertUsuario', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

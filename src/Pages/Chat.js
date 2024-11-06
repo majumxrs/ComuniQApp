@@ -46,16 +46,16 @@ export default function Chat() {
                 botSpeak = "Digite 11 para saber o contato da prefeitura; Digite 12 para contatos de serviços de emergência";
             }
             else if (mensagem == "11") {
-                botSpeak = " Telefone: 9999999999, email:  prefeitura@mail.com";
+                botSpeak = " Telefone: 9999999999, email:  prefeitura@gmail.com";
             }
             else if (mensagem == "12") {
-                botSpeak = " Telefone Policia: 190, Telefone Samu: 192, Numero bombeiros: 193, ";
+                botSpeak = " Telefone Policia: 190, Telefone Samu: 192, Numero bombeiros: 193, Centro de valorização da vida: 188, Ajuda com o uso de drogas: 132, Policia Civíl: 197, Disque Denúncia: 181, Procon: 151, Policia Rodoviária: 191, Direitos Humanos: 100, Ouvidoria do SUS: 136, Denuncia trabalho escravo: 123, Defesa Civil: 199, Atendimento exclusivo à mulher: 180, IBAMA: 0800 61 8080, Ouvidoria Geral da União: 121.";
             }
             else if (mensagem == "2") {
                 botSpeak = "Digite 21 para saber o objetivo do app ; Digite 22 para funcionalidades ";
             }
             else if (mensagem == "21") {
-                botSpeak = "O app tem como objetivo, manter uma comunidade estável e sustentavél, tendo apoio para diverços meios de saúde e meio ambiente.";
+                botSpeak = "O app tem como objetivo, manter uma comunidade estável e sustentavél, tendo apoio para diverços meios de saúde e meio ambiente. Sinta-se avontade para explorar!";
             }
             else if (mensagem == "22") {
                 botSpeak = "Qual funcionalidade quer saber? digite 221 para login, 222 para trocar senha, 223 para denuncia, 224 para postagens. ";
@@ -64,10 +64,10 @@ export default function Chat() {
                 botSpeak = "O login pode ser realizado com os seguintes meios: Google, Microsoft, Apple, Facebook e Instagram.  ";
             }
             else if (mensagem == "222") {
-                botSpeak = " Caso tenha esquecido ou deseja mudar sua senha, na tela de login é possivel, basta clicar em esqueci minha senha, e preencha as informações nescessarios para alteração de senha, lembrese de ter acesso a um email valido. ";
+                botSpeak = " Caso tenha esquecido ou deseja mudar sua senha, na tela de login é possivel, basta clicar em esqueci minha senha, e preencha as informações nescessarios para alteração de senha, lembrese de ter acesso a um email válido. ";
             }
             else if (mensagem == "223") {
-                botSpeak = " Nossa pagina de denuncia conta acesso a diversas postagens de sua comunidade refente a algo que não esta correto, seja convivencia entre as pessoas, descarte indevido de lixo, vandalismo, etc. você também pode ajudar fazendo uma denuncia consciente. Caso deseje, comente, é possivel comentar em denuncias realizadas. ";
+                botSpeak = " Nossa pagina de denuncia conta com acessos a diversas postagens de sua comunidade refente a algo que não esta correto, seja convivencia entre as pessoas, descarte indevido de lixo, vandalismo, etc. você também pode ajudar fazendo uma denuncia consciente. Caso seja de interesse, sinta-se à vontade para comentar. ";
             }
             else if (mensagem == "224") {
                 botSpeak = " As postagens são a forma de interação que você pode ter com sua comunidade, seja realizando uma nenuncia, comentando ou interagindo em ''campanhas'' ";
@@ -76,19 +76,19 @@ export default function Chat() {
                 botSpeak = "Digite 31 para erro de login/cadastro; Digite 32 para erro em postagens, 33 para erro em campanha ";
             }
             else if (mensagem == "31") {
-                botSpeak = "Caso esteja tendo problemas para realizar o login ou o cadastro, certifique-se de revisar suas informações. Caso não seja o nescessario, considere-se mudar sua senha, ou redefinir sua conta de cadastro/login. Caso não funcione entre em contato direto: @comuniQsuporte  ";
+                botSpeak = "Caso esteja tendo problemas para realizar o login ou o cadastro, certifique-se de revisar suas informações. Caso não seja o nescessario, considere-se mudar sua senha, ou redefinir sua conta de cadastro/login. Caso não funcione entre em contato direto: comuniQsuporte@gmail.com";
             }
             else if (mensagem == "32") {
-                botSpeak = "Está com erro na postagem? verifique-se se está com acesso a internet ou tente reiniciar o app. Caso não funcione entre em contato direto: @comuniQsuporte";
+                botSpeak = "Está com erro na postagem? verifique-se se está com acesso a internet ou tente reiniciar o app. Caso não funcione entre em contato direto: comuniQsuporte@gmail.com";
             }
             else if (mensagem == "33") {
-                botSpeak = " Campanha está com erro? verifique se seu perfil tem a possibilidade de realizar uma campanha, para tal funcionalidades, apenas perfis relacionado direto com a prefeitura tem acesso a tal funcionalidade. Caso informações da campanha seja incorretas, denuncie! caso seja outro problema entre em contato direto: @comuniQsuporte ";
+                botSpeak = " Campanha está com erro? verifique se seu perfil tem a possibilidade de realizar uma campanha, para tal funcionalidades, apenas perfis relacionado direto com a prefeitura tem acesso a tal funcionalidade. Caso informações da campanha seja incorretas, denuncie! caso seja outro problema entre em contato direto: comuniQsuporte@gmail.com ";
             }
             else if (mensagem == "4") {
-                botSpeak = "Você pode entrar em contato conosco pelo nosso email de suporte, ou escreva sua dúvida pelo chat, a qual será encaminhada para nossa equipe.";
+                botSpeak = "Você pode entrar em contato conosco pelo nosso email de suporte(comuniQsuporte@gmail.com), ou escreva sua dúvida pelo chat, a qual será encaminhada para nossa equipe.";
             }
             else if (mensagem == "5") {
-                botSpeak = "Nosso email de suporte é @comuniQsuporte";
+                botSpeak = "Nosso email de suporte é comuniQsuporte@gmail.com";
             }
             else {
                 botSpeak = "Desculpe, não conheço esse comando! Encaminharei sua mensagem para nossa equipe"
