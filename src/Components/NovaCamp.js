@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 
 import React, { useContext, useEffect, useState } from 'react'
 import RNPickerSelect from 'react-native-picker-select';
 
-export default function NovaDenucia({ }) {
+export default function NovaDenucia({  setNovadenuncia }) {
 
     const [titulo, setTitulo] = useState("");
     const [midia, setMidia] = useState("");
@@ -14,7 +14,7 @@ export default function NovaDenucia({ }) {
     const [deubom, setDeubom] = useState(false);
     const [error, setError] = useState(false);
 
-    async function SalvarCamp(setVoltarD) {
+    async function SalvarCamp(setNovapupli) {
 
         if (titulo != "" || descricao != "") {
             fetch('http://10.139.75.99:5251/api/Campanhas/InsertCampanha', {
@@ -38,7 +38,7 @@ export default function NovaDenucia({ }) {
                         setError(false);
                     }
                 })
-                .catch(err => setError(true), setDeubom(false))
+                .catch(err => setError(true), setNovapupli(false))
         } else {
             setError(true)
             setDeubom(false)
@@ -48,7 +48,7 @@ export default function NovaDenucia({ }) {
     return (
         <ScrollView  >
 
-            <TouchableOpacity style={css.btnV} onPress={() => { setVoltarD(false); }}>
+            <TouchableOpacity style={css.btnV} onPress={() => { console.log(setNovadenuncia(false)) ; }}>
                 <Text style={css.btnLoginTextV}>Voltar</Text>
             </TouchableOpacity>
 
