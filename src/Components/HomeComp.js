@@ -29,6 +29,22 @@ export default function Denuncia({ item }) {
             .catch(err => console.log(err))
     }
 
+    async function getComentario() {
+        await fetch( process.env.EXPO_PUBLIC_URL +  '/api/Denuncia/GetAllDenuncias', {
+          method: 'GET',
+          headers: {
+            'content-type': 'application/json'
+          }
+        })
+          .then(res => res.json())
+          .then(json => {
+            setDenuncia(json);
+          })
+    
+          .catch(err => console.log(err))
+      }
+    
+
     return (
         <View style={css.container}>
             <View style={css.CaixaTitulo}>

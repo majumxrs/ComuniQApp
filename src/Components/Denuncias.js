@@ -68,4 +68,13 @@ const css = StyleSheet.create({
         marginLeft: 15,
         marginTop: 5
     },
+    boxTitle2: {
+        width: "100%"
+    },
+    title2: {
+        fontSize: 15,
+        fontWeight: "400",
+        marginLeft: 15,
+        marginTop: 5
+    },
 })

@@ -8,6 +8,8 @@ function AuthProvider({ children }) {
     const [error, setError] = useState(false);
     const [user, SetUser] = useState(false);
     const [menRecupSenha, setMenReupSenha] = useState(true);
+    const [ camera, setCamera ]= useState(false);
+    const [ fotoSalva, setFotoSalva ] = useState(false);
 
     async function Login(email, senha) {
 
@@ -47,7 +49,11 @@ function AuthProvider({ children }) {
             menRecupSenha: menRecupSenha,
             user: user,
             setLogado,
-            id: id
+            id: id,
+            camera: camera,
+            fotoSalva: fotoSalva,
+            setCamera,
+            setFotoSalva
         }}>
             {children}
         </AuthContext.Provider>

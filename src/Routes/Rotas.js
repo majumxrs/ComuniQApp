@@ -9,6 +9,9 @@ import Home from '../Pages/Home';
 import Login from '../Pages/Login';
 import Perfil from '../Pages/Perfil';
 import Chat from '../Pages/Chat';
+import EditarPerfil from '../Pages/EditarPerfil'
+import teste from '../Components/NovaCamp';
+import Camera from '../Components/Camera';
 
 
 const Tab = createBottomTabNavigator();
@@ -28,7 +31,7 @@ export default function Rotas() {
                     tabBarShowLabel: false,
                     tabBarStyle: {
                         backgroundColor: '#20343F',
-                        inactiveColor:"#ffffff"
+                        inactiveColor: "#ffffff"
                     },
                     tabBarActiveTintColor: "white",
                     tabBarInactiveTintColor: "#fff"
@@ -54,11 +57,29 @@ export default function Rotas() {
                     }}
                 />
                 <Tab.Screen
-                    name="Inserir"
+                    name="Perfil"
                     component={Perfil}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="account-circle" color={color} size={size} />
+                        ),
+                    }}
+                />
+                  <Tab.Screen
+                    name="Editar Perfil"
+                    component={EditarPerfil}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="account-circle" color={color} size={size} />
+                        ),
+                    }}
+                />
+                 <Tab.Screen
+                    name="Camera"
+                    component={Camera}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="camera" color={color} size={size} />
                         ),
                     }}
                 />
