@@ -12,7 +12,7 @@ function AuthProvider({ children }) {
     async function Login(email, senha) {
 
         if (email != "" && senha != "") {
-            await fetch('http://10.139.75.27:5251/api/Usuarios/Login', {
+            await fetch(process.env.EXPO_PUBLIC_URL + '/api/Usuarios/Login', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json; charset=UTF-8'
