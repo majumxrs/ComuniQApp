@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 
 import React, { useContext, useEffect, useState } from 'react'
 import RNPickerSelect from 'react-native-picker-select';
 
-export default function NovaPupli({ }) {
+export default function NovaPupli() {
 
     const [titulo, setTitulo] = useState("");
     const [midia, setMidia] = useState("");
@@ -14,7 +14,7 @@ export default function NovaPupli({ }) {
     const [deubom, setDeubom] = useState(false);
     const [error, setError] = useState(false);
 
-    async function SalvarPupli(setVoltarD) {
+    async function SalvarPupli() {
 
         if (titulo != "" || descricao != "") {
             fetch('http://10.139.75.99:5251/api/Publicacoes/InsertPublicacao', {
@@ -47,9 +47,7 @@ export default function NovaPupli({ }) {
     return (
         <ScrollView  >
 
-            <TouchableOpacity style={css.btnV} onPress={() => { setVoltarD(false); }}>
-                <Text style={css.btnLoginTextV}>Voltar</Text>
-            </TouchableOpacity>
+           
 
             <View style={css.caixamaior}>
 
