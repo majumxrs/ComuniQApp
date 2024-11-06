@@ -4,15 +4,17 @@ export const AuthContext = createContext(0);
 
 function AuthProvider({ children }) {
     const [id, setId] = useState()
-    const [logado, setLogado] = useState(true);
+    const [logado, setLogado] = useState(false);
     const [error, setError] = useState(false);
     const [user, SetUser] = useState(false);
     const [menRecupSenha, setMenReupSenha] = useState(true);
+    const [ camera, setCamera ]= useState(false);
+    const [ fotoSalva, setFotoSalva ] = useState(false);
 
     async function Login(email, senha) {
 
         if (email != "" && senha != "") {
-            await fetch('http://10.139.75.27:5251/api/Usuarios/Login', {
+            await fetch('http://10.139.75.25:5251/api/Usuarios/Login', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json; charset=UTF-8'
@@ -47,7 +49,11 @@ function AuthProvider({ children }) {
             menRecupSenha: menRecupSenha,
             user: user,
             setLogado,
-            id: id
+            id: id,
+            camera: camera,
+            fotoSalva: fotoSalva,
+            setCamera,
+            setFotoSalva
         }}>
             {children}
         </AuthContext.Provider>

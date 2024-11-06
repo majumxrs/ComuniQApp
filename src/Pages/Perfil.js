@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Button, Image, TouchableOpacity } from 'react-n
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../Context/AuthContext'
 
-export default function Inserir() {
+export default function Inserir({navigation}) {
   const [nome, setNome] = useState();
   const [sobrenome, setSobrenome] = useState();
   const [apelido, setApelido] = useState();
@@ -100,7 +100,7 @@ export default function Inserir() {
           <Text style={css.tit}>Bairro</Text>
           <Text>{bairro}</Text>
         </View>
-        <TouchableOpacity style={css.btn}>
+        <TouchableOpacity style={css.btn} onPress={() => navigation.navigate("Editar Perfil")}>
           <Text style={css.txtbtn}>Editar Perfil</Text>
         </TouchableOpacity>
         <TouchableOpacity style={css.btn}>

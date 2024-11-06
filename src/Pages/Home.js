@@ -97,6 +97,7 @@ export default function Home({ navigation }) {
     })
       .then(res => res.json())
       .then(json => {
+        console.log()
         setPublicacao(json);
       })
 

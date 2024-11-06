@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, Button, Image, TouchableOpacity, TextInput } fr
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../Context/AuthContext'
 
-export default function Inserir() {
+export default function EditarPerfil() {
   const [nome, setNome] = useState();
   const [sobrenome, setSobrenome] = useState();
   const [apelido, setApelido] = useState();
