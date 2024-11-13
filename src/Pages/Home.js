@@ -149,11 +149,10 @@ export default function Home({ navigation }) {
                     }
                 </>
             }
-            <>
+         
             {novapupli &&
                 <Nova setNovaOutro={setNovaOutro} setNovacampanha={setNovacampanha} setNovadenuncia={setNovadenuncia} setNovapupli={setNovapupli} />
             }
-            </>
             {novacampanha && <NovaCamp setnovacampanha={setNovacampanha} />}
             {novadenuncia && <NovaDenucia setNovadenuncia={setNovadenuncia} />}
             {novaOutro && <NovaPupli setNovaOutro={setNovaOutro} />}

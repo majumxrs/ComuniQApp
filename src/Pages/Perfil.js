@@ -1,6 +1,8 @@
 import { View, Text, StyleSheet, Button, Image, TouchableOpacity } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../Context/AuthContext'
+import EditarPerfil from './EditarPerfil';
+import { useFocusEffect } from '@react-navigation/native';
 
 export default function Inserir({navigation}) {
   const [nome, setNome] = useState();
@@ -8,14 +10,16 @@ export default function Inserir({navigation}) {
   const [apelido, setApelido] = useState();
   const [email, setEmail] = useState();
   const [telefone, setTelefone] = useState();
-  const [cpf, setCpf] = useState();
+  const [CPF, setCpf] = useState();
   const [cep, setCep] = useState();
   const [bairro, setBairro] = useState();
   const [cidade, setCidade] = useState();
   const [foto, setFoto] = useState();
+  const { setLogado, id, Login, setEditPerfil, editPerfil, cpf , GetCPF, fotoNova} = useContext(AuthContext);
  
   async function infoUsuario() {
-    await fetch('http://10.139.75.25:5251/api/Usuarios/GetUsuarioId/' + id, {
+    GetCPF();
+    await fetch(process.env.EXPO_PUBLIC_URL +'/api/Usuarios/GetUsuarioId/' + id, {
       method: 'GET',
       headers: {
         'content-type': 'application/json'
@@ -34,17 +38,23 @@ export default function Inserir({navigation}) {
           setBairro(json.usuarioBairro);
           setCidade(json.usuarioCidade);
           setFoto(json.usuarioFoto);
+          console.log(foto)
         }
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err +" erro"))
   }
-  const conversorimg = () => {
-    return `data:image/jpeg;base64,${foto}`
-}
-  useEffect(() => {
-    infoUsuario()
-  }, [])
-  const { setLogado, id, Login/* nome, sobrenome, apelido, email, telefone, cpf, cep, bairro, cidade, foto */ } = useContext(AuthContext);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      infoUsuario()
+    }, [])
+  )
+ 
+  if(editPerfil == true){
+    return(
+      <EditarPerfil/>
+    )
+  }
 
   return (
     <>
@@ -56,7 +66,7 @@ export default function Inserir({navigation}) {
       </View >
       <View style={css.container}>
         <View style={css.foto}>
-          <Image style={css.fotousu} source={{ uri: "https://comuniq.s3.amazonaws.com/" + foto  }} />
+          <Image style={css.fotousu} source={{ uri:"https://comuniq.s3.amazonaws.com/" + foto  }} />
         </View>
         <View style={css.parte1}>
           <View style={css.campo1}>
@@ -83,7 +93,7 @@ export default function Inserir({navigation}) {
           </View>
           <View style={css.campo5}>
             <Text style={css.tit}>CPF</Text>
-            <Text>{cpf}</Text>
+            <Text>{CPF}</Text>
           </View>
         </View>
         <View style={css.parte1}>
@@ -100,7 +110,7 @@ export default function Inserir({navigation}) {
           <Text style={css.tit}>Bairro</Text>
           <Text>{bairro}</Text>
         </View>
-        <TouchableOpacity style={css.btn} onPress={() => navigation.navigate("Editar Perfil")}>
+        <TouchableOpacity style={css.btn} onPress={() => setEditPerfil(true)}>
           <Text style={css.txtbtn}>Editar Perfil</Text>
         </TouchableOpacity>
         <TouchableOpacity style={css.btn}>
@@ -181,6 +191,7 @@ const css = StyleSheet.create({
   fotousu:{
     width:'100%',
     height:'100%',
+    resizeMode: "cover",
     borderRadius: 100,
   },
   btn: {
