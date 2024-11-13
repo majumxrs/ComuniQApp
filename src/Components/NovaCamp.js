@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 
 import React, { useContext, useEffect, useState } from 'react'
 import RNPickerSelect from 'react-native-picker-select';
 
-export default function NovaDenucia({  setNovadenuncia }) {
+export default function NovaDenucia({  setNovacampanha }) {
 
     const [titulo, setTitulo] = useState("");
     const [midia, setMidia] = useState("");
@@ -48,7 +48,7 @@ export default function NovaDenucia({  setNovadenuncia }) {
     return (
         <ScrollView  >
 
-            <TouchableOpacity style={css.btnV} onPress={() => { console.log(setNovadenuncia(false)) ; }}>
+            <TouchableOpacity style={css.btnV} onPress={() => { setNovacampanha(false) ; }}>
                 <Text style={css.btnLoginTextV}>Voltar</Text>
             </TouchableOpacity>
 
@@ -56,7 +56,7 @@ export default function NovaDenucia({  setNovadenuncia }) {
 
                 <View style={css.container}>
 
-                    <Text style={css.mensagem} >O  que aconteceu:</Text>
+                    <Text style={css.mensagem} >O  que aconteceu:CAMP</Text>
                     <TextInput
                         style={css.input2}
                         textInput={titulo}

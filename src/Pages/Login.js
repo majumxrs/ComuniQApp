@@ -217,7 +217,7 @@ export default function Login({ navigation }) {
                             <TextInput
                                 inputMode="text"
                                 placeholder="Senha:"
-                                secureTextEntry={true}
+
                                 style={css.input}
                                 value={senha}
                                 onChangeText={(digitado) => setSenha(digitado)}
@@ -248,7 +248,7 @@ export default function Login({ navigation }) {
                             <TouchableOpacity style={css.btnLogin} onPress={RealizaLogin}>
                                 <Text style={css.btnLoginText}>Entrar</Text>
                             </TouchableOpacity>
-                            {error &&
+                            {error && 
                                 <View style={css.error}>
                                     <Text style={css.errorText}>Email ou Senha incorretos!</Text>
                                 </View>

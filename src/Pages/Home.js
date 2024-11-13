@@ -8,7 +8,7 @@ import Outros from '../Components/Outros';
 import HomeCom from '../Components/HomeComp';
 import Nova from '../Components/Nova';
 import NovaCamp from '../Components/NovaCamp';
-import NovaDenucia from '../Components/NovaCamp';
+import NovaDenucia from '../Components/NovaDenuncia';
 import NovaPupli from '../Components/NovaPupli';
 
 
@@ -148,12 +148,14 @@ export default function Home({ navigation }) {
                     }
                 </>
             }
-            <>
+         
             {novapupli &&
                 <Nova setNovaOutro={setNovaOutro} setNovacampanha={setNovacampanha} setNovadenuncia={setNovadenuncia} setNovapupli={setNovapupli} />
             }
-            </>
-            {novacampanha && <NovaCamp novacampanha={setNovacampanha} />}
+            
+            
+
+            {novacampanha && <NovaCamp setNovacampanha={setNovacampanha} />}
             {novadenuncia && <NovaDenucia setNovadenuncia={setNovadenuncia} />}
             {novaOutro && <NovaPupli />}
         </View>

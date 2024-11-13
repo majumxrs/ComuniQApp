@@ -37,7 +37,7 @@ function AuthProvider({ children }) {
                 )
                 .catch(err => setError(true))
         } else {
-            setError(true)
+            console.log(setError(true))
         }
     }
 

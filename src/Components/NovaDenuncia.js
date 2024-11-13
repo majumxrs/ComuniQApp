@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 
 import React, { useContext, useEffect, useState } from 'react'
 import RNPickerSelect from 'react-native-picker-select';
 
-export default function NovaDenucia({ setNovadenuncia}) {
+export default function NovaDenucia({ setNovadenuncia} ) {
 
     const [titulo, setTitulo] = useState("");
     const [midia, setMidia] = useState("");
