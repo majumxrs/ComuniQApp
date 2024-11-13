@@ -72,7 +72,7 @@ export default function TelaCamera() {
                 </>
                 :
                 /*Parte qu dei errad*/
-                <Text>Deu Errado</Text>}
+                <Text>Algo Deu Errado</Text>}
 
             {(foto && permissao) &&
                 <Modal
@@ -101,7 +101,7 @@ export default function TelaCamera() {
 const css = StyleSheet.create({
     camera: {
         width: "100%",
-        height: "75.5%",
+        height: "75.4%",
         resizeMode: 'contain'
     },
 
