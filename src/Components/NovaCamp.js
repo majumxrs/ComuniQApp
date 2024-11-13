@@ -143,12 +143,11 @@ const css = StyleSheet.create({
         padding: 10,
     },
     container: {
-        width: "90%",
+        width: "100%",
         height: 600,
         backgroundColor: "#D9D9D9",
         display: "flex",
         alignItems: "center",
-
     },
 
     btn: {

@@ -8,8 +8,11 @@ export default function Denuncia({ item }) {
     const [comentarioTexto, setComentarioTexto] = useState("");
     const [usuarioId, setUsuarioId] = useState(0);
     const [publicacaoId, setPublicacaoId] = useState(0);
-
+    const [expandido, setExpandido] = useState(false);
     const { id } = useContext(AuthContext);
+
+    const limiteCaracteres = 100;
+    const descricao = item.campanhaDescricao || item.publicacaoDescricao || item.denunciaDescricao || '';
 
     async function SalvarObs() {
         await fetch(process.env.EXPO_PUBLIC_URL + '/InsertComentario ', {
@@ -64,9 +67,18 @@ export default function Denuncia({ item }) {
                 {item.campanhaMidia && <Image style={css.imagemG} source={{ uri: "http://comuniq.s3.amazonaws.com/" + item.campanhaMidia }} />}
             </View>
             <View style={css.CaixaTitulo}>
-                {item.campanhaDescricao && <Text style={css.title2}>{item.campanhaDescricao}</Text>}
-                {item.publicacaoDescricao && <Text style={css.title2}>{item.publicacaoDescricao}</Text>}
-                {item.denunciaDescricao && <Text style={css.title2}>{item.denunciaDescricao}</Text>}
+                {descricao && (
+                    <View>
+                        <Text style={css.title2}>
+                            {expandido ? descricao : descricao.substring(0, limiteCaracteres) + '...'}
+                        </Text>
+                        <TouchableOpacity onPress={() => setExpandido(!expandido)}>
+                            <Text style={css.botaoVerMais}>
+                                {expandido ? 'Ver menos' : 'Ver mais'}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
             </View>
             <View>
                 {item.publicacaoId &&
@@ -174,6 +186,10 @@ const css = StyleSheet.create({
         marginTop: 10,
         marginLeft:10,
         padding:5
+      },
+      botaoVerMais:{
+        color: "blue",
+
       },
 
 })
