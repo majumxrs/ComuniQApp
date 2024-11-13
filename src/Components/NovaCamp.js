@@ -1,23 +1,30 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
-import RNPickerSelect from 'react-native-picker-select';
+import SelectCampanha from './SelectCampanha';
+import SelectCidade from './SelectCidade';
 
-export default function NovaDenucia({ setnovacampanha }) {
+export default function NovaCamp({ setnovacampanha }) {
 
     const [titulo, setTitulo] = useState("");
     const [midia, setMidia] = useState("");
     const [descricao, setDescricao] = useState("");
 
-    const [puplicacaId, setPuplicacaoId] = useState([]);
-    const [bairroId, setBairro] = useState([]);
+    const [cidades, setCidades] = useState();
+    const [cidade, setCidade] = useState();
+
+    const [TipoDenuciaNome, setTipoDenunciaNome] = useState("");
+    const [bairros, setBairros] = useState();
+    const [bairro, setBairro ] = useState();
+    const [TipoNovaCampanha, SetTipoNovaCampanha] = useState();
+    const [TipoNovaCampanhas, SetTipoNovaCampanhas] = useState();
 
     const [deubom, setDeubom] = useState(false);
     const [error, setError] = useState(false);
 
-    async function SalvarCamp(setNovapupli) {
+    async function SalvarCamp() {
 
         if (titulo != "" || descricao != "") {
-            fetch('http://10.139.75.99:5251/api/Campanhas/InsertCampanha', {
+            fetch( process.env.EXPO_PUBLIC_URL + '/api/Campanhas/InsertCampanha', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
@@ -26,24 +33,80 @@ export default function NovaDenucia({ setnovacampanha }) {
                     campanhaTitulo: titulo,
                     //campanhaMidia: midia,
                     campanhaDescricao: descricao,
-                    tipoCampanhaId: puplicacaId,
-                    cidadeId: bairroId,
+                    tipoCampanhaId: TipoNovaCampanha.tipoCampanhaId,
+                    cidadeId: cidade.cidadeId,
                 })
             })
                 .then((res) => res.json())
                 .then((json) => {
+                    console.log( json );
                     if (json) {
 
                         setDeubom(true);
                         setError(false);
                     }
                 })
-                .catch(err => setError(true), setNovapupli(false))
+                .catch(err => { setError(true); } )
         } else {
             setError(true)
             setDeubom(false)
         }
     }
+    async function getCidades() {
+        fetch(process.env.EXPO_PUBLIC_URL + '/api/Cidades/GetAllCidades', {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then((res) => res.json())
+            .then((json) => {
+                if (json) {
+                    setCidades(json);
+                }
+            })
+            .catch(err => { setError(true); setDeubom(false); })
+    }
+
+    async function getTipoDenuncia() {
+        fetch(process.env.EXPO_PUBLIC_URL + '/GetAllTipoDenuncias', {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then((res) => res.json())
+            .then((json) => {
+                if (json) {
+                    setTipoDenunciaNome(json);
+                }
+            })
+            .catch(err => { setError(true); setDeubom(false); })
+    }
+
+    async function getTipoCampanha() {
+        fetch(process.env.EXPO_PUBLIC_URL + '/api/TipoCampanhas/GetAllTipoCampanhas', {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then((res) => res.json())
+            .then((json) => {
+                if (json) {
+                    SetTipoNovaCampanhas(json);
+                }
+            })
+            .catch(err => { setError(true); setDeubom(false); })
+    }
+
+
+
+    useEffect(() => {
+        getCidades();
+        getTipoDenuncia();
+        getTipoCampanha();
+    }, [])
 
     return (
         <ScrollView  >
@@ -51,59 +114,37 @@ export default function NovaDenucia({ setnovacampanha }) {
                 <Text style={css.BTNVoltar} onPress={() => { setnovacampanha(false) }}>❮</Text>
             </TouchableOpacity>
             <View style={css.caixamaior}>
-
                 <View style={css.container}>
-
-                    <Text style={css.mensagem} >O  que aconteceu:CAMP</Text>
+                    <Text></Text>
                     <TextInput
                         style={css.input2}
                         textInput={titulo}
                         value={titulo}
                         onChangeText={(digitado) => setTitulo(digitado)}
-                        placeholder="Titulo da sua Puplicação:"
-                        placeholderTextColor="white"
+                        placeholder="O que aconteceu:"
+                        placeholderTextColor="black"
                     />
-
-                    <Text style={css.mensagem} >Descreva o ocorrido:</Text>
+                    <Text></Text>
                     <TextInput
                         style={css.input2}
                         textInput={descricao}
                         value={descricao}
                         onChangeText={(digitado) => setDescricao(digitado)}
-                        placeholder="Titulo da sua Puplicação:"
-                        placeholderTextColor="white"
+                        placeholder="Descreva a campanha:"
+                        placeholderTextColor="black"
                     />
-
-                    <Text style={css.mensagem} >Qual Bairro?</Text>
-                    <RNPickerSelect
-
-                        onValueChange={(setBairro)}
-                        items={[
-                            { label: 'Centro', value: 1 },
-                            { label: 'Bertolini', value: 2 },
-                            { label: 'Jardim flores', value: 3 },
-                        ]}
-                    />
-
-                    <Text style={css.mensagem} >Qual tipo da campanha?</Text>
-                    <RNPickerSelect
-
-                        onValueChange={(setPuplicacaoId)}
-                        items={[
-                            { label: 'institucional	', value: 1 },
-                            { label: 'promocional', value: 2 },
-                            { label: 'comunitárias', value: 3 },
-                        ]}
-                    />
-
+                    <Text></Text>
+                    <SelectCidade data={cidades} setCidade={setCidade} />
+                    <Text></Text>
+                    <SelectCampanha data={TipoNovaCampanhas} SetTipoNovaCampanha={SetTipoNovaCampanha} />
                     {deubom &&
                         <>
-                            <Text style={css.deuBom}>DEU Bom porra!</Text>
+                            <Text style={css.deuBom}>Nova campanha realizada com sucesso!</Text>
                         </>
                     }
                     {error &&
                         <>
-                            <Text style={css.deuRuim} >DEU error seu otario</Text>
+                            <Text style={css.deuRuim} >Não foi possivel realizar a nova campanha!</Text>
                         </>
                     }
 
@@ -134,20 +175,21 @@ const css = StyleSheet.create({
     input2: {
         width: 350,
         height: 50,
-        borderColor: "#000",
+        borderColor: "#20343F",
         borderRadius: 15,
-        borderWidth: 2,
-        backgroundColor: "#B3B3B3",
+        backgroundColor: "#fff",
         marginBottom: 5,
         marginTop: 5,
         padding: 10,
     },
     container: {
-        width: "100%",
-        height: 600,
-        backgroundColor: "#D9D9D9",
-        display: "flex",
+        backgroundColor: "#B3B3B3",
+        flexGrow: 1,
+        color: "white",
         alignItems: "center",
+        width: 380,
+        borderRadius: 10,
+        height:400
     },
 
     btn: {
