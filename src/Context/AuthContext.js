@@ -5,7 +5,7 @@ export const AuthContext = createContext(0);
 function AuthProvider({ children }) {
     const [id, setId] = useState()
     const [logado, setLogado] = useState(false);
-    const [error, setError] = useState(false);
+    const [error, setError] = useState(null);
     const [user, SetUser] = useState(false);
     const [menRecupSenha, setMenReupSenha] = useState(true);
     const [ camera, setCamera ]= useState(false);
@@ -16,6 +16,7 @@ function AuthProvider({ children }) {
     const [ cpf, setCPF ] = useState();
 
     async function Login(email, senha) {
+        setError(null);
 
         if (email != "" && senha != "") {
             await fetch(process.env.EXPO_PUBLIC_URL + '/api/Usuarios/Login', {
@@ -37,11 +38,13 @@ function AuthProvider({ children }) {
                         SetUser(json);
                         setLogado(true);
                     }
-                }
-                )
-                .catch(err => setError(true))
+                    else {
+                        setError(json.message || 'Email ou senha incorretos.');
+                    }
+                })
+                .catch(err => setError('Erro ao conectar com o servidor.')); 
         } else {
-            setError(true)
+            setError('Por favor, preencha todos os campos.');
         }
     }
     async function GetCPF() {

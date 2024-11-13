@@ -27,6 +27,8 @@ export default function Login({ navigation }) {
 
     function RealizaLogin() {
         Login(email, senha);
+        setEmail('');
+        setSenha('');
     }
 
     async function SalvarCadastro() {
@@ -56,17 +58,17 @@ export default function Login({ navigation }) {
             .then(json => {
                 setCadastrado(true);
                 setDeuerro(false);
-                // usuarioNome: setNome( "" )
-                // usuarioSobrenome: setSobrenome( "" )
-                // usuarioApelido: setApelido( "" )
-                // usuarioEmail: setEmail( "" )
-                // usuarioTelefone: setTelefone( "" )
-                // usuarioCPF: setCpf( "" )
-                // usuarioCEP: setCep( "" )
-                // usuarioCidade: setCidade( "" )
-                // usuarioBairro: setBairro( "" )
-                // usuarioEstado: setEstado( "" )
-                // usuarioSenha: setSenha( "" )
+                setNome('');
+                setSobrenome('');
+                setApelido('');
+                setEmail('');
+                setTelefone('');
+                setCpf('');
+                setCep('');
+                setCidade('');
+                setBairro('');
+                setEstado('');
+                setSenha('');
             })
             .catch(err => setDeuerro(true), setCadastrado(false))
     }
@@ -180,9 +182,9 @@ export default function Login({ navigation }) {
                                         placeholderTextColor="white"
                                     />
 
-                                    {cadastrado && <>  <Text style={css.texto}>Cadastrado com sucesso!</Text> </>}
+                                    {cadastrado ? <Text style={css.texto}>Cadastrado com sucesso!</Text> : null}
 
-                                    {deuerro && <>    <Text style={css.texto}>Erro ao cadastrar!</Text> </>}
+                                    {deuerro ? <Text style={css.texto}>Erro ao cadastrar!</Text> : null}
 
 
                                     <View style={css.PaiCadastrar2}>
@@ -214,7 +216,7 @@ export default function Login({ navigation }) {
                             <TextInput
                                 inputMode="text"
                                 placeholder="Senha:"
-                                secureTextEntry={true}
+
                                 style={css.input}
                                 value={senha}
                                 onChangeText={(digitado) => setSenha(digitado)}
@@ -247,11 +249,11 @@ export default function Login({ navigation }) {
                             <TouchableOpacity style={css.btnLogin} onPress={RealizaLogin}>
                                 <Text style={css.btnLoginText}>Entrar</Text>
                             </TouchableOpacity>
-                            {error &&
+                            {error && (
                                 <View style={css.error}>
-                                    <Text style={css.errorText}>Email ou Senha incorretos!</Text>
+                                    <Text style={css.errorText}>{error}</Text>
                                 </View>
-                            }
+                            )}
                             <View>
                                 <View style={css.ou}>
                                     <Text style={css.outexto}>Ou</Text>
@@ -432,5 +434,12 @@ const css = StyleSheet.create({
         fontSize: 30,
         fontWeight: "400",
     },
+    error: {
+        width: "100%",
+        height: 50,
+        marginTop: 30,
+        color: 'red',
+        justifyContent: 'center',
+    }
 
 })
