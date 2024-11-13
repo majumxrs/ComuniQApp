@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import Select from './Select';
+import { AuthContext } from '../Context/AuthContext';
 
 export default function NovaPupli({ setNovaOutro }) {
 
@@ -28,7 +29,9 @@ export default function NovaPupli({ setNovaOutro }) {
                     publicacaoTitulo: titulo,
                     //publicacaoMidia: midia,
                     publicacaoDescricao: descricao,
-                    bairroId: bairroId,
+                    bairroId: bairro,
+                    
+                    
                 })
             })
                 .then((res) => res.json())
@@ -39,7 +42,7 @@ export default function NovaPupli({ setNovaOutro }) {
                         setError(false);
                     }
                 })
-                .catch(err => setError(true), setDeubom(false))
+                .catch(err => console.log(err))
         } else {
             setError(true)
             setDeubom(false)

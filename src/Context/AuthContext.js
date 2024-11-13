@@ -40,11 +40,7 @@ function AuthProvider({ children }) {
                 })
                 .catch(err => setError('Erro ao conectar com o servidor.')); 
         } else {
-<<<<<<< HEAD
-            console.log(setError(true))
-=======
             setError('Por favor, preencha todos os campos.');
->>>>>>> 032c3fe760272db6352f51c808a4e97f5bfc79de
         }
     }
 

@@ -2,11 +2,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 
 import React, { useContext, useEffect, useState } from 'react'
 import RNPickerSelect from 'react-native-picker-select';
 
-<<<<<<< HEAD
-export default function NovaDenucia({  setNovacampanha }) {
-=======
-export default function NovaDenucia({ setnovacampanha }) {
->>>>>>> 032c3fe760272db6352f51c808a4e97f5bfc79de
+export default function NovaCamps({ setNovapupli, setnovacampanha }) {
 
     const [titulo, setTitulo] = useState("");
     const [midia, setMidia] = useState("");
@@ -18,10 +14,10 @@ export default function NovaDenucia({ setnovacampanha }) {
     const [deubom, setDeubom] = useState(false);
     const [error, setError] = useState(false);
 
-    async function SalvarCamp(setNovapupli) {
+    async function SalvarCamp() {
 
-        if (titulo != "" || descricao != "") {
-            fetch('http://10.139.75.99:5251/api/Campanhas/InsertCampanha', {
+        if (titulo != " " || descricao != " ") {
+            fetch(process.env.EXPO_PUBLIC_URL + '/api/Campanhas/InsertCampanha', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
@@ -42,7 +38,7 @@ export default function NovaDenucia({ setnovacampanha }) {
                         setError(false);
                     }
                 })
-                .catch(err => setError(true), setNovapupli(false))
+                .catch(err => setError(true))
         } else {
             setError(true)
             setDeubom(false)
@@ -51,16 +47,12 @@ export default function NovaDenucia({ setnovacampanha }) {
 
     return (
         <ScrollView  >
-<<<<<<< HEAD
-
-            <TouchableOpacity style={css.btnV} onPress={() => { setNovacampanha(false) ; }}>
-                <Text style={css.btnLoginTextV}>Voltar</Text>
-=======
             <TouchableOpacity>
                 <Text style={css.BTNVoltar} onPress={() => { setnovacampanha(false) }}>❮</Text>
->>>>>>> 032c3fe760272db6352f51c808a4e97f5bfc79de
             </TouchableOpacity>
             <View style={css.caixamaior}>
+
+                <Text>Ola teste </Text>
 
                 <View style={css.container}>
 
