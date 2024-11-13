@@ -2,8 +2,9 @@ import { View, Text, StyleSheet, Button, Image, TouchableOpacity, TextInput, Mod
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../Context/AuthContext'
 import TelaCamera from '../Components/Camera';
-import Galeria from '../Components/Galeria';
 import { useFocusEffect } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 
 export default function EditarPerfil() {
   const [nome, setNome] = useState();
@@ -17,38 +18,16 @@ export default function EditarPerfil() {
   const [cidade, setCidade] = useState();
   const [estado, setEstado] = useState();
   const [senha, setSenha] = useState();
+  const [novaFoto, setNovaFoto] = useState();
   const [foto, setFoto] = useState();
-  const [novaFoto, setNovaFoto] = useState(false);
+  const [image, setImage] = useState(null);
+  const [blob, setBlob] = useState();
 
-  const { id, Login, setCamera, setGaleria, camera, galeria, setEditPerfil, cpf , GetCPF, fotoNova, setFotoNova} = useContext(AuthContext);
-  async function infoUsuario() {
-    GetCPF()
-    await fetch(process.env.EXPO_PUBLIC_URL + '/api/Usuarios/GetUsuarioId/' + id, {
-      method: 'GET',
-      headers: {
-        'content-type': 'application/json'
-      }
-    })
-      .then(res => res.json())
-      .then(json => {
-        if (Login) {
-          setNome(json.usuarioNome);
-          setSobrenome(json.usuarioSobrenome);
-          setApelido(json.usuarioApelido);
-          setEmail(json.usuarioEmail);
-          setTelefone(json.usuarioTelefone);
-          setCpf(json.usuarioCPF);
-          setCep(json.usuarioCEP);
-          setBairro(json.usuarioBairro);
-          setCidade(json.usuarioCidade);
-          setEstado(json.usuarioEstado);
-          setSenha(json.usuarioSenha);
-          setFoto(json.usuarioFoto);
-          console.log(foto)
-        }
-      })
-      .catch(err => console.log(err + " erro"))
-  }
+  const { id, Login, setCamera, setGaleria, camera, galeria, setEditPerfil, user } = useContext(AuthContext);
+
+
+
+
 
   async function Salvar() {
     await fetch(process.env.EXPO_PUBLIC_URL + '/api/Usuarios/UpdateUsuario/' + id, {
@@ -66,7 +45,7 @@ export default function EditarPerfil() {
         usuarioCEP: cep,
         usuarioBairro: bairro,
         usuarioCidade: cidade,
-        usuarioFoto: fotoNova,
+        usuarioFoto: "usuario_" + user.usuarioCPF + ".jpg",
         usuarioEstado: estado,
         usuarioSenha: senha,
         tipoPerfilId: 1
@@ -77,32 +56,76 @@ export default function EditarPerfil() {
       .then(json => {
         alert("Perfil atualizado com sucesso");
         setEditPerfil(false);
+        setUser(json);
+
       })
       .catch(err => alert("Algo deu errado, por favor tente novamente"))
   }
 
+  useEffect(() => {
+    if (user) {
+      setNome(user.usuarioNome);
+      setSobrenome(user.usuarioSobrenome);
+      setApelido(user.usuarioApelido);
+      setEmail(user.usuarioEmail);
+      setTelefone(user.usuarioTelefone);
+      setCpf(user.usuarioCPF);
+      setCep(user.usuarioCEP);
+      setBairro(user.usuarioBairro);
+      setCidade(user.usuarioCidade);
+      setEstado(user.usuarioEstado);
+      setSenha(user.usuarioSenha);
+    }
+  }, [user])
+
+
+  async function pickImage() {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.5,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      const response = await fetch(result.assets[0].uri);
+      const blob = await response.blob();
+      setBlob(blob);
+    }
+  };
   
+  async function uploadPhoto() {
+    const S3 = new AWS.S3();
+    const object = {
+        Bucket: "comuniq",
+        Key: "usuario_" + user.usuarioCPF + ".jpg"
+    };
+    
+    const excluir = await S3.deleteObject( object ).promise();
+    const params = {
+        Bucket: "comuniq",
+        Key: "usuario_" + user.usuarioCPF + ".jpg",
+        Body: blob
+    };
+    const result = await S3.upload(params).promise();
+    if (result) {
+        setBlob(false);
+    }
+}
 
-  useFocusEffect(
-    React.useCallback(() => {
-      infoUsuario()
-    }, [])
-  )
-  if(camera == true){
-    setGaleria(false)
-    return(
-      <TelaCamera/>
+
+  useEffect( () => {
+    if( blob ) {
+      uploadPhoto();
+    }
+  }, [blob])
+
+  if (camera == true) {
+    return (
+      <TelaCamera />
     )
   }
-
-  if(galeria == true){
-    setCamera(false)
-    return(
-      <Galeria/>
-    )
-  }
-
-
 
   return (
     <>
@@ -113,26 +136,28 @@ export default function EditarPerfil() {
         />
       </View >
       <TouchableOpacity style={css.btnV} onPress={() => setEditPerfil(false)}>
-                <Text style={css.btnLoginTextV}>Voltar</Text>
-            </TouchableOpacity>
+        <Text style={css.btnLoginTextV}>Voltar</Text>
+      </TouchableOpacity>
 
       <View style={css.container}>
         <TouchableOpacity style={css.foto} onPress={() => setNovaFoto(true)}>
-          <Image style={css.fotousu} source={{ uri: "https://comuniq.s3.amazonaws.com/" + foto }} />
+          <Image style={css.fotousu} source={{ uri: "https://comuniq.s3.amazonaws.com/usuario_" + user.usuarioCPF + ".jpg?" + Math.random() }} />
         </TouchableOpacity>
         {novaFoto &&
           <Modal
-            animationType="slide">
-            <View>
-              <TouchableOpacity onPress={() => setCamera(true)}>
-                <Text>Câmera</Text>
+            animationType="slide"
+            transparent={true}>
+            <View style={css.popup}>
+              <TouchableOpacity style={css.btnpop} onPress={() => setCamera(true)}>
+                <Text style={css.txtpop}>Câmera</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => setGaleria(true)}>
-                <Text>Procurar foto existente</Text>
+              <TouchableOpacity style={css.btnpop} onPress={pickImage}>
+                <Text style={css.txtpop}>Procurar foto existente</Text>
               </TouchableOpacity>
-              <TouchableOpacity onPress={() => setNovaFoto(false)}>
-                <Text>fechar</Text>
+              <TouchableOpacity style={css.btnpop} onPress={() => setNovaFoto(false)}>
+                <Text style={css.txtpop}>Fechar</Text>
               </TouchableOpacity>
+              {image && <Image source={{ uri: image }} style={css.image} />}
             </View>
           </Modal>}
         <View style={css.parte1}>
@@ -271,5 +296,23 @@ const css = StyleSheet.create({
   txtbtn: {
     color: "#fff",
     fontSize: 17
+  },
+  image: {
+    width: 200,
+    height: 200,
+  },
+  popup: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#20343F',
+    borderRadius: 20,
+    width: '80%',
+    padding: 20,
+    margin: 'auto',
+  },
+  txtpop: {
+    color: "#fff",
+    padding: 8
   }
 })
