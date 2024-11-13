@@ -8,7 +8,7 @@ import Outros from '../Components/Outros';
 import HomeCom from '../Components/HomeComp';
 import Nova from '../Components/Nova';
 import NovaCamp from '../Components/NovaCamp';
-import NovaDenucia from '../Components/NovaCamp';
+import NovaDenucia from '../Components/NovaDenuncia';
 import NovaPupli from '../Components/NovaPupli';
 
 
@@ -139,6 +139,7 @@ export default function Home({ navigation }) {
                                 renderItem={({ item, index }) =>
                                     <HomeCom
                                         item={item}
+                                        navigation={navigation}
                                     />
                                 }
                                 keyExtractor={(item, index) => index}
@@ -153,9 +154,9 @@ export default function Home({ navigation }) {
                 <Nova setNovaOutro={setNovaOutro} setNovacampanha={setNovacampanha} setNovadenuncia={setNovadenuncia} setNovapupli={setNovapupli} />
             }
             </>
-            {novacampanha && <NovaCamp novacampanha={setNovacampanha} />}
+            {novacampanha && <NovaCamp setnovacampanha={setNovacampanha} />}
             {novadenuncia && <NovaDenucia setNovadenuncia={setNovadenuncia} />}
-            {novaOutro && <NovaPupli />}
+            {novaOutro && <NovaPupli setNovaOutro={setNovaOutro} />}
         </View>
 
     )
