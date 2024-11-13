@@ -47,9 +47,8 @@ export default function NovaDenucia({ setNovadenuncia} ) {
 
     return (
         <ScrollView  >
-
-            <TouchableOpacity style={css.btnV} onPress={() => { console.log(setNovadenuncia(false)) ; }}>
-                <Text style={css.btnLoginTextV}>Voltar</Text>
+            <TouchableOpacity>
+                <Text style={css.BTNVoltar} onPress={() => { setNovadenuncia(false) }}>❮</Text>
             </TouchableOpacity>
 
             <View style={css.caixamaior}>

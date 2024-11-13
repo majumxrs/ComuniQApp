@@ -11,7 +11,7 @@ export default function TelaCamera() {
     const [tipo, setTipo] = useState(CameraType.back);
     const [foto, setFoto] = useState("");
 
-    const CameraRef = useRef();
+    const CameraRef = useRef();P
 
     async function PermissaoCamera() {
         const { status } = await Camera.requestCameraPermissionsAsync();

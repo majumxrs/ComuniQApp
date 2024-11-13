@@ -139,6 +139,7 @@ export default function Home({ navigation }) {
                                 renderItem={({ item, index }) =>
                                     <HomeCom
                                         item={item}
+                                        navigation={navigation}
                                     />
                                 }
                                 keyExtractor={(item, index) => index}
@@ -152,12 +153,9 @@ export default function Home({ navigation }) {
             {novapupli &&
                 <Nova setNovaOutro={setNovaOutro} setNovacampanha={setNovacampanha} setNovadenuncia={setNovadenuncia} setNovapupli={setNovapupli} />
             }
-            
-            
-
-            {novacampanha && <NovaCamp setNovacampanha={setNovacampanha} />}
+            {novacampanha && <NovaCamp setnovacampanha={setNovacampanha} />}
             {novadenuncia && <NovaDenucia setNovadenuncia={setNovadenuncia} />}
-            {novaOutro && <NovaPupli />}
+            {novaOutro && <NovaPupli setNovaOutro={setNovaOutro} />}
         </View>
 
     )
