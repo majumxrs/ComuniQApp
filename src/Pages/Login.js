@@ -17,18 +17,13 @@ export default function Login({ navigation }) {
     const [CEP, setCep] = useState("");
     const [cidade, setCidade] = useState("");
     const [bairro, setBairro] = useState("");
-    const [estado, setEstado] = useState("");
-    const [senha, setSenha] = useState("");
-
+    const [estado, setEstado] = useState();
+    const [senha, setSenha] = useState();
     const [cadastrado, setCadastrado] = useState(false);
     const [deuerro, setDeuerro] = useState(false);
-
-
-
     const [cadastro, setCadastro] = useState(false);
     const [recupSenha, setRecupSenha] = useState(false);
-
-    const { Login, error } = useContext(AuthContext);
+    const { Login, error, setCPF } = useContext(AuthContext);
 
     function RealizaLogin() {
         Login(email, senha);
@@ -61,17 +56,17 @@ export default function Login({ navigation }) {
             .then(json => {
                 setCadastrado(true);
                 setDeuerro(false);
-                // usuarioNome: setNome( " " )
-                // usuarioSobrenome: setSobrenome( " " )
-                // usuarioApelido: setApelido( " " )
-                // usuarioEmail: setEmail( " " )
-                // usuarioTelefone: setTelefone( " " )
-                // usuarioCPF: setCpf( " " )
-                // usuarioCEP: setCep( " " )
-                // usuarioCidade: setCidade( " " )
-                // usuarioBairro: setBairro( " " )
-                // usuarioEstado: setEstado( " " )
-                // usuarioSenha: setSenha( " " )
+                // usuarioNome: setNome( "" )
+                // usuarioSobrenome: setSobrenome( "" )
+                // usuarioApelido: setApelido( "" )
+                // usuarioEmail: setEmail( "" )
+                // usuarioTelefone: setTelefone( "" )
+                // usuarioCPF: setCpf( "" )
+                // usuarioCEP: setCep( "" )
+                // usuarioCidade: setCidade( "" )
+                // usuarioBairro: setBairro( "" )
+                // usuarioEstado: setEstado( "" )
+                // usuarioSenha: setSenha( "" )
             })
             .catch(err => setDeuerro(true), setCadastrado(false))
     }
@@ -196,7 +191,7 @@ export default function Login({ navigation }) {
                                         </TouchableOpacity>
                                     </View>
 
-                                    </View>
+                                </View>
                             </ScrollView>
                         </SafeAreaView>
                     </>
@@ -213,6 +208,8 @@ export default function Login({ navigation }) {
                                 value={email}
                                 onChangeText={(digitado) => setEmail(digitado)}
                                 placeholderTextColor="white"
+                                autoCapitalize='none'
+                                autoCorrect={false}
                             />
                             <TextInput
                                 inputMode="text"
@@ -222,6 +219,8 @@ export default function Login({ navigation }) {
                                 value={senha}
                                 onChangeText={(digitado) => setSenha(digitado)}
                                 placeholderTextColor="white"
+                                autoCapitalize='none'
+                                autoCorrect={false}
                             />
                             <View style={css.ViewCadastrar}>
                                 <View style={css.forgot2}>

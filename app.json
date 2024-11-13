@@ -32,9 +32,15 @@
       [
         "expo-camera",
         {
-          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
-          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
+          "cameraPermission": "Permitir que ComuniQ acesse sua câmera",
+          "microphonePermission": "Permitir que ComuniQ acesse seu microfone",
           "recordAudioAndroid": true
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Permitir que ComuniQ acesse suas fotos"
         }
       ]
 

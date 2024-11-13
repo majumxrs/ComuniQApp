@@ -1,15 +1,27 @@
-import { Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, Modal, StyleSheet, Text, TouchableOpacity, View, Dimensions } from 'react-native'
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { AuthContext } from '../Context/AuthContext';
 import { Camera, CameraType } from 'expo-camera/legacy';
+import AWS from '../services/AWS';
+import * as FileSystem from 'expo-file-system';
 
 
 export default function TelaCamera() {
-    const { setCamera, fotoSalva, setFotoSalva } = useContext(AuthContext);
 
+    const { height, width } = Dimensions.get('window');
+
+    const screenRatio = height / width;
+
+    const { setCamera, setBlobBlob, cpf, setFotoNova } = useContext(AuthContext);
+
+    
     const [permissao, setPermissao] = useState(false);
     const [tipo, setTipo] = useState(CameraType.back);
-    const [foto, setFoto] = useState("");
+    const [foto, setFoto] = useState();
+    const [fotoOK, setFotoOK] = useState(false);
+    const [blob, setBlob] = useState();
+    const [aceite, setAceite] = useState();
+
 
     const CameraRef = useRef();
 
@@ -25,11 +37,51 @@ export default function TelaCamera() {
     }
 
     async function TirarFoto() {
-        const foto = await CameraRef.current.takePictureAsync();
-        setFoto(foto.uri);
-        setFotoSalva(foto);
+        setFoto(false);
+        setBlob(false);
+        setFotoOK(true);
+        const upload = await CameraRef.current.takePictureAsync({ quality: 0.5 });
+
+
+        if (upload) {
+            const base64Image = await FileSystem.readAsStringAsync(upload.uri, {
+                encoding: FileSystem.EncodingType.Base64,
+            });
+            setFoto(base64Image);
+            try {
+                const response = await fetch(upload.uri);
+                const blob = await response.blob();
+                setBlob(blob);
+            } catch (error) {
+                console.log(error)
+            }
+        }
     }
 
+
+    async function uploadPhoto() {
+        const S3 = new AWS.S3();
+        
+
+        const object = {
+            Bucket: "comuniq",
+            Key: "usuario_" + cpf + ".jpg"
+        };
+        
+        const excluir = await S3.deleteObject( object ).promise();
+        const params = {
+            Bucket: "comuniq",
+            Key: "usuario_" + cpf + ".jpg",
+            Body: blob
+        };
+        const result = await S3.upload(params).promise();
+        console.log(result)
+        if (result) {
+            setBlob(false);
+            setFotoOK( false );
+        }
+        setFotoNova(result.Key)
+    }
     useEffect(() => {
         PermissaoCamera();
     }, [])
@@ -43,19 +95,12 @@ export default function TelaCamera() {
             </View >
             {permissao ?
                 /*Parte que deu certo*/
-                <>
+                <View style={{ width: "100%", height: "85%" }}>
                     <Camera
                         style={css.camera}
                         type={tipo}
                         ref={CameraRef}
-                        ratio="16:9"
-                        onBarCodeScanned={scaned => {
-                            if (scaned.raw) {
-                                setQrcode(scaned.raw);
-                                console.log(scaned.raw);
-                            }
-                        }
-                        }
+                        ratio={screenRatio}
                     >
                     </Camera>
 
@@ -69,24 +114,21 @@ export default function TelaCamera() {
                             <Image style={css.Alternarimg} source={{ uri: "https://cdn-icons-png.flaticon.com/512/1837/1837541.png", }}></Image>
                         </TouchableOpacity>
                     </View>
-                </>
+                </View>
                 :
                 /*Parte qu dei errad*/
                 <Text>Algo Deu Errado</Text>}
 
-            {(foto && permissao) &&
+            {(fotoOK && permissao && foto) &&
                 <Modal
                     animationType="slide"
                     transparente={true}>
-                    <Image
-                        source={{ uri: foto }}
-                        style={css.fotinha}
-                    />
+                    {foto && <Image source={{ uri: `data:image/jpeg;base64,${foto}` }} style={css.fotinha} />}
                     <View style={css.botoes}>
-                        <TouchableOpacity style={css.btns} onPress={() => setFoto("")}>
+                        <TouchableOpacity style={css.btns} onPress={() => { uploadPhoto() }}>
                             <Image style={css.salvarimg} source={{ uri: "https://png.pngtree.com/png-vector/20231201/ourmid/pngtree-ok-icon-like-png-image_10804394.png", }}></Image>
                         </TouchableOpacity>
-                        <TouchableOpacity style={css.btns} onPress={() => setCamera(false)}>
+                        <TouchableOpacity style={css.btns} onPress={() => { setFotoOK(false) }}>
                             <Image style={css.cancelarimg2} source={{ uri: "https://cdn-icons-png.flaticon.com/512/126/126497.png", }}></Image>
                         </TouchableOpacity>
                     </View>
@@ -101,8 +143,8 @@ export default function TelaCamera() {
 const css = StyleSheet.create({
     camera: {
         width: "100%",
-        height: "75.4%",
-        resizeMode: 'contain'
+        height: "85%",
+        resizeMode: "center"
     },
 
     Alternarimg: {
@@ -139,7 +181,9 @@ const css = StyleSheet.create({
         alignItems: 'center',
         padding: 15,
         zIndex: 99,
-        position: 'relative',
+        position: 'absolute',
+        bottom: 0,
+        left: 0
 
     },
     cancelarimg: {
@@ -182,12 +226,13 @@ const css = StyleSheet.create({
     botoes: {
         display: 'flex',
         alignItems: 'center',
-        height: 600,
+        justifyContent: 'space-around',
+        flexDirection: 'row',
+        height: 350,
         backgroundColor: '#20343F',
-        padding: 20
     },
     caixa: {
-        height: 100,
+        height: "15%",
         width: "100%",
         backgroundColor: "#20343F",
         display: "flex",
