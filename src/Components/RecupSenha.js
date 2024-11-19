@@ -122,10 +122,6 @@ const css = StyleSheet.create({
         alignItems: "center",
         marginLeft: 105,
     },
-    tinyLogo: {
-        width: 10,
-        height: 10
-    },
     logo: {
         width: 180,
         height: 180,

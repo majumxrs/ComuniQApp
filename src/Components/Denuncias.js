@@ -6,7 +6,6 @@ export default function Denuncia({ denunciaMidia, denunciaDescricao }) {
         return `data:image/jpeg;base64,${denunciaMidia}`
     }
     return (
-
         <View style={css.container}>
             <View style={css.boxTitle}>
                 <Image style={css.Avatar}

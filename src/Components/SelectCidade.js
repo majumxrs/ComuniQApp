@@ -50,13 +50,6 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         color: '#000',
     },
-    dropdownButtonArrowStyle: {
-        fontSize: 28,
-    },
-    dropdownButtonIconStyle: {
-        fontSize: 28,
-        marginRight: 8,
-    },
     dropdownMenuStyle: {
         backgroundColor: '#E9ECEF',
         borderRadius: 8,
@@ -74,9 +67,5 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: '500',
         color: '#151E26',
-    },
-    dropdownItemIconStyle: {
-        fontSize: 28,
-        marginRight: 8,
     },
 });

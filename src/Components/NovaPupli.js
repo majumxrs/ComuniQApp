@@ -130,10 +130,6 @@ export default function NovaPupli({ setNovaOutro }) {
     )
 }
 const css = StyleSheet.create({
-    mensagem: {
-        margin: 10,
-        width: 320
-    },
     caixamaior: {
         display: "flex",
         justifyContent: "center",
@@ -180,13 +176,6 @@ const css = StyleSheet.create({
         marginTop: 50,
         backgroundColor: "#20343F",
         marginLeft: 20,
-    },
-    btnLoginTextV: {
-        lineHeight: 45,
-        textAlign: "center",
-        fontSize: 25,
-        fontWeight: "400",
-        color: "white"
     },
     deuBom: {
         color: "#008000"

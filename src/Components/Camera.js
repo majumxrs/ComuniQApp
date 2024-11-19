@@ -5,7 +5,6 @@ import { Camera, CameraType } from 'expo-camera/legacy';
 import AWS from '../services/AWS';
 import * as FileSystem from 'expo-file-system';
 
-
 export default function TelaCamera() {
 
     const { height, width } = Dimensions.get('window');
@@ -14,14 +13,12 @@ export default function TelaCamera() {
 
     const { setCamera, user } = useContext(AuthContext);
 
-    
     const [permissao, setPermissao] = useState(false);
     const [tipo, setTipo] = useState(CameraType.back);
     const [foto, setFoto] = useState();
     const [fotoOK, setFotoOK] = useState(false);
     const [blob, setBlob] = useState();
     const [aceite, setAceite] = useState();
-
 
     const CameraRef = useRef();
 
@@ -41,7 +38,6 @@ export default function TelaCamera() {
         setBlob(false);
         setFotoOK(true);
         const upload = await CameraRef.current.takePictureAsync({ quality: 0.5 });
-
 
         if (upload) {
             const base64Image = await FileSystem.readAsStringAsync(upload.uri, {
@@ -65,8 +61,7 @@ export default function TelaCamera() {
             Bucket: "comuniq",
             Key: "usuario_" + user.usuarioCPF + ".jpg"
         };
-        
-        const excluir = await S3.deleteObject( object ).promise();
+        const excluir = await S3.deleteObject(object).promise();
         const params = {
             Bucket: "comuniq",
             Key: "usuario_" + user.usuarioCPF + ".jpg",
@@ -75,7 +70,7 @@ export default function TelaCamera() {
         const result = await S3.upload(params).promise();
         if (result) {
             setBlob(false);
-            setFotoOK( false );
+            setFotoOK(false);
         }
     }
 
@@ -100,7 +95,6 @@ export default function TelaCamera() {
                         ratio={screenRatio}
                     >
                     </Camera>
-
                     <View style={css.barraFoto}>
                         <TouchableOpacity style={css.cancelar} onPress={() => setCamera(false)}>
                             <Image style={css.cancelarimg} source={{ uri: "https://cdn-icons-png.flaticon.com/512/93/93634.png", }}></Image>
@@ -115,7 +109,6 @@ export default function TelaCamera() {
                 :
                 /*Parte qu dei errad*/
                 <Text>Algo Deu Errado</Text>}
-
             {(fotoOK && permissao && foto) &&
                 <Modal
                     animationType="slide"
@@ -130,20 +123,34 @@ export default function TelaCamera() {
                         </TouchableOpacity>
                     </View>
                 </Modal>
-
             }
-
         </View>
     )
 }
 
 const css = StyleSheet.create({
+    caixa: {
+        height: "15%",
+        width: "100%",
+        backgroundColor: "#20343F",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    tinyLogo: {
+        width: '100%',
+        height: '100%'
+    },
+    btnLogo: {
+        height: 60,
+        width: "25%",
+        marginTop: 15,
+    },
     camera: {
         width: "100%",
         height: "85%",
         resizeMode: "center"
     },
-
     Alternarimg: {
         width: 40,
         height: 40
@@ -227,22 +234,5 @@ const css = StyleSheet.create({
         flexDirection: 'row',
         height: 350,
         backgroundColor: '#20343F',
-    },
-    caixa: {
-        height: "15%",
-        width: "100%",
-        backgroundColor: "#20343F",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center"
-    },
-    tinyLogo: {
-        width: '100%',
-        height: '100%'
-    },
-    btnLogo: {
-        height: 60,
-        width: "25%",
-        marginTop: 15,
     },
 })
