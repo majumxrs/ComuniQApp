@@ -4,16 +4,14 @@ export const AuthContext = createContext(0);
 
 function AuthProvider({ children }) {
     const [id, setId] = useState()
-    const [logado, setLogado] = useState(false);
+    const [logado, setLogado] = useState(true);
     const [error, setError] = useState(null);
     const [user, SetUser] = useState(false);
     const [menRecupSenha, setMenReupSenha] = useState(true);
     const [ camera, setCamera ]= useState(false);
     const [ fotoNova, setFotoNova ] = useState();
-    const [ galeria, setGaleria ]= useState(false);
     const [ editPerfil, setEditPerfil ]= useState(false);
     const [ blobblob, setBlobBlob ] = useState();
-    const [ cpf, setCPF ] = useState();
 
     async function Login(email, senha) {
         setError(null);
@@ -47,22 +45,6 @@ function AuthProvider({ children }) {
             setError('Por favor, preencha todos os campos.');
         }
     }
-    async function GetCPF() {
-        await fetch(process.env.EXPO_PUBLIC_URL +'/api/Usuarios/GetUsuarioId/' + id, {
-            method: 'GET',
-            headers: {
-              'content-type': 'application/json'
-            }
-          })
-            .then(res => res.json())
-            .then(json => {
-              if (Login) {
-                setCPF(json.usuarioCPF);
-                console.log(cpf + " cpf")
-              }
-            })
-            .catch(err => console.log(err))
-    }
 
     return (
         <AuthContext.Provider value={{
@@ -77,13 +59,8 @@ function AuthProvider({ children }) {
             fotoNova: fotoNova,
             setCamera,
             setFotoNova,
-            galeria: galeria,
-            setGaleria,
             editPerfil: editPerfil,
-            setEditPerfil,
-            cpf: cpf,
-            setCPF,
-            GetCPF,
+            setEditPerfil
         }}>
             {children}
         </AuthContext.Provider>

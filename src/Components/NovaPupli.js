@@ -1,16 +1,18 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
+<<<<<<< HEAD
 import Select from './Select';
 import { AuthContext } from '../Context/AuthContext';
 import { idText } from 'typescript';
+=======
+import Select from './SelectOutros';
+>>>>>>> 421cca05a625a3ec3898a542ace3b78e4d8eb005
 
 export default function NovaPupli({ setNovaOutro }) {
 
     const [titulo, setTitulo] = useState("");
     const [midia, setMidia] = useState("");
     const [descricao, setDescricao] = useState("");
-
-    const [denunciaId, setDenunciaId] = useState([]);
 
     const [deubom, setDeubom] = useState(false);
     const [error, setError] = useState(false);
@@ -85,34 +87,35 @@ export default function NovaPupli({ setNovaOutro }) {
             <View style={css.caixamaior}>
 
                 <View style={css.container}>
+                <Text></Text>
                     <TextInput
                         style={css.input2}
                         textInput={titulo}
                         value={titulo}
                         onChangeText={(digitado) => setTitulo(digitado)}
-                        placeholder="O  que aconteceu:"
-                        placeholderTextColor="white"
+                        placeholder="O que aconteceu:"
+                        placeholderTextColor="black"
                     />
+                    <Text></Text>
                     <TextInput
                         style={css.input2}
                         textInput={descricao}
                         value={descricao}
                         onChangeText={(digitado) => setDescricao(digitado)}
                         placeholder="Descreva o ocorrido:"
-                        placeholderTextColor="white"
+                        placeholderTextColor="black"
                     />
-
-                    <Text style={css.mensagem} >Qual Bairro?</Text>
+                    <Text></Text>
                     <Select data={bairros} setBairro={setBairro} />
 
                     {deubom &&
                         <>
-                            <Text style={css.deuBom}>DEU Bom porra!</Text>
+                            <Text style={css.deuBom}>Nova publicão realizada com sucesso!</Text>
                         </>
                     }
                     {error &&
                         <>
-                            <Text style={css.deuRuim} >DEU error seu otario</Text>
+                            <Text style={css.deuRuim} >Não foi possivel realizar a nova publicação!</Text>
                         </>
                     }
 
@@ -138,15 +141,14 @@ const css = StyleSheet.create({
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 10,
+        marginTop: 35,
     },
     input2: {
         width: 350,
         height: 50,
         borderColor: "#20343F",
         borderRadius: 15,
-        borderWidth: 2,
-        backgroundColor: "#B3B3B3",
+        backgroundColor: "#fff",
         marginBottom: 5,
         marginTop: 5,
         padding: 10,
@@ -157,7 +159,8 @@ const css = StyleSheet.create({
         color: "white",
         alignItems: "center",
         width: 380,
-        borderRadius: 10
+        borderRadius: 10,
+        height:340
     },
     btn: {
         width: 300,
