@@ -224,7 +224,7 @@ const css = StyleSheet.create({
         marginLeft: 10,
     },
     btnCamp: {
-        width: 120,
+        width: 125,
         height: 50,
         borderRadius: 10,
         backgroundColor: "#20343F",

@@ -1,39 +1,47 @@
-import { View, Text, StyleSheet, Image, TouchableOpacity, Button, TextInput } from 'react-native'
-import React, { useContext, useState } from 'react'
+import { View, Text, StyleSheet, Image, TouchableOpacity, Button, TextInput, FlatList } from 'react-native'
+import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../Context/AuthContext';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 export default function Denuncia({ item }) {
     const [comentario, setComentario] = useState(false);
-    const [comentarioTexto, setComentarioTexto] = useState("");
+    const [comentarios, setComentarios] = useState();
+    const [comentarioTexto, setComentarioTexto] = useState([]);
+    const [usuarioId, setUsuarioId] = useState(0);
+    const [publicacaoId, setPublicacaoId] = useState(0);
+
+    const { id } = useContext(AuthContext);
     // const [usuarioId, setUsuarioId] = useState(0);
     // const [publicacaoId, setPublicacaoId] = useState(0);
     const [expandido, setExpandido] = useState(false);
-    const { id } = useContext(AuthContext);
+    
 
     const limiteCaracteres = 100;
     const descricao = item.campanhaDescricao || item.publicacaoDescricao || item.denunciaDescricao || item.usuario || '';
 
     async function SalvarObs() {
-        await fetch(process.env.EXPO_PUBLIC_URL + '/InsertComentario ', {
-            method: 'post',
+        console.log( id );
+        await fetch(process.env.EXPO_PUBLIC_URL + '/InsertComentario', {
+            method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({
                 comentarioTexto: comentarioTexto,
-                usuarioId: usuarioId,
-                publicacaoId: publicacaoId
+                usuarioId: id,
+                publicacaoId: publicacaoId,
             })
         })
             //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
             .then(res => res.json())
-            .then(json => console.log(json))
+            .then(json =>{setComentarioTexto('');})
             .catch(err => console.log(err))
     }
 
-    async function getComentario() {
-        await fetch(process.env.EXPO_PUBLIC_URL + '/api/Denuncia/GetAllDenuncias', {
+
+    async function getComentarios() {
+        await fetch(process.env.EXPO_PUBLIC_URL + '/GetComentariosByPost?id=' + publicacaoId , {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
@@ -41,12 +49,54 @@ export default function Denuncia({ item }) {
         })
             .then(res => res.json())
             .then(json => {
-                setDenuncia(json);
+                setComentarios(json);
             })
 
             .catch(err => console.log(err))
     }
 
+    useFocusEffect(
+        React.useCallback(() => {
+        getComentarios()
+        }, [comentario]))
+
+    async function getDenuncia() {
+        await fetch( process.env.EXPO_PUBLIC_URL +  '/api/Denuncia/GetAllDenuncias', {
+          method: 'GET',
+          headers: {
+            'content-type': 'application/json'
+          }
+        })
+          .then(res => res.json())
+          .then(json => {
+            setDenuncia(json);
+          })
+    
+          .catch(err => console.log(err))
+      }
+
+      function showComentario(publicacao){
+        setComentario( true );
+        if( publicacao.publicacaoId ) {
+            setPublicacaoId( publicacao.publicacaoId);
+        }
+        if( publicacao.denunciaId ) {
+            setPublicacaoId( publicacao.denunciaId );
+        }
+        if( publicacao.comentarioId ) {
+            setPublicacaoId( publicacao.comentarioId );
+        }
+        if( publicacao.campanhasId ) {
+            setPublicacaoId( publicacao.campanhasId );
+        }
+        if(comentario){setComentario(false)}
+
+      }
+
+      useEffect( () => {
+        getComentarios();
+      }, [publicacaoId])
+    
 
     return (
         <View style={css.container}>
@@ -87,13 +137,19 @@ export default function Denuncia({ item }) {
             </View>
             <View>
                 {item.publicacaoId &&
-                    <TouchableOpacity style={css.btn01} onPress={() => setComentario(true)}>
+                    <TouchableOpacity style={css.btn01} onPress={() => { showComentario(item) }}>
                         <Text style={css.TextoBTNC}>Comentarios</Text>
                     </TouchableOpacity>
                 }
                 {comentario &&
                     <View style={css.PaiInput}>
-                        <TextInput style={css.input} textInput={comentarioTexto} value={comentarioTexto} onChangeText={(digitado) => setComentarioTexto(digitado)} placeholder="Novo Comentario" />
+                        <FlatList
+                            data={comentarios}
+                               keyExtractor={ (item) => item.comentarioId}
+                            renderItem={ ({item}) => <Text style={css.txtComent}>{item.comentarioTexto}</Text> }
+                        />
+                       
+                       <TextInput style={css.input} textInput={comentarioTexto} value={comentarioTexto} onChangeText={(digitado) => setComentarioTexto(digitado)} placeholder="Novo Comentario" />
                         <TouchableOpacity style={css.btn02} onPress={() => SalvarObs()}>
                             <Text style={css.TextoBTNC}>Salvar</Text>
                         </TouchableOpacity>
@@ -104,6 +160,29 @@ export default function Denuncia({ item }) {
     )
 }
 const css = StyleSheet.create({
+
+    linha: {
+        
+    },
+
+    txtComent: {
+        margin: 20,
+        borderWidth: 2,
+        borderColor: "#0001",
+        borderRadius: 3,
+        backgroundColor: "#888888",
+        color: "white",
+        height: 60,
+    },
+    
+    
+    PaiInput: {
+       
+        margin: 10,
+        padding: 5,
+        borderRadius: 10
+    },
+    
     container: {
         width: 370,
         backgroundColor: "#D9D9D9",
