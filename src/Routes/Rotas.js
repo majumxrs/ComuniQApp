@@ -12,6 +12,7 @@ import Chat from '../Pages/Chat';
 import EditarPerfil from '../Pages/EditarPerfil'
 import teste from '../Components/NovaCamp';
 import Camera from '../Components/Camera';
+import ComentarioComp from '../Components/ComentarioComp';
 
 
 const Tab = createBottomTabNavigator();
@@ -77,6 +78,15 @@ export default function Rotas() {
                  <Tab.Screen
                     name="Camera"
                     component={Camera}
+                    options={{
+                        tabBarIcon: ({ color, size }) => (
+                            <MaterialCommunityIcons name="camera" color={color} size={size} />
+                        ),
+                    }}
+                />
+                 <Tab.Screen
+                    name="Comentario"
+                    component={ComentarioComp}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="camera" color={color} size={size} />
