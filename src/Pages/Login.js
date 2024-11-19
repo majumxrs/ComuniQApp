@@ -96,7 +96,7 @@ export default function Login({ navigation }) {
                                         textInput={nome}
                                         value={nome}
                                         onChangeText={(digitado) => setNome(digitado)}
-                                        placeholder="Nome Completo:"
+                                        placeholder="Nome:"
                                         placeholderTextColor="white"
                                     />
                                     <TextInput
@@ -117,11 +117,13 @@ export default function Login({ navigation }) {
                                     />
                                     <TextInput
                                         style={css.input2}
+                                        autoCapitalize='none'
                                         textInput={email}
                                         value={email}
                                         onChangeText={(digitado) => setEmail(digitado)}
                                         placeholder="Email:"
                                         placeholderTextColor="white"
+                                        inputMode='email'
                                     />
                                     <TextInput
                                         style={css.input2}
@@ -223,6 +225,7 @@ export default function Login({ navigation }) {
                                 placeholderTextColor="white"
                                 autoCapitalize='none'
                                 autoCorrect={false}
+                                secureTextEntry
                             />
                             <View style={css.ViewCadastrar}>
                                 <View style={css.forgot2}>
