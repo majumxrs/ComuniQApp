@@ -3,7 +3,11 @@ import React, { useContext, useEffect, useState } from 'react'
 import SelectCampanha from './SelectCampanha';
 import SelectCidade from './SelectCidade';
 
+<<<<<<< HEAD
+export default function NovaCamps({ setNovapupli, setnovacampanha }) {
+=======
 export default function NovaCamp({ setnovacampanha }) {
+>>>>>>> 421cca05a625a3ec3898a542ace3b78e4d8eb005
 
     const [titulo, setTitulo] = useState("");
     const [midia, setMidia] = useState("");
@@ -23,8 +27,13 @@ export default function NovaCamp({ setnovacampanha }) {
 
     async function SalvarCamp() {
 
+<<<<<<< HEAD
+        if (titulo != " " || descricao != " ") {
+            fetch(process.env.EXPO_PUBLIC_URL + '/api/Campanhas/InsertCampanha', {
+=======
         if (titulo != "" || descricao != "") {
             fetch( process.env.EXPO_PUBLIC_URL + '/api/Campanhas/InsertCampanha', {
+>>>>>>> 421cca05a625a3ec3898a542ace3b78e4d8eb005
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
@@ -46,7 +55,11 @@ export default function NovaCamp({ setnovacampanha }) {
                         setError(false);
                     }
                 })
+<<<<<<< HEAD
+                .catch(err => setError(true))
+=======
                 .catch(err => { setError(true); } )
+>>>>>>> 421cca05a625a3ec3898a542ace3b78e4d8eb005
         } else {
             setError(true)
             setDeubom(false)
@@ -114,6 +127,12 @@ export default function NovaCamp({ setnovacampanha }) {
                 <Text style={css.BTNVoltar} onPress={() => { setnovacampanha(false) }}>❮</Text>
             </TouchableOpacity>
             <View style={css.caixamaior}>
+<<<<<<< HEAD
+
+                <Text>Ola teste </Text>
+
+=======
+>>>>>>> 421cca05a625a3ec3898a542ace3b78e4d8eb005
                 <View style={css.container}>
                     <Text></Text>
                     <TextInput

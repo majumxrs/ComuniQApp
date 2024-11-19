@@ -81,7 +81,7 @@ export default function RecupSenha({ setRecupSenha }) {
                                 secureTextEntry
                             />
                             <View style={css.PaiRecupSenha}>
-                                <TouchableOpacity style={css.btn} onPress={() => { SalvaRecpSenha() }}>
+                                <TouchableOpacity style={css.btn} onPress={() => { SalvaRecpSenha(); setRecupSenha(false) }}>
                                     <Text style={css.Texto}>Salvar</Text>
 
                                 </TouchableOpacity>

@@ -6,13 +6,13 @@ import { AuthContext } from '../Context/AuthContext';
 export default function Denuncia({ item }) {
     const [comentario, setComentario] = useState(false);
     const [comentarioTexto, setComentarioTexto] = useState("");
-    const [usuarioId, setUsuarioId] = useState(0);
-    const [publicacaoId, setPublicacaoId] = useState(0);
+    // const [usuarioId, setUsuarioId] = useState(0);
+    // const [publicacaoId, setPublicacaoId] = useState(0);
     const [expandido, setExpandido] = useState(false);
     const { id } = useContext(AuthContext);
 
     const limiteCaracteres = 100;
-    const descricao = item.campanhaDescricao || item.publicacaoDescricao || item.denunciaDescricao || '';
+    const descricao = item.campanhaDescricao || item.publicacaoDescricao || item.denunciaDescricao || item.usuario || '';
 
     async function SalvarObs() {
         await fetch(process.env.EXPO_PUBLIC_URL + '/InsertComentario ', {
@@ -33,29 +33,34 @@ export default function Denuncia({ item }) {
     }
 
     async function getComentario() {
-        await fetch( process.env.EXPO_PUBLIC_URL +  '/api/Denuncia/GetAllDenuncias', {
-          method: 'GET',
-          headers: {
-            'content-type': 'application/json'
-          }
+        await fetch(process.env.EXPO_PUBLIC_URL + '/api/Denuncia/GetAllDenuncias', {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json'
+            }
         })
-          .then(res => res.json())
-          .then(json => {
-            setDenuncia(json);
-          })
-    
-          .catch(err => console.log(err))
-      }
-    
+            .then(res => res.json())
+            .then(json => {
+                setDenuncia(json);
+            })
+
+            .catch(err => console.log(err))
+    }
+
 
     return (
         <View style={css.container}>
             <View style={css.CaixaTitulo}>
                 <View style={css.BoxTitulo}>
-                    <Image style={css.Avatar}
-                        source={require('../../assets/FotosComuniQ/UsuarioSem.png')}
-                    />
-                    <Text style={css.TextoNOme}>Anônimo</Text>
+                    {item.publicacaoId && <Image style={css.AvatarPu} source={{ uri: "http://comuniq.s3.amazonaws.com/" + item.usuario.usuarioFoto }} />}
+                    {item.publicacaoId && <Text style={css.TextoNOme}>{item.usuario.usuarioNome}</Text>}
+
+                    {item.denunciaId && <Image style={css.Avatar} source={require('../../assets/FotosComuniQ/UsuarioSem.png')} />}
+                    {item.denunciaId && <Text style={css.TextoNOme}>Anônimo</Text>}
+
+                    {item.campanhaId && <Image style={css.Avatar} source={require('../../assets/FotosComuniQ/UsuarioSem.png')} />}
+                    {item.campanhaId && <Text style={css.TextoNOme}>Anônimo</Text>}
+
                 </View>
                 {item.campanhaTitulo && <Text style={css.title}>{item.campanhaTitulo}</Text>}
                 {item.denunciaTitutlo && <Text style={css.title}>{item.denunciaTitutlo}</Text>}
@@ -88,7 +93,7 @@ export default function Denuncia({ item }) {
                 }
                 {comentario &&
                     <View style={css.PaiInput}>
-                       <TextInput style={css.input} textInput={comentarioTexto} value={comentarioTexto} onChangeText={(digitado) => setComentarioTexto(digitado)} placeholder="Novo Comentario" />
+                        <TextInput style={css.input} textInput={comentarioTexto} value={comentarioTexto} onChangeText={(digitado) => setComentarioTexto(digitado)} placeholder="Novo Comentario" />
                         <TouchableOpacity style={css.btn02} onPress={() => SalvarObs()}>
                             <Text style={css.TextoBTNC}>Salvar</Text>
                         </TouchableOpacity>
@@ -147,6 +152,11 @@ const css = StyleSheet.create({
         //backgroundColor:"red",
         borderRadius: 50
     },
+    AvatarPu:{
+        width: 50,
+        height: 50,
+        borderRadius: 50
+    },
     title2: {
         fontSize: 18,
         fontWeight: "400",
@@ -159,7 +169,7 @@ const css = StyleSheet.create({
         height: 50,
         borderRadius: 10,
         color: "white",
-      },
+    },
     btn02: {
         marginTop: 5,
         backgroundColor: "#20343F",
@@ -173,8 +183,8 @@ const css = StyleSheet.create({
         lineHeight: 45,
         textAlign: "center",
         fontSize: 20,
-        fontWeight:"400"
-      },
+        fontWeight: "400"
+    },
     input: {
         width: 300,
         height: 50,
@@ -184,12 +194,12 @@ const css = StyleSheet.create({
         backgroundColor: "white",
         marginBottom: 5,
         marginTop: 10,
-        marginLeft:10,
-        padding:5
-      },
-      botaoVerMais:{
+        marginLeft: 10,
+        padding: 5
+    },
+    botaoVerMais: {
         color: "blue",
 
-      },
+    },
 
 })
