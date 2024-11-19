@@ -1,14 +1,15 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import RNPickerSelect from 'react-native-picker-select';
 
 export default function Nova({ setNovacampanha, setNovapupli, setNovadenuncia, setNovaOutro, navigation }) {
-
-
-
-
     return (
         <>
+            <View style={css.caixa}>
+                <TouchableOpacity style={css.btnLogo} onPress={() => {}}>
+                    <Image style={css.tinyLogo} source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")} />
+                </TouchableOpacity>
+            </View>
             <TouchableOpacity>
                 <Text style={css.BTNVoltar} onPress={() => { setNovapupli(false) }}>❮</Text>
             </TouchableOpacity>
@@ -56,6 +57,23 @@ const css = StyleSheet.create({
     BTNVoltar: {
         fontSize: 25,
         marginRight: 380,
-        marginTop:25
+        marginTop: 5
+    },
+    caixa: {
+        height: 100,
+        width: "100%",
+        backgroundColor: "#20343F",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    tinyLogo: {
+        width: '100%',
+        height: '100%'
+    },
+    btnLogo: {
+        height: 60,
+        width: "25%",
+        marginTop: 15,
     },
 })
