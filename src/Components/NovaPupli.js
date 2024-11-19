@@ -1,12 +1,9 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
-<<<<<<< HEAD
 import Select from './Select';
 import { AuthContext } from '../Context/AuthContext';
 import { idText } from 'typescript';
-=======
 import Select from './SelectOutros';
->>>>>>> 421cca05a625a3ec3898a542ace3b78e4d8eb005
 
 export default function NovaPupli({ setNovaOutro }) {
 
