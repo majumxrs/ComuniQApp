@@ -65,26 +65,7 @@ export default function Rotas() {
                             <MaterialCommunityIcons name="account-circle" color={color} size={size} />
                         ),
                     }}
-                />
-                  <Tab.Screen
-                    name="Editar Perfil"
-                    component={EditarPerfil}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="account-circle" color={color} size={size} />
-                        ),
-                    }}
-                />
-                 <Tab.Screen
-                    name="Comentario"
-                    component={ComentarioComp}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="camera" color={color} size={size} />
-                        ),
-                    }}
-                />
-                 
+                />                 
             </Tab.Navigator>
         </NavigationContainer>
     )
