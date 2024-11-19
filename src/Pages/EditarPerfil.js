@@ -26,7 +26,7 @@ export default function EditarPerfil() {
   const { id, Login, setCamera, setGaleria, camera, galeria, setEditPerfil, user } = useContext(AuthContext);
 
 
-
+  
 
 
   async function Salvar() {
@@ -94,29 +94,29 @@ export default function EditarPerfil() {
       setBlob(blob);
     }
   };
-  
+
   async function uploadPhoto() {
     const S3 = new AWS.S3();
     const object = {
-        Bucket: "comuniq",
-        Key: "usuario_" + user.usuarioCPF + ".jpg"
+      Bucket: "comuniq",
+      Key: "usuario_" + user.usuarioCPF + ".jpg"
     };
-    
-    const excluir = await S3.deleteObject( object ).promise();
+
+    const excluir = await S3.deleteObject(object).promise();
     const params = {
-        Bucket: "comuniq",
-        Key: "usuario_" + user.usuarioCPF + ".jpg",
-        Body: blob
+      Bucket: "comuniq",
+      Key: "usuario_" + user.usuarioCPF + ".jpg",
+      Body: blob
     };
     const result = await S3.upload(params).promise();
     if (result) {
-        setBlob(false);
+      setBlob(false);
     }
-}
+  }
 
 
-  useEffect( () => {
-    if( blob ) {
+  useEffect(() => {
+    if (blob) {
       uploadPhoto();
     }
   }, [blob])
@@ -126,6 +126,9 @@ export default function EditarPerfil() {
       <TelaCamera />
     )
   }
+/*  if (camera == false) {
+    setNovaFoto(false);
+  }*/
 
   return (
     <>
@@ -157,7 +160,7 @@ export default function EditarPerfil() {
               <TouchableOpacity style={css.btnpop} onPress={() => setNovaFoto(false)}>
                 <Text style={css.txtpop}>Fechar</Text>
               </TouchableOpacity>
-              {image && <Image source={{ uri: image }} style={css.image} />}
+              {image && setNovaFoto(false)}
             </View>
           </Modal>}
         <View style={css.parte1}>

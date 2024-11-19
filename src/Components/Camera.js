@@ -12,7 +12,7 @@ export default function TelaCamera() {
 
     const screenRatio = height / width;
 
-    const { setCamera, setBlobBlob, setFotoNova, fotoNova, user } = useContext(AuthContext);
+    const { setCamera, user } = useContext(AuthContext);
 
     
     const [permissao, setPermissao] = useState(false);
@@ -122,7 +122,7 @@ export default function TelaCamera() {
                     transparente={true}>
                     {foto && <Image source={{ uri: `data:image/jpeg;base64,${foto}` }} style={css.fotinha} />}
                     <View style={css.botoes}>
-                        <TouchableOpacity style={css.btns} onPress={() => { uploadPhoto() }}>
+                        <TouchableOpacity style={css.btns} onPress={() => { uploadPhoto(); setCamera(false) }}>
                             <Image style={css.salvarimg} source={{ uri: "https://png.pngtree.com/png-vector/20231201/ourmid/pngtree-ok-icon-like-png-image_10804394.png", }}></Image>
                         </TouchableOpacity>
                         <TouchableOpacity style={css.btns} onPress={() => { setFotoOK(false) }}>
