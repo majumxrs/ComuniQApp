@@ -1,6 +1,10 @@
-import { View, Text, StyleSheet, Button, Image, TouchableOpacity, TextInput } from 'react-native'
+import { View, Text, StyleSheet, Button, Image, TouchableOpacity, TextInput, Modal } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../Context/AuthContext'
+import TelaCamera from '../Components/Camera';
+import { useFocusEffect } from '@react-navigation/native';
+import * as ImagePicker from 'expo-image-picker';
+import * as FileSystem from 'expo-file-system';
 
 export default function EditarPerfil() {
   const [nome, setNome] = useState();
@@ -8,72 +12,123 @@ export default function EditarPerfil() {
   const [apelido, setApelido] = useState();
   const [email, setEmail] = useState();
   const [telefone, setTelefone] = useState();
-  const [cpf, setCpf] = useState();
+  const [CPF, setCpf] = useState();
   const [cep, setCep] = useState();
   const [bairro, setBairro] = useState();
   const [cidade, setCidade] = useState();
+  const [estado, setEstado] = useState();
+  const [senha, setSenha] = useState();
+  const [novaFoto, setNovaFoto] = useState();
   const [foto, setFoto] = useState();
- 
-  async function infoUsuario() {
-    await fetch('http://10.139.75.25:5251/api/Usuarios/GetUsuarioId/' + id, {
-      method: 'GET',
+  const [image, setImage] = useState(null);
+  const [blob, setBlob] = useState();
+
+  const { id, Login, setCamera, setGaleria, camera, galeria, setEditPerfil, user } = useContext(AuthContext);
+
+
+  
+
+
+  async function Salvar() {
+    await fetch(process.env.EXPO_PUBLIC_URL + '/api/Usuarios/UpdateUsuario/' + id, {
+      method: 'PUT',
       headers: {
         'content-type': 'application/json'
-      }
+      },
+      body: JSON.stringify({
+        usuarioNome: nome,
+        usuarioSobrenome: sobrenome,
+        usuarioApelido: apelido,
+        usuarioEmail: email,
+        usuarioTelefone: telefone,
+        usuarioCPF: CPF,
+        usuarioCEP: cep,
+        usuarioBairro: bairro,
+        usuarioCidade: cidade,
+        usuarioFoto: "usuario_" + user.usuarioCPF + ".jpg",
+        usuarioEstado: estado,
+        usuarioSenha: senha,
+        tipoPerfilId: 1
+
+      })
     })
       .then(res => res.json())
       .then(json => {
-        if (Login) {
-          setNome(json.usuarioNome);
-          setSobrenome(json.usuarioSobrenome);
-          setApelido(json.usuarioApelido);
-          setEmail(json.usuarioEmail);
-          setTelefone(json.usuarioTelefone);
-          setCpf(json.usuarioCPF);
-          setCep(json.usuarioCEP);
-          setBairro(json.usuarioBairro);
-          setCidade(json.usuarioCidade);
-          setFoto(json.usuarioFoto);
-        }
-      })
-      .catch(err => console.log(err))
-  }
-  const conversorimg = () => {
-    return `data:image/jpeg;base64,${foto}`
-}
+        alert("Perfil atualizado com sucesso");
+        setEditPerfil(false);
+        setUser(json);
 
-async function Salvar() {
-  await fetch('http://10.139.75.25:5251/api/Usuarios/UpdateUsuario/' + id, {
-    method: 'PUT',
-    headers: {
-      'content-type': 'application/json'
-    },
-    body: JSON.stringify({
-      usuarioNome: nome,
-      usuarioSobrenome: sobrenome,
-      usuarioApelido: apelido,
-      usuarioEmail: email,
-      usuarioTelefone: telefone,
-      usuarioCPF: cpf,
-      usuarioCEP: cep,
-      usuarioBairro: bairro,
-      usuarioCidade: cidade,
-      usuarioFoto: "",
-      tipoPerfilId: 1
-  })
-  })
-    .then(res => res.json())
-    .then(json => {
-      console.log(json.usuarioNome)
-      console.log("Perfil atualizado com sucesso:", json);
-    })
-    .catch(err => console.log("deu erro", err))
-}
+      })
+      .catch(err => alert("Algo deu errado, por favor tente novamente"))
+  }
 
   useEffect(() => {
-    infoUsuario()
-  }, [])
-  const { id, Login } = useContext(AuthContext);
+    if (user) {
+      setNome(user.usuarioNome);
+      setSobrenome(user.usuarioSobrenome);
+      setApelido(user.usuarioApelido);
+      setEmail(user.usuarioEmail);
+      setTelefone(user.usuarioTelefone);
+      setCpf(user.usuarioCPF);
+      setCep(user.usuarioCEP);
+      setBairro(user.usuarioBairro);
+      setCidade(user.usuarioCidade);
+      setEstado(user.usuarioEstado);
+      setSenha(user.usuarioSenha);
+    }
+  }, [user])
+
+
+  async function pickImage() {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 0.5,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+      const response = await fetch(result.assets[0].uri);
+      const blob = await response.blob();
+      setBlob(blob);
+    }
+  };
+
+  async function uploadPhoto() {
+    const S3 = new AWS.S3();
+    const object = {
+      Bucket: "comuniq",
+      Key: "usuario_" + user.usuarioCPF + ".jpg"
+    };
+
+    const excluir = await S3.deleteObject(object).promise();
+    const params = {
+      Bucket: "comuniq",
+      Key: "usuario_" + user.usuarioCPF + ".jpg",
+      Body: blob
+    };
+    const result = await S3.upload(params).promise();
+    if (result) {
+      setBlob(false);
+    }
+  }
+
+
+  useEffect(() => {
+    if (blob) {
+      uploadPhoto();
+    }
+  }, [blob])
+
+  if (camera == true) {
+    return (
+      <TelaCamera />
+    )
+  }
+/*  if (camera == false) {
+    setNovaFoto(false);
+  }*/
 
   return (
     <>
@@ -83,15 +138,36 @@ async function Salvar() {
           source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")}
         />
       </View >
+      <TouchableOpacity style={css.btnV} onPress={() => setEditPerfil(false)}>
+        <Text style={css.btnLoginTextV}>Voltar</Text>
+      </TouchableOpacity>
+
       <View style={css.container}>
-        <TouchableOpacity style={css.foto}>
-          <Image style={css.fotousu} source={{ uri: "https://comuniq.s3.amazonaws.com/" + foto  }} />
+        <TouchableOpacity style={css.foto} onPress={() => setNovaFoto(true)}>
+          <Image style={css.fotousu} source={{ uri: "https://comuniq.s3.amazonaws.com/usuario_" + user.usuarioCPF + ".jpg?" + Math.random() }} />
         </TouchableOpacity>
+        {novaFoto &&
+          <Modal
+            animationType="slide"
+            transparent={true}>
+            <View style={css.popup}>
+              <TouchableOpacity style={css.btnpop} onPress={() => setCamera(true)}>
+                <Text style={css.txtpop}>Câmera</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={css.btnpop} onPress={pickImage}>
+                <Text style={css.txtpop}>Procurar foto existente</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={css.btnpop} onPress={() => setNovaFoto(false)}>
+                <Text style={css.txtpop}>Fechar</Text>
+              </TouchableOpacity>
+              {image && setNovaFoto(false)}
+            </View>
+          </Modal>}
         <View style={css.parte1}>
           <View style={css.campo1}>
             <Text style={css.tit}>Nome</Text>
-            <TextInput 
-            onChangeText={(digitado) => setNome(digitado)}>{nome}</TextInput>
+            <TextInput
+              onChangeText={(digitado) => setNome(digitado)}>{nome}</TextInput>
           </View>
           <View style={css.campo2}>
             <Text style={css.tit}>Sobrenome</Text>
@@ -113,7 +189,7 @@ async function Salvar() {
           </View>
           <View style={css.campo5}>
             <Text style={css.tit}>CPF</Text>
-            <TextInput onChangeText={(digitado) => setCpf(digitado)}>{cpf}</TextInput>
+            <TextInput onChangeText={(digitado) => setCpf(digitado)}>{CPF}</TextInput>
           </View>
         </View>
         <View style={css.parte1}>
@@ -205,9 +281,9 @@ const css = StyleSheet.create({
     marginBottom: 10,
     objectFit: 'cover'
   },
-  fotousu:{
-    width:'100%',
-    height:'100%',
+  fotousu: {
+    width: '100%',
+    height: '100%',
     borderRadius: 100,
   },
   btn: {
@@ -223,5 +299,23 @@ const css = StyleSheet.create({
   txtbtn: {
     color: "#fff",
     fontSize: 17
+  },
+  image: {
+    width: 200,
+    height: 200,
+  },
+  popup: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#20343F',
+    borderRadius: 20,
+    width: '80%',
+    padding: 20,
+    margin: 'auto',
+  },
+  txtpop: {
+    color: "#fff",
+    padding: 8
   }
 })

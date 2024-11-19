@@ -12,8 +12,13 @@ export default function Denuncia({ item }) {
     const [publicacaoId, setPublicacaoId] = useState(0);
 
     const { id } = useContext(AuthContext);
+    // const [usuarioId, setUsuarioId] = useState(0);
+    // const [publicacaoId, setPublicacaoId] = useState(0);
+    const [expandido, setExpandido] = useState(false);
+    
 
-   
+    const limiteCaracteres = 100;
+    const descricao = item.campanhaDescricao || item.publicacaoDescricao || item.denunciaDescricao || item.usuario || '';
 
     async function SalvarObs() {
         console.log( id );
@@ -97,10 +102,15 @@ export default function Denuncia({ item }) {
         <View style={css.container}>
             <View style={css.CaixaTitulo}>
                 <View style={css.BoxTitulo}>
-                    <Image style={css.Avatar}
-                        source={require('../../assets/FotosComuniQ/UsuarioSem.png')}
-                    />
-                    <Text style={css.TextoNOme}>Anônimo</Text>
+                    {item.publicacaoId && <Image style={css.AvatarPu} source={{ uri: "http://comuniq.s3.amazonaws.com/" + item.usuario.usuarioFoto }} />}
+                    {item.publicacaoId && <Text style={css.TextoNOme}>{item.usuario.usuarioNome}</Text>}
+
+                    {item.denunciaId && <Image style={css.Avatar} source={require('../../assets/FotosComuniQ/UsuarioSem.png')} />}
+                    {item.denunciaId && <Text style={css.TextoNOme}>Anônimo</Text>}
+
+                    {item.campanhaId && <Image style={css.Avatar} source={require('../../assets/FotosComuniQ/UsuarioSem.png')} />}
+                    {item.campanhaId && <Text style={css.TextoNOme}>Anônimo</Text>}
+
                 </View>
                 {item.campanhaTitulo && <Text style={css.title}>{item.campanhaTitulo}</Text>}
                 {item.denunciaTitutlo && <Text style={css.title}>{item.denunciaTitutlo}</Text>}
@@ -112,9 +122,18 @@ export default function Denuncia({ item }) {
                 {item.campanhaMidia && <Image style={css.imagemG} source={{ uri: "http://comuniq.s3.amazonaws.com/" + item.campanhaMidia }} />}
             </View>
             <View style={css.CaixaTitulo}>
-                {item.campanhaDescricao && <Text style={css.title2}>{item.campanhaDescricao}</Text>}
-                {item.publicacaoDescricao && <Text style={css.title2}>{item.publicacaoDescricao}</Text>}
-                {item.denunciaDescricao && <Text style={css.title2}>{item.denunciaDescricao}</Text>}
+                {descricao && (
+                    <View>
+                        <Text style={css.title2}>
+                            {expandido ? descricao : descricao.substring(0, limiteCaracteres) + '...'}
+                        </Text>
+                        <TouchableOpacity onPress={() => setExpandido(!expandido)}>
+                            <Text style={css.botaoVerMais}>
+                                {expandido ? 'Ver menos' : 'Ver mais'}
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
             </View>
             <View>
                 {item.publicacaoId &&
@@ -212,6 +231,11 @@ const css = StyleSheet.create({
         //backgroundColor:"red",
         borderRadius: 50
     },
+    AvatarPu:{
+        width: 50,
+        height: 50,
+        borderRadius: 50
+    },
     title2: {
         fontSize: 18,
         fontWeight: "400",
@@ -224,7 +248,7 @@ const css = StyleSheet.create({
         height: 50,
         borderRadius: 10,
         color: "white",
-      },
+    },
     btn02: {
         marginTop: 5,
         backgroundColor: "#20343F",
@@ -238,8 +262,8 @@ const css = StyleSheet.create({
         lineHeight: 45,
         textAlign: "center",
         fontSize: 20,
-        fontWeight:"400"
-      },
+        fontWeight: "400"
+    },
     input: {
         width: 300,
         height: 50,
@@ -249,8 +273,12 @@ const css = StyleSheet.create({
         backgroundColor: "white",
         marginBottom: 5,
         marginTop: 10,
-        marginLeft:10,
-        padding:5
-      },
+        marginLeft: 10,
+        padding: 5
+    },
+    botaoVerMais: {
+        color: "blue",
+
+    },
 
 })

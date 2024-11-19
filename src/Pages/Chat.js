@@ -22,8 +22,8 @@ export default function Chat() {
         const newConversation = [...conversa, {
             id: uuid.v4(),
             user: false,
-            mensagem: "Olá, sou Q, seu ajudante virtual! Como posso te ajudar hoje? Digite Oi para começar"
-        }];
+            mensagem: "Olá, sou Q, seu assistente virtual! Como posso te ajudar hoje?\n\n•1 para informações de contato com as autoridades;\n•2 para dúvidas sobre o app;\n•3 para relatar um erro;\n•4 para outro motivo,\n•5 para entrar em contato conosco."
+        }]
         setConversa(newConversation);
     }, [] );
 
@@ -40,49 +40,49 @@ export default function Chat() {
             setMensagem("");
             //condicionais de resposta
             if (mensagem == "oi") {
-                botSpeak = "Digite 1 para informações de contato com as autoridades; Digite 2 para dúvidas sobre o app; Digite 3 para relatar um erro; Digite 4 para outro motivo, Digite 5 para entrar em contato conosco.";
+                botSpeak = "Digite:\n•1 para informações de contato com as autoridades;\n•2 para dúvidas sobre o app;\n•3 para relatar um erro;\n•4 para outro motivo,\n•5 para entrar em contato conosco.";
             }
             else if (mensagem == "1") {
-                botSpeak = "Digite 11 para saber o contato da prefeitura; Digite 12 para contatos de serviços de emergência";
+                botSpeak = "Digite:\n•11 para saber o contato da prefeitura;\n•12 para contatos de serviços de emergência";
             }
             else if (mensagem == "11") {
-                botSpeak = " Telefone: 9999999999, email:  prefeitura@gmail.com";
+                botSpeak = "Contato da prefeitura:\nTelefone: 9999999999\nEmail:  prefeitura@gmail.com";
             }
             else if (mensagem == "12") {
-                botSpeak = " Telefone Policia: 190, Telefone Samu: 192, Numero bombeiros: 193, Centro de valorização da vida: 188, Ajuda com o uso de drogas: 132, Policia Civíl: 197, Disque Denúncia: 181, Procon: 151, Policia Rodoviária: 191, Direitos Humanos: 100, Ouvidoria do SUS: 136, Denuncia trabalho escravo: 123, Defesa Civil: 199, Atendimento exclusivo à mulher: 180, IBAMA: 0800 61 8080, Ouvidoria Geral da União: 121.";
+                botSpeak = "•Polícia: 190,\n•Samu: 192,\n•Bombeiros: 193,\n•Centro de valorização da vida: 188,\n•Ajuda com o uso de drogas: 132,\n•Polícia Civil: 197,\n•Disque Denúncia: 181,\n•Procon: 151,\n•Polícia Rodoviária: 191,\n•Direitos Humanos: 100,\n•Ouvidoria do SUS: 136,\n•Denúncia trabalho escravo: 123,\n•Defesa Civil: 199,\n•Atendimento exclusivo à mulher: 180,\n•IBAMA: 0800 61 8080,\n•Ouvidoria Geral da União: 121.";
             }
             else if (mensagem == "2") {
-                botSpeak = "Digite 21 para saber o objetivo do app ; Digite 22 para funcionalidades ";
+                botSpeak = "Digite:\n•21 para saber o objetivo do app;\n•22 para funcionalidades ";
             }
             else if (mensagem == "21") {
-                botSpeak = "O app tem como objetivo, manter uma comunidade estável e sustentavél, tendo apoio para diverços meios de saúde e meio ambiente. Sinta-se avontade para explorar!";
+                botSpeak = "O app tem como objetivo, manter uma comunidade estável e sustentavél, tendo apoio para diversos meios de saúde e meio ambiente. Sinta-se à vontade para explorar!";
             }
             else if (mensagem == "22") {
-                botSpeak = "Qual funcionalidade quer saber? digite 221 para login, 222 para trocar senha, 223 para denuncia, 224 para postagens. ";
+                botSpeak = "Qual funcionalidade quer saber?\n\n•221 para login,\n•222 para trocar senha,\n•223 para denúncia,\n•224 para postagens. ";
             }
             else if (mensagem == "221") {
                 botSpeak = "O login pode ser realizado com os seguintes meios: Google, Microsoft, Apple, Facebook e Instagram.  ";
             }
             else if (mensagem == "222") {
-                botSpeak = " Caso tenha esquecido ou deseja mudar sua senha, na tela de login é possivel, basta clicar em esqueci minha senha, e preencha as informações nescessarios para alteração de senha, lembrese de ter acesso a um email válido. ";
+                botSpeak = "Caso tenha esquecido ou deseja mudar sua senha, na tela de login é possivel, basta clicar em esqueci minha senha, e preencha as informações nescessárias para alteração de senha, lembre-se de ter acesso a um email válido. ";
             }
             else if (mensagem == "223") {
-                botSpeak = " Nossa pagina de denuncia conta com acessos a diversas postagens de sua comunidade refente a algo que não esta correto, seja convivencia entre as pessoas, descarte indevido de lixo, vandalismo, etc. você também pode ajudar fazendo uma denuncia consciente. Caso seja de interesse, sinta-se à vontade para comentar. ";
+                botSpeak = "Nossa página de denúncia conta com acessos a diversas postagens de sua comunidade refente a algo que não está correto, seja convivência entre as pessoas, descarte indevido de lixo, vandalismo, etc. Você também pode ajudar fazendo uma denúncia consciente.";
             }
             else if (mensagem == "224") {
-                botSpeak = " As postagens são a forma de interação que você pode ter com sua comunidade, seja realizando uma nenuncia, comentando ou interagindo em ''campanhas'' ";
+                botSpeak = " As postagens são a forma de interação que você pode ter com sua comunidade, seja realizando uma denúncia, comentando ou interagindo em ''campanhas'' ";
             }
             else if (mensagem == "3") {
-                botSpeak = "Digite 31 para erro de login/cadastro; Digite 32 para erro em postagens, 33 para erro em campanha ";
+                botSpeak = "Digite:\n•31 para erro de login/cadastro;\n•32 para erro em postagens,\n•33 para erro em campanha ";
             }
             else if (mensagem == "31") {
-                botSpeak = "Caso esteja tendo problemas para realizar o login ou o cadastro, certifique-se de revisar suas informações. Caso não seja o nescessario, considere-se mudar sua senha, ou redefinir sua conta de cadastro/login. Caso não funcione entre em contato direto: comuniQsuporte@gmail.com";
+                botSpeak = "Caso esteja tendo problemas para realizar o login ou o cadastro, certifique-se de revisar suas informações. Caso não seja o nescessário, considere-se mudar sua senha, ou redefinir sua conta de cadastro/login. Caso não funcione entre em contato direto: comuniQsuporte@gmail.com";
             }
             else if (mensagem == "32") {
                 botSpeak = "Está com erro na postagem? verifique-se se está com acesso a internet ou tente reiniciar o app. Caso não funcione entre em contato direto: comuniQsuporte@gmail.com";
             }
             else if (mensagem == "33") {
-                botSpeak = " Campanha está com erro? verifique se seu perfil tem a possibilidade de realizar uma campanha, para tal funcionalidades, apenas perfis relacionado direto com a prefeitura tem acesso a tal funcionalidade. Caso informações da campanha seja incorretas, denuncie! caso seja outro problema entre em contato direto: comuniQsuporte@gmail.com ";
+                botSpeak = " Campanha está com erro? verifique se seu perfil tem a possibilidade de realizar uma campanha, para tal funcionalidades, apenas perfis relacionado direto com a prefeitura tem acesso a tal funcionalidade. Caso informações da campanha seja incorretas, denuncie! Caso seja outro problema entre em contato direto:\ncomuniQsuporte@gmail.com ";
             }
             else if (mensagem == "4") {
                 botSpeak = "Você pode entrar em contato conosco pelo nosso email de suporte(comuniQsuporte@gmail.com), ou escreva sua dúvida pelo chat, a qual será encaminhada para nossa equipe.";

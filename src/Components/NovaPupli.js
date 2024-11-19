@@ -1,18 +1,26 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
-import RNPickerSelect from 'react-native-picker-select';
+<<<<<<< HEAD
+import Select from './Select';
+import { AuthContext } from '../Context/AuthContext';
+import { idText } from 'typescript';
+=======
+import Select from './SelectOutros';
+>>>>>>> 421cca05a625a3ec3898a542ace3b78e4d8eb005
 
-export default function NovaPupli() {
+export default function NovaPupli({ setNovaOutro }) {
 
     const [titulo, setTitulo] = useState("");
     const [midia, setMidia] = useState("");
     const [descricao, setDescricao] = useState("");
 
-    const [denunciaId, setDenunciaId] = useState([]);
-    const [bairroId, setBairro] = useState([]);
-
     const [deubom, setDeubom] = useState(false);
     const [error, setError] = useState(false);
+
+    const [bairros, setBairros] = useState();
+    const [bairro, setBairro ] = useState();
+
+    const[usuario, setUsuario]= useState()
 
     async function SalvarPupli() {
 
@@ -26,7 +34,9 @@ export default function NovaPupli() {
                     publicacaoTitulo: titulo,
                     //publicacaoMidia: midia,
                     publicacaoDescricao: descricao,
-                    bairroId: bairroId,
+                    bairroId: bairro,
+                    
+                    
                 })
             })
                 .then((res) => res.json())
@@ -37,61 +47,75 @@ export default function NovaPupli() {
                         setError(false);
                     }
                 })
-                .catch(err => setError(true), setDeubom(false))
+                .catch(err => console.log(err))
         } else {
             setError(true)
             setDeubom(false)
         }
     }
 
+    async function getBairros() {
+
+
+        fetch(process.env.EXPO_PUBLIC_URL + '/api/Bairros/GetAllBairros', {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then((res) => res.json())
+            .then((json) => {
+                if (json) {
+                    setBairros(json);
+                }
+            })
+            .catch(err => setError(true), setDeubom(false))
+    }
+
+
+    useEffect(() => {
+        getBairros();
+    }, [])
+
     return (
         <ScrollView  >
+            <TouchableOpacity>
+                <Text style={css.BTNVoltar} onPress={() => { setNovaOutro(false) }}>❮</Text>
+            </TouchableOpacity>
 
-           
 
             <View style={css.caixamaior}>
 
                 <View style={css.container}>
-
-                    <Text style={css.mensagem} >O  que aconteceu:</Text>
+                <Text></Text>
                     <TextInput
                         style={css.input2}
                         textInput={titulo}
                         value={titulo}
                         onChangeText={(digitado) => setTitulo(digitado)}
-                        placeholder="Titulo da sua Puplicação:"
-                        placeholderTextColor="white"
+                        placeholder="O que aconteceu:"
+                        placeholderTextColor="black"
                     />
-
-                    <Text style={css.mensagem} >Descreva o ocorrido:</Text>
+                    <Text></Text>
                     <TextInput
                         style={css.input2}
                         textInput={descricao}
                         value={descricao}
                         onChangeText={(digitado) => setDescricao(digitado)}
-                        placeholder="Titulo da sua Puplicação:"
-                        placeholderTextColor="white"
+                        placeholder="Descreva o ocorrido:"
+                        placeholderTextColor="black"
                     />
-
-                    <Text style={css.mensagem} >Qual Bairro?</Text>
-                    <RNPickerSelect
-
-                        onValueChange={(setBairro)}
-                        items={[
-                            { label: 'Centro', value: 1 },
-                            { label: 'Bertolini', value: 2 },
-                            { label: 'Jardim flores', value: 3 },
-                        ]}
-                    />
+                    <Text></Text>
+                    <Select data={bairros} setBairro={setBairro} />
 
                     {deubom &&
                         <>
-                            <Text style={css.deuBom}>DEU Bom porra!</Text>
+                            <Text style={css.deuBom}>Nova publicão realizada com sucesso!</Text>
                         </>
                     }
                     {error &&
                         <>
-                            <Text style={css.deuRuim} >DEU error seu otario</Text>
+                            <Text style={css.deuRuim} >Não foi possivel realizar a nova publicação!</Text>
                         </>
                     }
 
@@ -122,23 +146,22 @@ const css = StyleSheet.create({
     input2: {
         width: 350,
         height: 50,
-        borderColor: "#000",
+        borderColor: "#20343F",
         borderRadius: 15,
-        borderWidth: 2,
-        backgroundColor: "#B3B3B3",
+        backgroundColor: "#fff",
         marginBottom: 5,
         marginTop: 5,
         padding: 10,
     },
     container: {
-        width: "90%",
-        height: 600,
-        backgroundColor: "#D9D9D9",
-        display: "flex",
+        backgroundColor: "#B3B3B3",
+        flexGrow: 1,
+        color: "white",
         alignItems: "center",
-
+        width: 380,
+        borderRadius: 10,
+        height:340
     },
-
     btn: {
         width: 300,
         height: 50,
@@ -173,5 +196,9 @@ const css = StyleSheet.create({
     },
     deuRuim: {
         color: "red"
+    },
+    BTNVoltar: {
+        fontSize: 15,
+        marginRight: 380,
     },
 })

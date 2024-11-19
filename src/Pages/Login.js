@@ -17,17 +17,18 @@ export default function Login({ navigation }) {
     const [CEP, setCep] = useState("");
     const [cidade, setCidade] = useState("");
     const [bairro, setBairro] = useState("");
-    const [estado, setEstado] = useState("");
-    const [senha, setSenha] = useState("");
-
-
+    const [estado, setEstado] = useState();
+    const [senha, setSenha] = useState();
+    const [cadastrado, setCadastrado] = useState(false);
+    const [deuerro, setDeuerro] = useState(false);
     const [cadastro, setCadastro] = useState(false);
     const [recupSenha, setRecupSenha] = useState(false);
-
-    const { Login, error } = useContext(AuthContext);
+    const { Login, error, setCPF } = useContext(AuthContext);
 
     function RealizaLogin() {
         Login(email, senha);
+        setEmail('');
+        setSenha('');
     }
 
     async function SalvarCadastro() {
@@ -55,23 +56,24 @@ export default function Login({ navigation }) {
             //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
             .then(res => res.json())
             .then(json => {
-                console.log(json);
-                // usuarioNome: setNome( " " )
-                // usuarioSobrenome: setSobrenome( " " )
-                // usuarioApelido: setApelido( " " )
-                // usuarioEmail: setEmail( " " )
-                // usuarioTelefone: setTelefone( " " )
-                // usuarioCPF: setCpf( " " )
-                // usuarioCEP: setCep( " " )
-                // usuarioCidade: setCidade( " " )
-                // usuarioBairro: setBairro( " " )
-                // usuarioEstado: setEstado( " " )
-                // usuarioSenha: setSenha( " " )
+                setCadastrado(true);
+                setDeuerro(false);
+                setNome('');
+                setSobrenome('');
+                setApelido('');
+                setEmail('');
+                setTelefone('');
+                setCpf('');
+                setCep('');
+                setCidade('');
+                setBairro('');
+                setEstado('');
+                setSenha('');
             })
-            .catch(err => console.log(err))
+            .catch(err => setDeuerro(true), setCadastrado(false))
     }
 
-     if (recupSenha) {
+    if (recupSenha) {
         return (<RecupSenha setRecupSenha={setRecupSenha} setCadastro={setCadastro} />)
     }
 
@@ -179,11 +181,18 @@ export default function Login({ navigation }) {
                                         placeholder="Senha:"
                                         placeholderTextColor="white"
                                     />
+
+                                    {cadastrado ? <Text style={css.texto}>Cadastrado com sucesso!</Text> : null}
+
+                                    {deuerro ? <Text style={css.texto}>Erro ao cadastrar!</Text> : null}
+
+
                                     <View style={css.PaiCadastrar2}>
                                         <TouchableOpacity style={css.btn} onPress={() => { SalvarCadastro(); setCadastro(false) }}>
                                             <Text style={css.Texto}>Cadastrar</Text>
                                         </TouchableOpacity>
                                     </View>
+
                                 </View>
                             </ScrollView>
                         </SafeAreaView>
@@ -201,15 +210,19 @@ export default function Login({ navigation }) {
                                 value={email}
                                 onChangeText={(digitado) => setEmail(digitado)}
                                 placeholderTextColor="white"
+                                autoCapitalize='none'
+                                autoCorrect={false}
                             />
                             <TextInput
                                 inputMode="text"
                                 placeholder="Senha:"
-                                secureTextEntry={true}
+
                                 style={css.input}
                                 value={senha}
                                 onChangeText={(digitado) => setSenha(digitado)}
                                 placeholderTextColor="white"
+                                autoCapitalize='none'
+                                autoCorrect={false}
                             />
                             <View style={css.ViewCadastrar}>
                                 <View style={css.forgot2}>
@@ -227,7 +240,7 @@ export default function Login({ navigation }) {
                                     <Text style={css.forgot2Texto}>Esqueceu sua senha?</Text>
                                 </View>
                                 <View style={css.forgot}>
-                                    <TouchableOpacity onPress={ () => setRecupSenha(true)}>
+                                    <TouchableOpacity onPress={() => setRecupSenha(true)}>
                                         <Text style={css.forgotText}>Recuperar Senha</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -236,11 +249,11 @@ export default function Login({ navigation }) {
                             <TouchableOpacity style={css.btnLogin} onPress={RealizaLogin}>
                                 <Text style={css.btnLoginText}>Entrar</Text>
                             </TouchableOpacity>
-                            {error &&
+                            {error && (
                                 <View style={css.error}>
-                                    <Text style={css.errorText}>Email ou Senha incorretos!</Text>
+                                    <Text style={css.errorText}>{error}</Text>
                                 </View>
-                            }
+                            )}
                             <View>
                                 <View style={css.ou}>
                                     <Text style={css.outexto}>Ou</Text>
@@ -421,5 +434,12 @@ const css = StyleSheet.create({
         fontSize: 30,
         fontWeight: "400",
     },
+    error: {
+        width: "100%",
+        height: 50,
+        marginTop: 30,
+        color: 'red',
+        justifyContent: 'center',
+    }
 
 })

@@ -2,31 +2,43 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Image,
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../Context/AuthContext';
 
-export default function RecupSenha({ setRecupSenha}) {
+export default function RecupSenha({ setRecupSenha }) {
 
     const [nome, setNome] = useState("");
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
+    const [cpf, setCpf] = useState("");
 
 
 
     const { Login, menReupSenha } = useContext(AuthContext);
 
-    async function SalvaRecpSenha(id) {
-        await fetch('http://localhost:5280/api/Usuarios/UpdateUsuario/' + id, {
-            method: 'PUT',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                usuarioEmail: email,
-                usuarioSenha: senha
-            })
-        })
-            //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
-            .then(res => res.json())
-            .then(json => console.log(json))
-            .catch(err => console.log(err))
+    async function SalvaRecpSenha() {
+        try {
+            // Monta a URL com os parâmetros necessários
+            const url = `http://10.139.75.99:5251/api/Usuarios/RecuperarSenha?email=${encodeURIComponent(email)}&novaSenha=${encodeURIComponent(senha)}&cpf=${encodeURIComponent(cpf)}`;
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                Alert.alert('Erro', errorData.message || 'Ocorreu um erro ao recuperar a senha.');
+                return;
+            }
+
+            const data = await response.json();
+            Alert.alert('Sucesso', 'Senha recuperada com sucesso!'); // ou qualquer outra ação desejada
+            console.log(data); // Aqui você pode processar a resposta da API como necessário
+
+        } catch (error) {
+            console.error('Error:', error);
+            Alert.alert('Erro', 'Erro ao tentar recuperar a senha. Tente novamente mais tarde.');
+        }
     }
 
 
@@ -53,10 +65,10 @@ export default function RecupSenha({ setRecupSenha}) {
                             />
                             <TextInput
                                 style={css.input2}
-                                // textInput={senha}
-                                // value={senha}
-                                onChangeText={(digitado) => setSenha(digitado)}
-                                placeholder="Codigo Valido:"
+                                textInput={cpf}
+                                value={cpf}
+                                onChangeText={(digitado) => setCpf(digitado)}
+                                placeholder="CPF:"
                                 placeholderTextColor="white"
                             />
                             <TextInput
@@ -66,6 +78,7 @@ export default function RecupSenha({ setRecupSenha}) {
                                 onChangeText={(digitado) => setSenha(digitado)}
                                 placeholder="Senha:"
                                 placeholderTextColor="white"
+                                secureTextEntry
                             />
                             <View style={css.PaiRecupSenha}>
                                 <TouchableOpacity style={css.btn} onPress={() => { SalvaRecpSenha(); setRecupSenha(false) }}>

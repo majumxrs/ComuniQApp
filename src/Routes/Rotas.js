@@ -66,6 +66,7 @@ export default function Rotas() {
                         ),
                     }}
                 />
+<<<<<<< HEAD
                   <Tab.Screen
                     name="Editar Perfil"
                     component={EditarPerfil}
@@ -94,6 +95,8 @@ export default function Rotas() {
                     }}
                 />
                  
+=======
+>>>>>>> 52915666289117a7cee7eaaf1af6252259380ade
             </Tab.Navigator>
         </NavigationContainer>
     )
