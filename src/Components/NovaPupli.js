@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
-import Select from './Select';
 import { AuthContext } from '../Context/AuthContext';
 import { idText } from 'typescript';
 import Select from './SelectOutros';
@@ -22,7 +21,7 @@ export default function NovaPupli({ setNovaOutro }) {
     async function SalvarPupli() {
 
         if (titulo != "" || descricao != "") {
-            fetch('http://10.139.75.99:5251/api/Publicacoes/InsertPublicacao', {
+            fetch('http://10.139.75.49:5251/api/Publicacoes/InsertPublicacao', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
