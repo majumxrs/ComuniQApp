@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 
 import React, { useContext, useEffect, useState } from 'react'
 import Select from './Select';
 import { AuthContext } from '../Context/AuthContext';
+import { idText } from 'typescript';
 
 export default function NovaPupli({ setNovaOutro }) {
 
@@ -16,6 +17,8 @@ export default function NovaPupli({ setNovaOutro }) {
 
     const [bairros, setBairros] = useState();
     const [bairro, setBairro ] = useState();
+
+    const[usuario, setUsuario]= useState()
 
     async function SalvarPupli() {
 
