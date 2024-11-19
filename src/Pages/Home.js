@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity, Image, TextInput, image, SafeAreaView, ScrollView, StatusBar } from 'react-native'
+import { View, Text, StyleSheet, FlatList, Dimensions, TouchableOpacity, Image, TextInput, image, SafeAreaView, ScrollView, StatusBar } from 'react-native'
 
 import React, { useContext, useEffect, useState } from 'react'
 import { useFocusEffect } from '@react-navigation/native';
@@ -12,6 +12,7 @@ import NovaCamp from '../Components/NovaCamp';
 import NovaDenucia from '../Components/NovaDenuncia';
 import NovaPupli from '../Components/NovaPupli';
 
+const { width } = Dimensions.get('window'); // Obter a largura da tela
 
 
 export default function Home({ navigation }) {
@@ -19,7 +20,7 @@ export default function Home({ navigation }) {
     //Publicação
     const [wifi, setWifi] = useState(true);
 
-    
+
 
     const [publicacao, setPublicacao] = useState([]);
     const [campanha, setCampanha] = useState([]);
@@ -32,7 +33,7 @@ export default function Home({ navigation }) {
     const [novadenuncia, setNovadenuncia] = useState(false);
     const [novaOutro, setNovaOutro] = useState(false);
 
-    
+
     //MINHA API 
     async function getDenuncia() {
         await fetch(process.env.EXPO_PUBLIC_URL + '/api/Denuncia/GetAllDenuncias', {
@@ -95,9 +96,9 @@ export default function Home({ navigation }) {
 
     //Item e um nome generico que vem da api que vc delimitou na data, podendo ser qualquer nome. dependendo para facilitar o entedimento pode colocar o memo nome do que vc vai buscar.
     return (
-        <>
+        <SafeAreaView style={css.container}>
             {wifi ?
-                <View style={css.container}>
+                <View style={css.container2}>
                     {!novapupli &&
                         <>
                             <View style={css.caixa}>
@@ -165,10 +166,10 @@ export default function Home({ navigation }) {
                 <>
                     <Text>Ola mundo !!!</Text>
 
-                    
+
                 </>}
 
-        </>
+        </SafeAreaView>
     )
 }
 
@@ -181,6 +182,11 @@ const css = StyleSheet.create({
         color: "white",
         alignItems: "center",
     },
+    container2: {
+        flex: 1,
+        alignItems: "center",
+        justifyContent: "flex-start",
+    },
     caixa: {
         height: 100,
         width: "100%",
@@ -189,6 +195,7 @@ const css = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
+
     tinyLogo: {
         width: '100%',
         height: '100%'
@@ -196,7 +203,7 @@ const css = StyleSheet.create({
     btnLogo: {
         height: 60,
         width: "25%",
-        marginTop: 15,
+        marginTop: 10,
     },
     text: {
         color: "black",
@@ -262,6 +269,7 @@ const css = StyleSheet.create({
         height: 50,
         borderRadius: 10,
         color: "white",
+        marginLeft: 10
     },
     TextoBTNC: {
         color: "white",
@@ -273,10 +281,10 @@ const css = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
-      },
-      horizontal: {
+    },
+    horizontal: {
         flexDirection: 'row',
         justifyContent: 'space-around',
         padding: 10,
-      },
+    },
 })
