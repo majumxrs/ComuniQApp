@@ -66,22 +66,12 @@ export default function Rotas() {
                         ),
                     }}
                 />
-<<<<<<< HEAD
                   <Tab.Screen
                     name="Editar Perfil"
                     component={EditarPerfil}
                     options={{
                         tabBarIcon: ({ color, size }) => (
                             <MaterialCommunityIcons name="account-circle" color={color} size={size} />
-                        ),
-                    }}
-                />
-                 <Tab.Screen
-                    name="Camera"
-                    component={Camera}
-                    options={{
-                        tabBarIcon: ({ color, size }) => (
-                            <MaterialCommunityIcons name="camera" color={color} size={size} />
                         ),
                     }}
                 />
@@ -95,8 +85,6 @@ export default function Rotas() {
                     }}
                 />
                  
-=======
->>>>>>> 52915666289117a7cee7eaaf1af6252259380ade
             </Tab.Navigator>
         </NavigationContainer>
     )
