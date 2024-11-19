@@ -12,7 +12,7 @@ export default function TelaCamera() {
 
     const screenRatio = height / width;
 
-    const { setCamera, setBlobBlob, cpf, setFotoNova } = useContext(AuthContext);
+    const { setCamera, user } = useContext(AuthContext);
 
     
     const [permissao, setPermissao] = useState(false);
@@ -61,27 +61,24 @@ export default function TelaCamera() {
 
     async function uploadPhoto() {
         const S3 = new AWS.S3();
-        
-
         const object = {
             Bucket: "comuniq",
-            Key: "usuario_" + cpf + ".jpg"
+            Key: "usuario_" + user.usuarioCPF + ".jpg"
         };
         
         const excluir = await S3.deleteObject( object ).promise();
         const params = {
             Bucket: "comuniq",
-            Key: "usuario_" + cpf + ".jpg",
+            Key: "usuario_" + user.usuarioCPF + ".jpg",
             Body: blob
         };
         const result = await S3.upload(params).promise();
-        console.log(result)
         if (result) {
             setBlob(false);
             setFotoOK( false );
         }
-        setFotoNova(result.Key)
     }
+
     useEffect(() => {
         PermissaoCamera();
     }, [])
@@ -125,7 +122,7 @@ export default function TelaCamera() {
                     transparente={true}>
                     {foto && <Image source={{ uri: `data:image/jpeg;base64,${foto}` }} style={css.fotinha} />}
                     <View style={css.botoes}>
-                        <TouchableOpacity style={css.btns} onPress={() => { uploadPhoto() }}>
+                        <TouchableOpacity style={css.btns} onPress={() => { uploadPhoto(); setCamera(false) }}>
                             <Image style={css.salvarimg} source={{ uri: "https://png.pngtree.com/png-vector/20231201/ourmid/pngtree-ok-icon-like-png-image_10804394.png", }}></Image>
                         </TouchableOpacity>
                         <TouchableOpacity style={css.btns} onPress={() => { setFotoOK(false) }}>

@@ -1,5 +1,8 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
+import Select from './Select';
+import { AuthContext } from '../Context/AuthContext';
+import { idText } from 'typescript';
 import Select from './SelectOutros';
 
 export default function NovaPupli({ setNovaOutro }) {
@@ -14,6 +17,8 @@ export default function NovaPupli({ setNovaOutro }) {
     const [bairros, setBairros] = useState();
     const [bairro, setBairro ] = useState();
 
+    const[usuario, setUsuario]= useState()
+
     async function SalvarPupli() {
 
         if (titulo != "" || descricao != "") {
@@ -26,7 +31,9 @@ export default function NovaPupli({ setNovaOutro }) {
                     publicacaoTitulo: titulo,
                     //publicacaoMidia: midia,
                     publicacaoDescricao: descricao,
-                    bairroId: bairroId,
+                    bairroId: bairro,
+                    
+                    
                 })
             })
                 .then((res) => res.json())
@@ -37,7 +44,7 @@ export default function NovaPupli({ setNovaOutro }) {
                         setError(false);
                     }
                 })
-                .catch(err => setError(true), setDeubom(false))
+                .catch(err => console.log(err))
         } else {
             setError(true)
             setDeubom(false)

@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet, FlatList, Button, TouchableOpacity, Image, TextInput, image, SafeAreaView, ScrollView, StatusBar } from 'react-native'
+
 import React, { useContext, useEffect, useState } from 'react'
 import { useFocusEffect } from '@react-navigation/native';
 import Denuncia from "../Components/Denuncias";
@@ -12,22 +13,26 @@ import NovaDenucia from '../Components/NovaDenuncia';
 import NovaPupli from '../Components/NovaPupli';
 
 
+
 export default function Home({ navigation }) {
 
     //Publicação
+    const [wifi, setWifi] = useState(true);
 
-    const [dados, setDados] = useState([]);
+    
+
     const [publicacao, setPublicacao] = useState([]);
     const [campanha, setCampanha] = useState([]);
     const [denuncia, setDenuncia] = useState([]);
+    const [usuario, setUsario] = useState([]);
 
+    const [dados, setDados] = useState([]);
     const [novapupli, setNovapupli] = useState(false);
-
     const [novacampanha, setNovacampanha] = useState(false);
     const [novadenuncia, setNovadenuncia] = useState(false);
     const [novaOutro, setNovaOutro] = useState(false);
 
-
+    
     //MINHA API 
     async function getDenuncia() {
         await fetch(process.env.EXPO_PUBLIC_URL + '/api/Denuncia/GetAllDenuncias', {
@@ -43,7 +48,6 @@ export default function Home({ navigation }) {
 
             .catch(err => console.log(err))
     }
-
 
     async function getCampanhas() {
         await fetch(process.env.EXPO_PUBLIC_URL + '/api/Campanhas/GetAllCampanhas', {
@@ -70,19 +74,17 @@ export default function Home({ navigation }) {
             .then(res => res.json())
             .then(json => {
                 setPublicacao(json);
+                setUsario(json);
             })
 
             .catch(err => console.log(err))
     }
 
-
-
-
     function getAll() {
         getCampanhas();
         getDenuncia();
         getPublicacao();
-        setDados([...campanha, ...publicacao, ...denuncia]);
+        setDados([...campanha, ...publicacao, ...denuncia, ...usuario]);
     }
 
     useFocusEffect(
@@ -93,71 +95,80 @@ export default function Home({ navigation }) {
 
     //Item e um nome generico que vem da api que vc delimitou na data, podendo ser qualquer nome. dependendo para facilitar o entedimento pode colocar o memo nome do que vc vai buscar.
     return (
-        <View style={css.container}>
-            {!novapupli &&
-                <>
-                    <View style={css.caixa}>
-                        <TouchableOpacity style={css.btnLogo} onPress={() => { getAll() }}>
-                            <Image style={css.tinyLogo} source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")} />
-                        </TouchableOpacity>
-                    </View>
+        <>
+            {wifi ?
+                <View style={css.container}>
+                    {!novapupli &&
+                        <>
+                            <View style={css.caixa}>
+                                <TouchableOpacity style={css.btnLogo} onPress={() => { getAll() }}>
+                                    <Image style={css.tinyLogo} source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")} />
+                                </TouchableOpacity>
+                            </View>
 
-                    <View style={css.CaixaPai3bnt}>
-                        <View style={css.btnOutros}>
-                            <TouchableOpacity style={css.btnOutros}
-                                onPress={() => { getPublicacao(); setDados(publicacao); }}
-                            >
-                                <Text style={css.Texto}>Outros</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View>
-                            <TouchableOpacity style={css.btnCamp}
-                                onPress={() => { getCampanhas(); setDados(campanha); }}
-                            >
-                                <Text style={css.Texto}>Campanhas</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View>
-                            <TouchableOpacity style={css.btnDenun}
-                                onPress={() => { getDenuncia(); setDados(denuncia); }}
-                            >
-                                <Text style={css.Texto}>Denuncia</Text>
-                            </TouchableOpacity>
-                        </View>
-                    </View>
+                            <View style={css.CaixaPai3bnt}>
+                                <View style={css.btnOutros}>
+                                    <TouchableOpacity style={css.btnOutros}
+                                        onPress={() => { getPublicacao(); setDados(publicacao); }}
+                                    >
+                                        <Text style={css.Texto}>Outros</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <View>
+                                    <TouchableOpacity style={css.btnCamp}
+                                        onPress={() => { getCampanhas(); setDados(campanha); }}
+                                    >
+                                        <Text style={css.Texto}>Campanhas</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <View>
+                                    <TouchableOpacity style={css.btnDenun}
+                                        onPress={() => { getDenuncia(); setDados(denuncia); }}
+                                    >
+                                        <Text style={css.Texto}>Denuncia</Text>
+                                    </TouchableOpacity>
+                                </View>
+                            </View>
 
-                    <View>
-                        <TouchableOpacity style={css.btn01} onPress={() => setNovapupli(true)}>
-                            <Text style={css.TextoBTNC}>Nova Puplicação</Text>
-                        </TouchableOpacity>
-                    </View>
-                    {
-                        dados &&
-                        <View style={css.Teste}>
-                            <FlatList
-                                data={dados}
-                                renderItem={({ item, index }) =>
-                                    <HomeCom
-                                        item={item}
-                                        navigation={navigation}
+                            <View>
+                                <TouchableOpacity style={css.btn01} onPress={() => setNovapupli(true)}>
+                                    <Text style={css.TextoBTNC}>Nova Puplicação</Text>
+                                </TouchableOpacity>
+                            </View>
+                            {
+                                dados &&
+                                <View style={css.Teste}>
+                                    <FlatList
+                                        data={dados}
+                                        renderItem={({ item, index }) =>
+                                            <HomeCom
+                                                item={item}
+                                                navigation={navigation}
+                                            />
+                                        }
+                                        keyExtractor={(item, index) => index}
+                                        contentContainerStyle={{ paddingBottom: dados.length * 10 }}
                                     />
-                                }
-                                keyExtractor={(item, index) => index}
-                                contentContainerStyle={{ paddingBottom: dados.length * 10 }}
-                            />
-                        </View>
+                                </View>
+                            }
+                        </>
                     }
-                </>
-            }
-         
-            {novapupli &&
-                <Nova setNovaOutro={setNovaOutro} setNovacampanha={setNovacampanha} setNovadenuncia={setNovadenuncia} setNovapupli={setNovapupli} />
-            }
-            {novacampanha && <NovaCamp setnovacampanha={setNovacampanha} />}
-            {novadenuncia && <NovaDenucia setNovadenuncia={setNovadenuncia} />}
-            {novaOutro && <NovaPupli setNovaOutro={setNovaOutro} />}
-        </View>
 
+                    {novapupli &&
+                        <Nova setNovaOutro={setNovaOutro} setNovacampanha={setNovacampanha} setNovadenuncia={setNovadenuncia} setNovapupli={setNovapupli} />
+                    }
+                    {novacampanha && <NovaCamp setnovacampanha={setNovacampanha} setNovapupli={setNovapupli} />}
+                    {novadenuncia && <NovaDenucia setNovadenuncia={setNovadenuncia} />}
+                    {novaOutro && <NovaPupli setNovaOutro={setNovaOutro} />}
+                </View>
+                :
+                <>
+                    <Text>Ola mundo !!!</Text>
+
+                    
+                </>}
+
+        </>
     )
 }
 
@@ -259,4 +270,13 @@ const css = StyleSheet.create({
         fontSize: 20,
         fontWeight: "400"
     },
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+      },
+      horizontal: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        padding: 10,
+      },
 })
