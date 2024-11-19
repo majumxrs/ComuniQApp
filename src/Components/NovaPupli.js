@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
-import Select from './Select';
+
 import { AuthContext } from '../Context/AuthContext';
 import { idText } from 'typescript';
 import Select from './SelectOutros';

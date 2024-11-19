@@ -12,16 +12,14 @@ export default function Denuncia({ item }) {
     const [publicacaoId, setPublicacaoId] = useState(0);
 
     const { id } = useContext(AuthContext);
-    // const [usuarioId, setUsuarioId] = useState(0);
-    // const [publicacaoId, setPublicacaoId] = useState(0);
     const [expandido, setExpandido] = useState(false);
-    
+
 
     const limiteCaracteres = 100;
     const descricao = item.campanhaDescricao || item.publicacaoDescricao || item.denunciaDescricao || item.usuario || '';
 
     async function SalvarObs() {
-        console.log( id );
+        console.log(id);
         await fetch(process.env.EXPO_PUBLIC_URL + '/InsertComentario', {
             method: 'POST',
             headers: {
@@ -35,13 +33,13 @@ export default function Denuncia({ item }) {
         })
             //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
             .then(res => res.json())
-            .then(json =>{setComentarioTexto('');})
+            .then(json => { setComentarioTexto(''); })
             .catch(err => console.log(err))
     }
 
 
     async function getComentarios() {
-        await fetch(process.env.EXPO_PUBLIC_URL + '/GetComentariosByPost?id=' + publicacaoId , {
+        await fetch(process.env.EXPO_PUBLIC_URL + '/GetComentariosByPost?id=' + publicacaoId, {
             method: 'GET',
             headers: {
                 'content-type': 'application/json'
@@ -57,46 +55,46 @@ export default function Denuncia({ item }) {
 
     useFocusEffect(
         React.useCallback(() => {
-        getComentarios()
+            getComentarios()
         }, [comentario]))
 
     async function getDenuncia() {
-        await fetch( process.env.EXPO_PUBLIC_URL +  '/api/Denuncia/GetAllDenuncias', {
-          method: 'GET',
-          headers: {
-            'content-type': 'application/json'
-          }
+        await fetch(process.env.EXPO_PUBLIC_URL + '/api/Denuncia/GetAllDenuncias', {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json'
+            }
         })
-          .then(res => res.json())
-          .then(json => {
-            setDenuncia(json);
-          })
-    
-          .catch(err => console.log(err))
-      }
+            .then(res => res.json())
+            .then(json => {
+                setDenuncia(json);
+            })
 
-      function showComentario(publicacao){
-        setComentario( true );
-        if( publicacao.publicacaoId ) {
-            setPublicacaoId( publicacao.publicacaoId);
-        }
-        if( publicacao.denunciaId ) {
-            setPublicacaoId( publicacao.denunciaId );
-        }
-        if( publicacao.comentarioId ) {
-            setPublicacaoId( publicacao.comentarioId );
-        }
-        if( publicacao.campanhasId ) {
-            setPublicacaoId( publicacao.campanhasId );
-        }
-        if(comentario){setComentario(false)}
+            .catch(err => console.log(err))
+    }
 
-      }
+    function showComentario(publicacao) {
+        setComentario(true);
+        if (publicacao.publicacaoId) {
+            setPublicacaoId(publicacao.publicacaoId);
+        }
+        if (publicacao.denunciaId) {
+            setPublicacaoId(publicacao.denunciaId);
+        }
+        if (publicacao.comentarioId) {
+            setPublicacaoId(publicacao.comentarioId);
+        }
+        if (publicacao.campanhasId) {
+            setPublicacaoId(publicacao.campanhasId);
+        }
+        if (comentario) { setComentario(false) }
 
-      useEffect( () => {
+    }
+
+    useEffect(() => {
         getComentarios();
-      }, [publicacaoId])
-    
+    }, [publicacaoId])
+
 
     return (
         <View style={css.container}>
@@ -145,11 +143,21 @@ export default function Denuncia({ item }) {
                     <View style={css.PaiInput}>
                         <FlatList
                             data={comentarios}
-                               keyExtractor={ (item) => item.comentarioId}
-                            renderItem={ ({item}) => <Text style={css.txtComent}>{item.comentarioTexto}</Text> }
+                            keyExtractor={(item) => item.comentarioId}
+                            renderItem={({ item }) => <>
+                                {item.usuario.usuarioFoto ?
+                                    <Image style={css.AvatarPu} source={{ uri: "http://comuniq.s3.amazonaws.com/" + item.usuario.usuarioFoto }}></Image>
+                                    :
+                                    <Image style={css.AvatarPu} source={require('../../assets/FotosComuniQ/UsuarioSem.png')} />
+
+                                }
+                                <Text style={css.nome}>{item.usuario.usuarioNome}</Text>
+                                <Text style={css.txtComent}>{item.comentarioTexto}</Text>
+                            </>
+                            }
                         />
-                       
-                       <TextInput style={css.input} textInput={comentarioTexto} value={comentarioTexto} onChangeText={(digitado) => setComentarioTexto(digitado)} placeholder="Novo Comentario" />
+
+                        <TextInput style={css.input} textInput={comentarioTexto} value={comentarioTexto} onChangeText={(digitado) => setComentarioTexto(digitado)} placeholder="Novo Comentario" />
                         <TouchableOpacity style={css.btn02} onPress={() => SalvarObs()}>
                             <Text style={css.TextoBTNC}>Salvar</Text>
                         </TouchableOpacity>
@@ -161,28 +169,30 @@ export default function Denuncia({ item }) {
 }
 const css = StyleSheet.create({
 
-    linha: {
-        
-    },
+
 
     txtComent: {
-        margin: 20,
+        margin: 10,
         borderWidth: 2,
         borderColor: "#0001",
         borderRadius: 3,
         backgroundColor: "#888888",
         color: "white",
-        height: 60,
+
+        borderRadius: 10,
+        alignItems: "center"
     },
-    
-    
+    nome: {
+        color: "#000",
+    },
+
     PaiInput: {
-       
+
         margin: 10,
         padding: 5,
         borderRadius: 10
     },
-    
+
     container: {
         width: 370,
         backgroundColor: "#D9D9D9",
@@ -231,7 +241,7 @@ const css = StyleSheet.create({
         //backgroundColor:"red",
         borderRadius: 50
     },
-    AvatarPu:{
+    AvatarPu: {
         width: 50,
         height: 50,
         borderRadius: 50
