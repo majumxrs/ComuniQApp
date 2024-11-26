@@ -16,7 +16,7 @@ export default function RecupSenha({ setRecupSenha }) {
     async function SalvaRecpSenha() {
         try {
             // Monta a URL com os parâmetros necessários
-            const url = `http://10.139.75.99:5251/api/Usuarios/RecuperarSenha?email=${encodeURIComponent(email)}&novaSenha=${encodeURIComponent(senha)}&cpf=${encodeURIComponent(cpf)}`;
+            const url = process.env.EXPO_PUBLIC_URL +`/api/Usuarios/RecuperarSenha?email=${encodeURIComponent(email)}&novaSenha=${encodeURIComponent(senha)}&cpf=${encodeURIComponent(cpf)}`;
 
             const response = await fetch(url, {
                 method: 'POST',
@@ -62,6 +62,7 @@ export default function RecupSenha({ setRecupSenha }) {
                                 onChangeText={(digitado) => setEmail(digitado)}
                                 placeholder="Email:"
                                 placeholderTextColor="white"
+                                inputMode='email'
                             />
                             <TextInput
                                 style={css.input2}
@@ -70,6 +71,7 @@ export default function RecupSenha({ setRecupSenha }) {
                                 onChangeText={(digitado) => setCpf(digitado)}
                                 placeholder="CPF:"
                                 placeholderTextColor="white"
+                                keyboardType='numeric'
                             />
                             <TextInput
                                 style={css.input2}
@@ -121,10 +123,6 @@ const css = StyleSheet.create({
         display: "flex",
         alignItems: "center",
         marginLeft: 105,
-    },
-    tinyLogo: {
-        width: 10,
-        height: 10
     },
     logo: {
         width: 180,

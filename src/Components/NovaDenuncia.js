@@ -147,10 +147,6 @@ export default function NovaDenucia({ setNovadenuncia }) {
     )
 }
 const css = StyleSheet.create({
-    mensagem: {
-        margin: 10,
-        width: 320
-    },
     caixamaior: {
         display: "flex",
         justifyContent: "center",

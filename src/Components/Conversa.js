@@ -11,22 +11,20 @@ export default function Conversa({mensagem, userInput}) {
 }
 
 const css = StyleSheet.create({
-    mensagem: {
-        backgroundColor: "#D9D9D9",
-        margin: 10,
-        width: 320
-    
-      },
-    
-      mensagemUsu: {
-        backgroundColor: '#515151',
-        color: 'white',
-        width: 280,
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        margin: 10,
-        marginLeft: 120
-       },
+  mensagem: {
+    backgroundColor: "#D9D9D9",
+    margin: 10,
+    width: 320
+  },
+  mensagemUsu: {
+    backgroundColor: '#515151',
+    color: 'white',
+    width: 280,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    margin: 10,
+    marginLeft: 120
+  },
 })

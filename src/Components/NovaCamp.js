@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
-import React, { useContext, useEffect, useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import SelectCampanha from './SelectCampanha';
 import SelectCidade from './SelectCidade';
 
@@ -13,8 +13,6 @@ export default function NovaCamp({ setnovacampanha }) {
     const [cidade, setCidade] = useState();
 
     const [TipoDenuciaNome, setTipoDenunciaNome] = useState("");
-    const [bairros, setBairros] = useState();
-    const [bairro, setBairro ] = useState();
     const [TipoNovaCampanha, SetTipoNovaCampanha] = useState();
     const [TipoNovaCampanhas, SetTipoNovaCampanhas] = useState();
 
@@ -41,7 +39,6 @@ export default function NovaCamp({ setnovacampanha }) {
                 .then((json) => {
                     console.log( json );
                     if (json) {
-
                         setDeubom(true);
                         setError(false);
                     }
@@ -100,8 +97,6 @@ export default function NovaCamp({ setnovacampanha }) {
             .catch(err => { setError(true); setDeubom(false); })
     }
 
-
-
     useEffect(() => {
         getCidades();
         getTipoDenuncia();
@@ -147,25 +142,17 @@ export default function NovaCamp({ setnovacampanha }) {
                             <Text style={css.deuRuim} >Não foi possivel realizar a nova campanha!</Text>
                         </>
                     }
-
                     <View style={css.PaiCadastrar2}>
                         <TouchableOpacity style={css.btn} onPress={() => { SalvarCamp(); }}>
                             <Text style={css.btnLoginText}>Adicionar</Text>
                         </TouchableOpacity>
                     </View>
-
                 </View>
-
             </View>
-
         </ScrollView>
     )
 }
 const css = StyleSheet.create({
-    mensagem: {
-        margin: 10,
-        width: 320
-    },
     caixamaior: {
         display: "flex",
         justifyContent: "center",

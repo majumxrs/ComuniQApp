@@ -12,8 +12,8 @@ export default function Denuncia({ item }) {
     const [publicacaoId, setPublicacaoId] = useState(0);
 
     const { id } = useContext(AuthContext);
-    const [expandido, setExpandido] = useState(false);
 
+    const [expandido, setExpandido] = useState(false);
 
     const limiteCaracteres = 100;
     const descricao = item.campanhaDescricao || item.publicacaoDescricao || item.denunciaDescricao || item.usuario || '';
@@ -36,7 +36,6 @@ export default function Denuncia({ item }) {
             .then(json => { setComentarioTexto(''); })
             .catch(err => console.log(err))
     }
-
 
     async function getComentarios() {
         await fetch(process.env.EXPO_PUBLIC_URL + '/GetComentariosByPost?id=' + publicacaoId, {
@@ -102,13 +101,10 @@ export default function Denuncia({ item }) {
                 <View style={css.BoxTitulo}>
                     {item.publicacaoId && <Image style={css.AvatarPu} source={{ uri: "http://comuniq.s3.amazonaws.com/" + item.usuario.usuarioFoto }} />}
                     {item.publicacaoId && <Text style={css.TextoNOme}>{item.usuario.usuarioNome}</Text>}
-
                     {item.denunciaId && <Image style={css.Avatar} source={require('../../assets/FotosComuniQ/UsuarioSem.png')} />}
                     {item.denunciaId && <Text style={css.TextoNOme}>Anônimo</Text>}
-
                     {item.campanhaId && <Image style={css.Avatar} source={require('../../assets/FotosComuniQ/UsuarioSem.png')} />}
                     {item.campanhaId && <Text style={css.TextoNOme}>Anônimo</Text>}
-
                 </View>
                 {item.campanhaTitulo && <Text style={css.title}>{item.campanhaTitulo}</Text>}
                 {item.denunciaTitutlo && <Text style={css.title}>{item.denunciaTitutlo}</Text>}
@@ -168,9 +164,6 @@ export default function Denuncia({ item }) {
     )
 }
 const css = StyleSheet.create({
-
-
-
     txtComent: {
         margin: 10,
         borderWidth: 2,
@@ -192,7 +185,6 @@ const css = StyleSheet.create({
         padding: 5,
         borderRadius: 10
     },
-
     container: {
         width: 370,
         backgroundColor: "#D9D9D9",
@@ -217,7 +209,6 @@ const css = StyleSheet.create({
     CaixaImagem: {
         width: "100%",
         height: 200,
-
     },
     imagemG: {
         width: "100%",
@@ -233,7 +224,6 @@ const css = StyleSheet.create({
         height: 60,
         flexDirection: "row",
         alignItems: "center",
-
     },
     Avatar: {
         width: 50,
@@ -274,21 +264,7 @@ const css = StyleSheet.create({
         fontSize: 20,
         fontWeight: "400"
     },
-    input: {
-        width: 300,
-        height: 50,
-        borderColor: "#20343F",
-        borderRadius: 15,
-        borderWidth: 2,
-        backgroundColor: "white",
-        marginBottom: 5,
-        marginTop: 10,
-        marginLeft: 10,
-        padding: 5
-    },
     botaoVerMais: {
         color: "blue",
-
     },
-
 })

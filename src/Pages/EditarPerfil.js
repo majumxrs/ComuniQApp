@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Button, Image, TouchableOpacity, TextInput, Modal } from 'react-native'
+import { View, Text, StyleSheet, Button, Image, TouchableOpacity, TextInput, Modal, ScrollView } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../Context/AuthContext'
 import TelaCamera from '../Components/Camera';
@@ -18,15 +18,15 @@ export default function EditarPerfil() {
   const [cidade, setCidade] = useState();
   const [estado, setEstado] = useState();
   const [senha, setSenha] = useState();
-  const [novaFoto, setNovaFoto] = useState();
+
   const [foto, setFoto] = useState();
   const [image, setImage] = useState(null);
   const [blob, setBlob] = useState();
 
-  const { id, Login, setCamera, setGaleria, camera, galeria, setEditPerfil, user } = useContext(AuthContext);
+  const { id, Login, novaFoto, setNovaFoto, setCamera, setGaleria, camera, SetUser, setEditPerfil, user } = useContext(AuthContext);
 
 
-  
+
 
 
   async function Salvar() {
@@ -36,6 +36,7 @@ export default function EditarPerfil() {
         'content-type': 'application/json'
       },
       body: JSON.stringify({
+        usuarioId: id,
         usuarioNome: nome,
         usuarioSobrenome: sobrenome,
         usuarioApelido: apelido,
@@ -49,17 +50,16 @@ export default function EditarPerfil() {
         usuarioEstado: estado,
         usuarioSenha: senha,
         tipoPerfilId: 1
-
       })
     })
       .then(res => res.json())
       .then(json => {
         alert("Perfil atualizado com sucesso");
         setEditPerfil(false);
-        setUser(json);
+        SetUser(json);
 
       })
-      .catch(err => alert("Algo deu errado, por favor tente novamente"))
+      .catch(err => alert(err))
   }
 
   useEffect(() => {
@@ -126,91 +126,90 @@ export default function EditarPerfil() {
       <TelaCamera />
     )
   }
-/*  if (camera == false) {
-    setNovaFoto(false);
-  }*/
 
   return (
-    <>
+    <View>
       <View style={css.caixa}>
         <Image
           style={css.tinyLogo}
           source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")}
         />
       </View >
-      <TouchableOpacity style={css.btnV} onPress={() => setEditPerfil(false)}>
-        <Text style={css.btnLoginTextV}>Voltar</Text>
-      </TouchableOpacity>
+      <ScrollView style={css.scroll}>
+        <TouchableOpacity style={css.btnV} onPress={() => setEditPerfil(false)}>
+          <Text style={css.btnLoginTextV}>&#9664;</Text>
+        </TouchableOpacity>
 
-      <View style={css.container}>
-        <TouchableOpacity style={css.foto} onPress={() => setNovaFoto(true)}>
-          <Image style={css.fotousu} source={{ uri: "https://comuniq.s3.amazonaws.com/usuario_" + user.usuarioCPF + ".jpg?" + Math.random() }} />
-        </TouchableOpacity>
-        {novaFoto &&
-          <Modal
-            animationType="slide"
-            transparent={true}>
-            <View style={css.popup}>
-              <TouchableOpacity style={css.btnpop} onPress={() => setCamera(true)}>
-                <Text style={css.txtpop}>Câmera</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={css.btnpop} onPress={pickImage}>
-                <Text style={css.txtpop}>Procurar foto existente</Text>
-              </TouchableOpacity>
-              <TouchableOpacity style={css.btnpop} onPress={() => setNovaFoto(false)}>
-                <Text style={css.txtpop}>Fechar</Text>
-              </TouchableOpacity>
-              {image && setNovaFoto(false)}
+        <View style={css.container}>
+          <TouchableOpacity style={css.foto} onPress={() => setNovaFoto(true)}>
+            <Image style={css.fotousu} source={{ uri: "https://comuniq.s3.amazonaws.com/usuario_" + user.usuarioCPF + ".jpg?" + Math.random() }} />
+          </TouchableOpacity>
+          {novaFoto &&
+            <Modal
+              animationType="slide"
+              transparent={true}>
+              <View style={css.popup}>
+                <TouchableOpacity style={css.btnpop} onPress={() => setCamera(true)}>
+                  <Text style={css.txtpop}>Câmera</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={css.btnpop} onPress={pickImage}>
+                  <Text style={css.txtpop}>Procurar foto existente</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={css.btnpop} onPress={() => setNovaFoto(false)}>
+                  <Text style={css.txtpop}>Fechar</Text>
+                </TouchableOpacity>
+                {image && setNovaFoto(false)}
+              </View>
+            </Modal>}
+          <View style={css.parte1}>
+            <View style={css.campo1}>
+              <Text style={css.tit}>Nome</Text>
+              <TextInput
+                onChangeText={(digitado) => setNome(digitado)}>{nome}</TextInput>
             </View>
-          </Modal>}
-        <View style={css.parte1}>
-          <View style={css.campo1}>
-            <Text style={css.tit}>Nome</Text>
-            <TextInput
-              onChangeText={(digitado) => setNome(digitado)}>{nome}</TextInput>
+            <View style={css.campo2}>
+              <Text style={css.tit}>Sobrenome</Text>
+              <TextInput onChangeText={(digitado) => setSobrenome(digitado)}>{sobrenome}</TextInput>
+            </View>
           </View>
-          <View style={css.campo2}>
-            <Text style={css.tit}>Sobrenome</Text>
-            <TextInput onChangeText={(digitado) => setSobrenome(digitado)}>{sobrenome}</TextInput>
+          <View style={css.campo3}>
+            <Text style={css.tit}>Apelido</Text>
+            <TextInput onChangeText={(digitado) => setApelido(digitado)}>{apelido}</TextInput>
           </View>
-        </View>
-        <View style={css.campo3}>
-          <Text style={css.tit}>Apelido</Text>
-          <TextInput onChangeText={(digitado) => setApelido(digitado)}>{apelido}</TextInput>
-        </View>
-        <View style={css.campo3}>
-          <Text style={css.tit}>Email</Text>
-          <TextInput onChangeText={(digitado) => setEmail(digitado)}>{email}</TextInput>
-        </View>
-        <View style={css.parte1}>
-          <View style={css.campo4}>
-            <Text style={css.tit}>Telefone</Text>
-            <TextInput onChangeText={(digitado) => setTelefone(digitado)}>{telefone}</TextInput>
+          <View style={css.campo3}>
+            <Text style={css.tit}>Email</Text>
+            <TextInput onChangeText={(digitado) => setEmail(digitado)}>{email}</TextInput>
           </View>
-          <View style={css.campo5}>
-            <Text style={css.tit}>CPF</Text>
-            <TextInput onChangeText={(digitado) => setCpf(digitado)}>{CPF}</TextInput>
+          <View style={css.parte1}>
+            <View style={css.campo4}>
+              <Text style={css.tit}>Telefone</Text>
+              <TextInput onChangeText={(digitado) => setTelefone(digitado)}>{telefone}</TextInput>
+            </View>
+            <View style={css.campo5}>
+              <Text style={css.tit}>CPF</Text>
+              <TextInput onChangeText={(digitado) => setCpf(digitado)}>{CPF}</TextInput>
+            </View>
           </View>
-        </View>
-        <View style={css.parte1}>
-          <View style={css.campo4}>
-            <Text style={css.tit}>CEP</Text>
-            <TextInput onChangeText={(digitado) => setCep(digitado)}>{cep}</TextInput>
+          <View style={css.parte1}>
+            <View style={css.campo4}>
+              <Text style={css.tit}>CEP</Text>
+              <TextInput onChangeText={(digitado) => setCep(digitado)}>{cep}</TextInput>
+            </View>
+            <View style={css.campo5}>
+              <Text style={css.tit}>Cidade</Text>
+              <TextInput onChangeText={(digitado) => setCidade(digitado)}>{cidade}</TextInput>
+            </View>
           </View>
-          <View style={css.campo5}>
-            <Text style={css.tit}>Cidade</Text>
-            <TextInput onChangeText={(digitado) => setCidade(digitado)}>{cidade}</TextInput>
+          <View style={css.campo3}>
+            <Text style={css.tit}>Bairro</Text>
+            <TextInput onChangeText={(digitado) => setBairro(digitado)}>{bairro}</TextInput>
           </View>
+          <TouchableOpacity onPress={Salvar} style={css.btn}>
+            <Text style={css.txtbtn} >Salvar</Text>
+          </TouchableOpacity>
         </View>
-        <View style={css.campo3}>
-          <Text style={css.tit}>Bairro</Text>
-          <TextInput onChangeText={(digitado) => setBairro(digitado)}>{bairro}</TextInput>
-        </View>
-        <TouchableOpacity onPress={Salvar} style={css.btn}>
-          <Text style={css.txtbtn} >Salvar</Text>
-        </TouchableOpacity>
-      </View>
-    </>
+      </ScrollView>
+    </View>
   )
 }
 const css = StyleSheet.create({
@@ -221,7 +220,7 @@ const css = StyleSheet.create({
     alignItems: "center",
   },
   caixa: {
-    height: 95,
+    height: "13%",
     width: "100%",
     backgroundColor: "#20343F",
     display: "flex",
@@ -231,7 +230,7 @@ const css = StyleSheet.create({
   tinyLogo: {
     height: 60,
     width: "25%",
-    marginTop: 15,
+    marginTop:20
   },
   campo1: {
     borderColor: "#9C9898",
@@ -317,5 +316,15 @@ const css = StyleSheet.create({
   txtpop: {
     color: "#fff",
     padding: 8
+  },
+  btnLoginTextV: {
+    color: "gray",
+    fontSize: 25,
+  },
+  btnV: {
+    backgroundColor: "#fff"
+  },
+  scroll:{
+    height: '87%'
   }
 })

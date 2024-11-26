@@ -1,6 +1,5 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
-
 import { AuthContext } from '../Context/AuthContext';
 import { idText } from 'typescript';
 import Select from './SelectOutros';
@@ -22,7 +21,7 @@ export default function NovaPupli({ setNovaOutro }) {
     async function SalvarPupli() {
 
         if (titulo != "" || descricao != "") {
-            fetch('http://10.139.75.99:5251/api/Publicacoes/InsertPublicacao', {
+            fetch('http://10.139.75.49:5251/api/Publicacoes/InsertPublicacao', {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
@@ -130,10 +129,6 @@ export default function NovaPupli({ setNovaOutro }) {
     )
 }
 const css = StyleSheet.create({
-    mensagem: {
-        margin: 10,
-        width: 320
-    },
     caixamaior: {
         display: "flex",
         justifyContent: "center",
@@ -180,13 +175,6 @@ const css = StyleSheet.create({
         marginTop: 50,
         backgroundColor: "#20343F",
         marginLeft: 20,
-    },
-    btnLoginTextV: {
-        lineHeight: 45,
-        textAlign: "center",
-        fontSize: 25,
-        fontWeight: "400",
-        color: "white"
     },
     deuBom: {
         color: "#008000"

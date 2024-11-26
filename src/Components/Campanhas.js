@@ -1,11 +1,12 @@
 import { View, Text, StyleSheet, Image } from 'react-native'
 import React from 'react'
 
-
 export default function Campanhas({ campanhaTitulo, campanhaMidia, campanhaDescricao, tipoCampanhaId, cidadeId }) {
+    
     const getImageSource = () => {
         return `data:image/jpeg;base64,${campanhaMidia}`
     }
+
     return (
         <View style={css.container}>
             <View style={css.boxTitle}>
