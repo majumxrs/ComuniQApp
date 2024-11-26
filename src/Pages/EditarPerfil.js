@@ -137,7 +137,7 @@ export default function EditarPerfil() {
       </View >
       <ScrollView style={css.scroll}>
         <TouchableOpacity style={css.btnV} onPress={() => setEditPerfil(false)}>
-          <Text style={css.btnLoginTextV}>&#9664;</Text>
+          <Text style={css.btnLoginTextV}>❮</Text>
         </TouchableOpacity>
 
         <View style={css.container}>
@@ -318,8 +318,8 @@ const css = StyleSheet.create({
     padding: 8
   },
   btnLoginTextV: {
-    color: "gray",
-    fontSize: 25,
+    fontSize: 20,
+    margin:5
   },
   btnV: {
     backgroundColor: "#fff"
