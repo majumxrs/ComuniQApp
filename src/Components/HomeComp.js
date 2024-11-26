@@ -57,6 +57,21 @@ export default function Denuncia({ item }) {
             getComentarios()
         }, [comentario]))
 
+    async function getDenuncia() {
+        await fetch(process.env.EXPO_PUBLIC_URL + '/api/Denuncia/GetAllDenuncias', {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then(res => res.json())
+            .then(json => {
+                setDenuncia(json);
+            })
+
+            .catch(err => console.log(err))
+    }
+
     function showComentario(publicacao) {
         setComentario(true);
         if (publicacao.publicacaoId) {
@@ -72,11 +87,13 @@ export default function Denuncia({ item }) {
             setPublicacaoId(publicacao.campanhasId);
         }
         if (comentario) { setComentario(false) }
+
     }
 
     useEffect(() => {
         getComentarios();
     }, [publicacaoId])
+
 
     return (
         <View style={css.container}>
@@ -123,8 +140,19 @@ export default function Denuncia({ item }) {
                         <FlatList
                             data={comentarios}
                             keyExtractor={(item) => item.comentarioId}
-                            renderItem={({ item }) => <Text style={css.txtComent}>{item.comentarioTexto}</Text>}
+                            renderItem={({ item }) => <>
+                                {item.usuario.usuarioFoto ?
+                                    <Image style={css.AvatarPu} source={{ uri: "http://comuniq.s3.amazonaws.com/" + item.usuario.usuarioFoto }}></Image>
+                                    :
+                                    <Image style={css.AvatarPu} source={require('../../assets/FotosComuniQ/UsuarioSem.png')} />
+
+                                }
+                                <Text style={css.nome}>{item.usuario.usuarioNome}</Text>
+                                <Text style={css.txtComent}>{item.comentarioTexto}</Text>
+                            </>
+                            }
                         />
+
                         <TextInput style={css.input} textInput={comentarioTexto} value={comentarioTexto} onChangeText={(digitado) => setComentarioTexto(digitado)} placeholder="Novo Comentario" />
                         <TouchableOpacity style={css.btn02} onPress={() => SalvarObs()}>
                             <Text style={css.TextoBTNC}>Salvar</Text>
@@ -137,15 +165,22 @@ export default function Denuncia({ item }) {
 }
 const css = StyleSheet.create({
     txtComent: {
-        margin: 20,
+        margin: 10,
         borderWidth: 2,
         borderColor: "#0001",
         borderRadius: 3,
         backgroundColor: "#888888",
         color: "white",
-        height: 60,
+
+        borderRadius: 10,
+        alignItems: "center"
     },
+    nome: {
+        color: "#000",
+    },
+
     PaiInput: {
+
         margin: 10,
         padding: 5,
         borderRadius: 10
