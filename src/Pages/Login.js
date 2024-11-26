@@ -347,7 +347,8 @@ const css = StyleSheet.create({
         height: 50,
         borderRadius: 10,
         marginTop: 30,
-        backgroundColor: "#20343F"
+        backgroundColor: "#20343F",
+        justifyContent:"center"
     },
     btnLoginText: {
         lineHeight: 45,

@@ -264,6 +264,7 @@ const css = StyleSheet.create({
         height: 50,
         borderRadius: 10,
         color: "white",
+        justifyContent:"center"
     },
     TextoBTNC: {
         color: "white",
