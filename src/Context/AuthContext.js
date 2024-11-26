@@ -4,7 +4,7 @@ export const AuthContext = createContext(0);
 
 function AuthProvider({ children }) {
     const [id, setId] = useState()
-    const [logado, setLogado] = useState(true);
+    const [logado, setLogado] = useState(false);
     const [error, setError] = useState(null);
     const [user, SetUser] = useState(false);
     const [menRecupSenha, setMenReupSenha] = useState(true);
