@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 12,
     },
     dropdownButtonTxtStyle: {
+
         flex: 1,
         fontSize: 15,
         fontWeight: '400',
