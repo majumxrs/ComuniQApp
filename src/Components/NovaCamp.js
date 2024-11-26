@@ -106,7 +106,7 @@ export default function NovaCamp({ setnovacampanha }) {
     return (
         <ScrollView  >
             <TouchableOpacity>
-                <Text style={css.BTNVoltar} onPress={() => { setnovacampanha(false) }}>❮</Text>
+                <Text style={css.BTNVoltar} onPress={() => { setnovacampanha(false) }}>Fechar</Text>
             </TouchableOpacity>
             <View style={css.caixamaior}>
                 <View style={css.container}>
@@ -134,12 +134,12 @@ export default function NovaCamp({ setnovacampanha }) {
                     <SelectCampanha data={TipoNovaCampanhas} SetTipoNovaCampanha={SetTipoNovaCampanha} />
                     {deubom &&
                         <>
-                            <Text style={css.deuBom}>Nova campanha realizada com sucesso!</Text>
+                            <Text style={css.deuBom}>Nova campanha adicionada com sucesso!</Text>
                         </>
                     }
                     {error &&
                         <>
-                            <Text style={css.deuRuim} >Não foi possivel realizar a nova campanha!</Text>
+                            <Text style={css.deuRuim} >Não foi possivel adicionar a nova campanha!</Text>
                         </>
                     }
                     <View style={css.PaiCadastrar2}>

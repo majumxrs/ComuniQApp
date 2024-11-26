@@ -76,7 +76,7 @@ export default function NovaPupli({ setNovaOutro }) {
     return (
         <ScrollView  >
             <TouchableOpacity>
-                <Text style={css.BTNVoltar} onPress={() => { setNovaOutro(false) }}>❮</Text>
+                <Text style={css.BTNVoltar} onPress={() => { setNovaOutro(false) }}>Fechar</Text>
             </TouchableOpacity>
 
 
