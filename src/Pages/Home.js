@@ -29,10 +29,7 @@ export default function Home({ navigation }) {
 
     const [dados, setDados] = useState([]);
     const [novapupli, setNovapupli] = useState(false);
-    const [novacampanha, setNovacampanha] = useState(false);
-    const [novadenuncia, setNovadenuncia] = useState(false);
-    const [novaOutro, setNovaOutro] = useState(false);
-
+    
 
     //MINHA API 
     async function getDenuncia() {
@@ -156,11 +153,9 @@ export default function Home({ navigation }) {
                     }
 
                     {novapupli &&
-                        <Nova setNovaOutro={setNovaOutro} setNovacampanha={setNovacampanha} setNovadenuncia={setNovadenuncia} setNovapupli={setNovapupli} />
+                        <Nova setNovapupli={setNovapupli} />
                     }
-                    {novacampanha && <NovaCamp setnovacampanha={setNovacampanha} setNovapupli={setNovapupli} />}
-                    {novadenuncia && <NovaDenucia setNovadenuncia={setNovadenuncia} />}
-                    {novaOutro && <NovaPupli setNovaOutro={setNovaOutro} />}
+                    
                 </View>
                 :
                 <>

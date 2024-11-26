@@ -94,7 +94,7 @@ export default function NovaDenucia({ setNovadenuncia }) {
     return (
         <ScrollView  >
             <TouchableOpacity>
-                <Text style={css.BTNVoltar} onPress={() => { setNovadenuncia(false) }}>❮</Text>
+                <Text style={css.BTNVoltar} onPress={() => { setNovadenuncia(false) }}>Fechar</Text>
             </TouchableOpacity>
 
             <View style={css.caixamaior}>

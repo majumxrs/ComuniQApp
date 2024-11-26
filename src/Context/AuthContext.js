@@ -13,6 +13,7 @@ function AuthProvider({ children }) {
     const [ editPerfil, setEditPerfil ]= useState(false);
     const [ blobblob, setBlobBlob ] = useState();
     const [novaFoto, setNovaFoto] = useState(false);
+    const [novacampanha, setNovacampanha] = useState(false);
 
     async function Login(email, senha) {
         setError(null);
@@ -64,7 +65,9 @@ function AuthProvider({ children }) {
             setEditPerfil,
             novaFoto: novaFoto,
             setNovaFoto,
-            SetUser
+            SetUser,
+            novacampanha: novacampanha,
+            setNovacampanha
         }}>
             {children}
         </AuthContext.Provider>
