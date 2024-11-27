@@ -22,7 +22,7 @@ export default function Home({ navigation }) {
 
 
 
-    const [publicacao, setPublicacao] = useState([]);
+    
     const [campanha, setCampanha] = useState([]);
     const [denuncia, setDenuncia] = useState([]);
     const [usuario, setUsario] = useState([]);
@@ -33,7 +33,7 @@ export default function Home({ navigation }) {
     const [novadenuncia, setNovadenuncia] = useState(false);
     const [novaOutro, setNovaOutro] = useState(false);
 
-
+    const { publicacao, setPublicacao} = useContext(AuthContext);
     //MINHA API 
     async function getDenuncia() {
         await fetch(process.env.EXPO_PUBLIC_URL + '/api/Denuncia/GetAllDenuncias', {

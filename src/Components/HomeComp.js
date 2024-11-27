@@ -11,7 +11,7 @@ export default function Denuncia({ item }) {
     const [usuarioId, setUsuarioId] = useState(0);
     const [publicacaoId, setPublicacaoId] = useState(0);
 
-    const { id } = useContext(AuthContext);
+    const { id, publicacao } = useContext(AuthContext);
 
     const [expandido, setExpandido] = useState(false);
 
@@ -20,22 +20,25 @@ export default function Denuncia({ item }) {
 
     async function SalvarObs() {
         console.log(id);
-        await fetch(process.env.EXPO_PUBLIC_URL + '/InsertComentario', {
-            method: 'POST',
-            headers: {
-                'content-type': 'application/json'
-            },
-            body: JSON.stringify({
-                comentarioTexto: comentarioTexto,
-                usuarioId: id,
-                publicacaoId: publicacaoId,
+        if (comentarioTexto != null) {
+            await fetch(process.env.EXPO_PUBLIC_URL + '/InsertComentario', {
+                method: 'POST',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    comentarioTexto: comentarioTexto,
+                    usuarioId: id,
+                    publicacaoId: publicacaoId,
+                })
             })
-        })
-            //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
-            .then(res => res.json())
-            .then(json => { setComentarioTexto(''); })
-            .catch(err => console.log(err))
+                //PEGA AS COISAS DA API(MUDAR DE ACORDO COM AS RESPOSTAS DA API)
+                .then(res => res.json())
+                .then(json => { setComentarioTexto(''); })
+                .catch(err => console.log(err))
+        }
     }
+
 
     async function getComentarios() {
         await fetch(process.env.EXPO_PUBLIC_URL + '/GetComentariosByPost?id=' + publicacaoId, {
@@ -77,15 +80,11 @@ export default function Denuncia({ item }) {
         if (publicacao.publicacaoId) {
             setPublicacaoId(publicacao.publicacaoId);
         }
-        if (publicacao.denunciaId) {
-            setPublicacaoId(publicacao.denunciaId);
-        }
+
         if (publicacao.comentarioId) {
             setPublicacaoId(publicacao.comentarioId);
         }
-        if (publicacao.campanhasId) {
-            setPublicacaoId(publicacao.campanhasId);
-        }
+
         if (comentario) { setComentario(false) }
 
     }
@@ -132,23 +131,25 @@ export default function Denuncia({ item }) {
             <View>
                 {item.publicacaoId &&
                     <TouchableOpacity style={css.btn01} onPress={() => { showComentario(item) }}>
-                        <Text style={css.TextoBTNC}>Comentarios</Text>
+                        <Text style={css.TextoBTNC} >Comentarios</Text>
                     </TouchableOpacity>
                 }
-                {comentario &&
+
+                {comentario && item.publicacaoId &&
                     <View style={css.PaiInput}>
                         <FlatList
                             data={comentarios}
                             keyExtractor={(item) => item.comentarioId}
                             renderItem={({ item }) => <>
-                                {item.usuario.usuarioFoto ?
+                                <View style={css.fotoEnome}>{item.usuario.usuarioFoto ?
                                     <Image style={css.AvatarPu} source={{ uri: "http://comuniq.s3.amazonaws.com/" + item.usuario.usuarioFoto }}></Image>
                                     :
                                     <Image style={css.AvatarPu} source={require('../../assets/FotosComuniQ/UsuarioSem.png')} />
 
                                 }
-                                <Text style={css.nome}>{item.usuario.usuarioNome}</Text>
+                                    <Text style={css.nome}>{item.usuario.usuarioNome}</Text></View>
                                 <Text style={css.txtComent}>{item.comentarioTexto}</Text>
+                                <View style={css.linha}></View>
                             </>
                             }
                         />
@@ -164,26 +165,60 @@ export default function Denuncia({ item }) {
     )
 }
 const css = StyleSheet.create({
+
+    linha: {
+        height: 1,
+        backgroundColor: "darkgray",
+        marginTop: 10,
+        marginEnd: 10,
+        marginBottom: 10
+    },
+
+    fotoEnome: {
+        display: "flex",
+        flexDirection: 'row',
+        alignItems: "center",
+
+    },
+
+
+    input: {
+        backgroundColor: "white",
+        borderRadius: 8,
+        padding: 10,
+        width: '93%',
+        margin: 10,
+
+    },
+
     txtComent: {
         margin: 10,
         borderWidth: 2,
         borderColor: "#0001",
         borderRadius: 3,
-        backgroundColor: "#888888",
-        color: "white",
-
+        backgroundColor: "white",
+        color: "black",
+        padding: 10,
         borderRadius: 10,
         alignItems: "center"
     },
     nome: {
         color: "#000",
+        display: "flex",
+        height: 20,
+        margin: 15,
+
+
     },
 
     PaiInput: {
-
+        display: "flex",
         margin: 10,
         padding: 5,
-        borderRadius: 10
+        borderRadius: 10,
+        justifyContent: "center",
+
+
     },
     container: {
         width: 370,
@@ -234,7 +269,8 @@ const css = StyleSheet.create({
     AvatarPu: {
         width: 50,
         height: 50,
-        borderRadius: 50
+        borderRadius: 50,
+
     },
     title2: {
         fontSize: 18,
@@ -242,27 +278,33 @@ const css = StyleSheet.create({
         marginTop: 20
     },
     btn01: {
-        marginTop: 15,
         backgroundColor: "#20343F",
-        width: 320,
-        height: 50,
-        borderRadius: 10,
+        margin: 'auto',
+        textAlign: "center",
+        fontSize: 20,
+        fontWeight: "400",
         color: "white",
+        width: 300,
+        borderRadius: 5,
+
+
     },
     btn02: {
-        marginTop: 5,
         backgroundColor: "#20343F",
-        width: 320,
         height: 50,
         borderRadius: 10,
         color: "white",
+        width: '93%',
+        margin: 10,
     },
     TextoBTNC: {
         color: "white",
         lineHeight: 45,
         textAlign: "center",
         fontSize: 20,
-        fontWeight: "400"
+        fontWeight: "400",
+        width: 300,
+
     },
     botaoVerMais: {
         color: "blue",

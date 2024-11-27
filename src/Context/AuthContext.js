@@ -4,7 +4,7 @@ export const AuthContext = createContext(0);
 
 function AuthProvider({ children }) {
     const [id, setId] = useState()
-    const [logado, setLogado] = useState(true);
+    const [logado, setLogado] = useState(false);
     const [error, setError] = useState(null);
     const [user, SetUser] = useState(false);
     const [menRecupSenha, setMenReupSenha] = useState(true);
@@ -13,6 +13,7 @@ function AuthProvider({ children }) {
     const [ editPerfil, setEditPerfil ]= useState(false);
     const [ blobblob, setBlobBlob ] = useState();
     const [novaFoto, setNovaFoto] = useState(false);
+    const [publicacao, setPublicacao] = useState([]);
 
     async function Login(email, senha) {
         setError(null);
@@ -64,7 +65,9 @@ function AuthProvider({ children }) {
             setEditPerfil,
             novaFoto: novaFoto,
             setNovaFoto,
-            SetUser
+            SetUser,
+            publicacao: publicacao,
+            setPublicacao
         }}>
             {children}
         </AuthContext.Provider>
