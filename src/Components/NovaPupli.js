@@ -109,6 +109,8 @@ export default function NovaPupli({ setNovaOutro }) {
     
 
     async function pickImage() {
+        setImage(null);
+        setBlob(null);
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
@@ -121,6 +123,7 @@ export default function NovaPupli({ setNovaOutro }) {
             const response = await fetch(result.assets[0].uri);
             const blob = await response.blob();
             setBlob(blob);
+            setNovaFoto(false);
         }
     };
 
@@ -170,13 +173,14 @@ export default function NovaPupli({ setNovaOutro }) {
     return (
         <ScrollView  >
             <TouchableOpacity>
-                <Text style={css.BTNVoltar} onPress={() => { setNovaOutro(false) }}>Fechar</Text>
+                <Text style={css.BTNVoltar} onPress={() => { setNovaOutro(false) }}>❮</Text>
             </TouchableOpacity>
 
 
             <View style={css.caixamaior}>
 
                 <View style={css.container}>
+                    <Text>Nova Publicação</Text>
                     <Text></Text>
                     <TextInput
                         style={css.input2}
@@ -195,10 +199,6 @@ export default function NovaPupli({ setNovaOutro }) {
                         placeholder="Descreva o ocorrido:"
                         placeholderTextColor="black"
                     />
-                    <TouchableOpacity style={css.foto} onPress={() => setNovaFoto(true)}>
-                        <Text>Selecione uma foto</Text>
-                    </TouchableOpacity>
-                    {image && <Image source={{ uri: image }} style={css.foto} />}
                     {novaFoto &&
                         <Modal
                             animationType="slide"
@@ -210,11 +210,18 @@ export default function NovaPupli({ setNovaOutro }) {
                                 <TouchableOpacity style={css.btnpop} onPress={() => setNovaFoto(false)}>
                                     <Text style={css.txtpop}>Fechar</Text>
                                 </TouchableOpacity>
-                                {image && setNovaFoto(false)}
+                                
                             </View>
                         </Modal>}
+                        <Text></Text>
                     <Select data={bairros} setBairro={setBairro} />
-
+                    <Text></Text>
+                    <TouchableOpacity style={css.foto} onPress={() => setNovaFoto(true)}>
+                        <Text style={css.textoFoto}>Selecione uma foto</Text>
+                    </TouchableOpacity>
+                    <Text></Text>
+                    {image && <Image source={{ uri: image }} style={css.foto} />}
+                    <Text></Text>
                     {deubom &&
                         <>
                             <Text style={css.deuBom}>Nova publicão realizada com sucesso!</Text>
@@ -269,7 +276,6 @@ const css = StyleSheet.create({
         width: 300,
         height: 50,
         borderRadius: 10,
-        marginTop: 30,
         backgroundColor: "#20343F"
     },
     btnLoginText: {
@@ -294,13 +300,26 @@ const css = StyleSheet.create({
         color: "red"
     },
     BTNVoltar: {
-        fontSize: 15,
-        marginRight: 380,
+        fontSize: 20,
+        marginLeft: 10,
+        marginTop: 5
     },
     foto: {
-        width: 80,
-        height: 80,
-    }, popup: {
+        lineHeight: 45,
+        textAlign: "center",
+        fontSize: 25,
+        fontWeight: "400",
+        color: "white"
+    },
+    foto2: {
+        width: 150,
+        height: 150,
+    },
+    textoFoto: {
+        fontSize: 20,
+        marginTop: 5
+    },
+     popup: {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',

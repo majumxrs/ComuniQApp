@@ -17,12 +17,12 @@ export default function NovaCamp({ setnovacampanha }) {
     const [cidade, setCidade] = useState();
     const [TipoDenuciaNome, setTipoDenunciaNome] = useState("");
     const [TipoNovaCampanha, SetTipoNovaCampanha] = useState();
-   // const [TipoNovaCampanhas, SetTipoNovaCampanhas] = useState();
+    // const [TipoNovaCampanhas, SetTipoNovaCampanhas] = useState();
     const [deubom, setDeubom] = useState(false);
     const [error, setError] = useState(false);
     const [image, setImage] = useState(null);
     const [blob, setBlob] = useState();
-    const { id, novaFoto, setNovaFoto, setCamera, camera, SetUser, user, novapupli, setNovapupli  } = useContext(AuthContext);
+    const { id, novaFoto, setNovaFoto, setCamera, camera, SetUser, user, novapupli, setNovapupli } = useContext(AuthContext);
 
     async function SalvarCamp() {
         if (titulo != "" || descricao != "") {
@@ -42,7 +42,7 @@ export default function NovaCamp({ setnovacampanha }) {
             })
                 .then((res) => res.json())
                 .then((json) => {
-                   setcampanha(json);
+                    setcampanha(json);
                     if (!blob) {
                         setDeubom(true);
                         setError(false);
@@ -134,6 +134,8 @@ export default function NovaCamp({ setnovacampanha }) {
 
 
     async function pickImage() {
+        setImage(null);
+        setBlob(null);
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
@@ -146,6 +148,7 @@ export default function NovaCamp({ setnovacampanha }) {
             const response = await fetch(result.assets[0].uri);
             const blob = await response.blob();
             setBlob(blob);
+            setNovaFoto(false);
         }
     };
 
@@ -195,10 +198,11 @@ export default function NovaCamp({ setnovacampanha }) {
     return (
         <ScrollView  >
             <TouchableOpacity>
-                <Text style={css.BTNVoltar} onPress={() => { setnovacampanha(false) }}>Fechar</Text>
+                <Text style={css.BTNVoltar} onPress={() => { setnovacampanha(false) }}>❮</Text>
             </TouchableOpacity>
             <View style={css.caixamaior}>
                 <View style={css.container}>
+                    <Text>Nova Campanha</Text>
                     <Text></Text>
                     <TextInput
                         style={css.input2}
@@ -217,10 +221,6 @@ export default function NovaCamp({ setnovacampanha }) {
                         placeholder="Descreva a campanha:"
                         placeholderTextColor="black"
                     />
-                    <TouchableOpacity style={css.foto} onPress={() => setNovaFoto(true)}>
-                        <Text>Selecione uma foto</Text>
-                    </TouchableOpacity>
-                    {image && <Image source={{ uri: image }} style={css.foto} />}
                     {novaFoto &&
                         <Modal
                             animationType="slide"
@@ -232,12 +232,20 @@ export default function NovaCamp({ setnovacampanha }) {
                                 <TouchableOpacity style={css.btnpop} onPress={() => setNovaFoto(false)}>
                                     <Text style={css.txtpop}>Fechar</Text>
                                 </TouchableOpacity>
-                                {image && setNovaFoto(false)}
+
                             </View>
                         </Modal>}
+                    <Text></Text>
                     <SelectCidade data={cidades} setCidade={setCidade} />
                     <Text></Text>
                     <SelectCampanha data={TipoNovaCampanha} SetTipoNovaCampanha={SetTipoNovaCampanha} />
+                    <Text></Text>
+                    <TouchableOpacity style={css.foto} onPress={() => setNovaFoto(true)}>
+                        <Text style={css.textoFoto}>Selecione uma foto</Text>
+                    </TouchableOpacity>
+                    <Text></Text>
+                    {image && <Image source={{ uri: image }} style={css.foto2} />}
+                    <Text></Text>
                     {deubom &&
                         <>
                             <Text style={css.deuBom}>Nova campanha adicionada com sucesso!</Text>
@@ -289,7 +297,6 @@ const css = StyleSheet.create({
         width: 300,
         height: 50,
         borderRadius: 10,
-        marginTop: 30,
         backgroundColor: "#20343F"
     },
     btnLoginText: {
@@ -321,8 +328,19 @@ const css = StyleSheet.create({
         color: "red"
     },
     foto: {
-        height: 80,
-        width: 80,
+        lineHeight: 45,
+        textAlign: "center",
+        fontSize: 25,
+        fontWeight: "400",
+        color: "white"
+    },
+    foto2: {
+        width: 150,
+        height: 150,
+    },
+    textoFoto: {
+        fontSize: 20,
+        marginTop: 5
     },
     popup: {
         display: 'flex',
@@ -337,5 +355,10 @@ const css = StyleSheet.create({
     txtpop: {
         color: "#fff",
         padding: 8
+    },
+    BTNVoltar: {
+        fontSize: 20,
+        marginLeft: 10,
+        marginTop: 5
     },
 })

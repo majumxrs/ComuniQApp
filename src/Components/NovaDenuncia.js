@@ -11,18 +11,18 @@ export default function NovaDenucia({ setNovadenuncia }) {
     const [titulo, setTitulo] = useState("");
     const [midia, setMidia] = useState("");
     const [descricao, setDescricao] = useState("");
-    const [ denuncia, setdenuncia ] = useState();
+    const [denuncia, setdenuncia] = useState();
     const [tipoDenuncias, setTipoDenuncias] = useState("");
     const [tipoDenuncia, setTipoDenuncia] = useState();
     const [image, setImage] = useState(null);
     const [blob, setBlob] = useState();
 
     const [bairros, setBairros] = useState();
-    const [bairro, setBairro ] = useState();
+    const [bairro, setBairro] = useState();
 
     const [deubom, setDeubom] = useState(false);
     const [error, setError] = useState(false);
-    const { id,novaFoto, setNovaFoto, setCamera,camera, SetUser, user } = useContext(AuthContext);
+    const { id, novaFoto, setNovaFoto, setCamera, camera, SetUser, user } = useContext(AuthContext);
 
     async function SalvarPupli() {
 
@@ -54,7 +54,7 @@ export default function NovaDenucia({ setNovadenuncia }) {
             setDeubom(false)
         }
     }
-    
+
 
     async function EditaESalvaDen() {
         if (midia != null) {
@@ -122,9 +122,11 @@ export default function NovaDenucia({ setNovadenuncia }) {
 
 
 
-    
+
 
     async function pickImage() {
+        setImage(null);
+        setBlob(null);
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ImagePicker.MediaTypeOptions.All,
             allowsEditing: true,
@@ -137,6 +139,7 @@ export default function NovaDenucia({ setNovadenuncia }) {
             const response = await fetch(result.assets[0].uri);
             const blob = await response.blob();
             setBlob(blob);
+            setNovaFoto(false);
         }
     };
 
@@ -191,6 +194,7 @@ export default function NovaDenucia({ setNovadenuncia }) {
             <View style={css.caixamaior}>
 
                 <View style={css.container}>
+                    <Text>Nova Denuncia</Text>
                     <Text></Text>
                     <TextInput
                         style={css.input2}
@@ -209,10 +213,6 @@ export default function NovaDenucia({ setNovadenuncia }) {
                         placeholder="Descreva o ocorrido:"
                         placeholderTextColor="black"
                     />
-                      <TouchableOpacity style={css.foto} onPress={() => setNovaFoto(true)}>
-                        <Text>Selecione uma foto</Text>
-                    </TouchableOpacity>
-                    {image && <Image source={{ uri: image }} style={css.foto} />}
                     {novaFoto &&
                         <Modal
                             animationType="slide"
@@ -224,12 +224,19 @@ export default function NovaDenucia({ setNovadenuncia }) {
                                 <TouchableOpacity style={css.btnpop} onPress={() => setNovaFoto(false)}>
                                     <Text style={css.txtpop}>Fechar</Text>
                                 </TouchableOpacity>
-                                {image && setNovaFoto(false)}
                             </View>
                         </Modal>}
+                    <Text></Text>
                     <SelectOutros data={bairros} setBairro={setBairro} />
                     <Text></Text>
                     <SelectDenuncia data={tipoDenuncias} setTipoDenuncia={setTipoDenuncia} />
+                    <Text></Text>
+                    <TouchableOpacity style={css.foto} onPress={() => setNovaFoto(true)}>
+                        <Text style={css.textoFoto}>Selecione uma foto</Text>
+                    </TouchableOpacity>
+                    <Text></Text>
+                    {image && <Image source={{ uri: image }} style={css.foto2} />}
+                    <Text></Text>
                     {deubom &&
                         <>
                             <Text style={css.deuBom}>Nova Denuncia realizada com sucesso!</Text>
@@ -284,7 +291,6 @@ const css = StyleSheet.create({
         width: 300,
         height: 50,
         borderRadius: 10,
-        marginTop: 30,
         backgroundColor: "#20343F"
     },
     btnLoginText: {
@@ -308,13 +314,20 @@ const css = StyleSheet.create({
     deuRuim: {
         color: "red"
     },
-    BTNVoltar: {
-        fontSize: 15,
-        marginRight: 380,
+    foto: {
+        lineHeight: 45,
+        textAlign: "center",
+        fontSize: 25,
+        fontWeight: "400",
+        color: "white"
     },
-    foto:{
-        width: 80,
-        height:80
+    foto2: {
+        width: 150,
+        height: 150,
+    },
+    textoFoto: {
+        fontSize: 20,
+        marginTop: 5
     },
     popup: {
         display: 'flex',
@@ -329,5 +342,10 @@ const css = StyleSheet.create({
     txtpop: {
         color: "#fff",
         padding: 8
+    },
+    BTNVoltar: {
+        fontSize: 20,
+        marginLeft: 10,
+        marginTop: 5
     },
 })

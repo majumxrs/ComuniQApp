@@ -72,7 +72,7 @@ const css = StyleSheet.create({
     },
     BTNVoltar: {
         fontSize: 25,
-        marginRight: 380,
+        marginLeft: 5,
         marginTop: 5
     },
     caixa: {
