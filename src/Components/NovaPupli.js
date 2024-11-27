@@ -7,7 +7,7 @@ import TelaCamera from './Camera';
 import * as ImagePicker from 'expo-image-picker';
 
 
-export default function NovaPupli({ setNovaOutro,/* setNovapupli*/ }) {
+export default function NovaPupli({ setNovaOutro }) {
     const [titulo, setTitulo] = useState("");
     const [midia, setMidia] = useState("");
     const [descricao, setDescricao] = useState("");
@@ -162,7 +162,6 @@ export default function NovaPupli({ setNovaOutro,/* setNovapupli*/ }) {
     }, [midia]);
 
     if (camera == true) {
-       // setNovapupli(false)
         return (
             <TelaCamera />
         )
@@ -205,9 +204,6 @@ export default function NovaPupli({ setNovaOutro,/* setNovapupli*/ }) {
                             animationType="slide"
                             transparent={true}>
                             <View style={css.popup}>
-                                <TouchableOpacity style={css.btnpop} onPress={() => { setCamera(true) }}>
-                                    <Text style={css.txtpop}>Câmera</Text>
-                                </TouchableOpacity>
                                 <TouchableOpacity style={css.btnpop} onPress={pickImage}>
                                     <Text style={css.txtpop}>Procurar foto existente</Text>
                                 </TouchableOpacity>

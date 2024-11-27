@@ -7,7 +7,7 @@ import TelaCamera from './Camera';
 import * as ImagePicker from 'expo-image-picker';
 
 
-export default function NovaCamp({ setnovacampanha, /*setNovapupli */}) {
+export default function NovaCamp({ setnovacampanha }) {
 
     const [titulo, setTitulo] = useState("");
     const [campanha, setcampanha] = useState();
@@ -22,7 +22,7 @@ export default function NovaCamp({ setnovacampanha, /*setNovapupli */}) {
     const [error, setError] = useState(false);
     const [image, setImage] = useState(null);
     const [blob, setBlob] = useState();
-    const { id, novaFoto, setNovaFoto, setCamera, camera, SetUser, user } = useContext(AuthContext);
+    const { id, novaFoto, setNovaFoto, setCamera, camera, SetUser, user, novapupli, setNovapupli  } = useContext(AuthContext);
 
     async function SalvarCamp() {
         if (titulo != "" || descricao != "") {
@@ -187,7 +187,6 @@ export default function NovaCamp({ setnovacampanha, /*setNovapupli */}) {
     }, [midia]);
 
     if (camera == true) {
-       // setNovapupli(false)
         return (
             <TelaCamera />
         )
@@ -227,9 +226,6 @@ export default function NovaCamp({ setnovacampanha, /*setNovapupli */}) {
                             animationType="slide"
                             transparent={true}>
                             <View style={css.popup}>
-                                <TouchableOpacity style={css.btnpop} onPress={() => { setCamera(true) }}>
-                                    <Text style={css.txtpop}>Câmera</Text>
-                                </TouchableOpacity>
                                 <TouchableOpacity style={css.btnpop} onPress={pickImage}>
                                     <Text style={css.txtpop}>Procurar foto existente</Text>
                                 </TouchableOpacity>

@@ -28,6 +28,7 @@ export default function Home({ navigation }) {
     const [usuario, setUsario] = useState([]);
 
     const [dados, setDados] = useState([]);
+    
     const [novapupli, setNovapupli] = useState(false);
     
 

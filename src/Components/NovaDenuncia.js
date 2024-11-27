@@ -6,7 +6,7 @@ import { AuthContext } from '../Context/AuthContext';
 import TelaCamera from './Camera';
 import * as ImagePicker from 'expo-image-picker';
 
-export default function NovaDenucia({ setNovadenuncia/*, setNovapupli*/ }) {
+export default function NovaDenucia({ setNovadenuncia }) {
 
     const [titulo, setTitulo] = useState("");
     const [midia, setMidia] = useState("");
@@ -177,7 +177,6 @@ export default function NovaDenucia({ setNovadenuncia/*, setNovapupli*/ }) {
     }, [midia]);
 
     if (camera == true) {
-       // setNovapupli(false)
         return (
             <TelaCamera />
         )
@@ -219,9 +218,6 @@ export default function NovaDenucia({ setNovadenuncia/*, setNovapupli*/ }) {
                             animationType="slide"
                             transparent={true}>
                             <View style={css.popup}>
-                                <TouchableOpacity style={css.btnpop} onPress={() => { setCamera(true) }}>
-                                    <Text style={css.txtpop}>Câmera</Text>
-                                </TouchableOpacity>
                                 <TouchableOpacity style={css.btnpop} onPress={pickImage}>
                                     <Text style={css.txtpop}>Procurar foto existente</Text>
                                 </TouchableOpacity>

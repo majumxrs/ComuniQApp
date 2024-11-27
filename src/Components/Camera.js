@@ -5,7 +5,7 @@ import { Camera, CameraType } from 'expo-camera/legacy';
 import AWS from '../services/AWS';
 import * as FileSystem from 'expo-file-system';
 
-export default function TelaCamera({/*setNovapupli*/}) {
+export default function TelaCamera({}) {
 
     const { height, width } = Dimensions.get('window');
 
@@ -96,7 +96,7 @@ export default function TelaCamera({/*setNovapupli*/}) {
                     >
                     </Camera>
                     <View style={css.barraFoto}>
-                        <TouchableOpacity style={css.cancelar} onPress={() => {setCamera(false);/* setNovapupli(true)*/}}>
+                        <TouchableOpacity style={css.cancelar} onPress={() => {setCamera(false)}}>
                             <Image style={css.cancelarimg} source={{ uri: "https://cdn-icons-png.flaticon.com/512/93/93634.png", }}></Image>
                         </TouchableOpacity>
 
@@ -115,7 +115,7 @@ export default function TelaCamera({/*setNovapupli*/}) {
                     transparente={true}>
                     {foto && <Image source={{ uri: `data:image/jpeg;base64,${foto}` }} style={css.fotinha} />}
                     <View style={css.botoes}>
-                        <TouchableOpacity style={css.btns} onPress={() => { uploadPhoto(); setCamera(false) ; }}>
+                        <TouchableOpacity style={css.btns} onPress={() => { uploadPhoto(); setCamera(false) }}>
                             <Image style={css.salvarimg} source={{ uri: "https://png.pngtree.com/png-vector/20231201/ourmid/pngtree-ok-icon-like-png-image_10804394.png", }}></Image>
                         </TouchableOpacity>
                         <TouchableOpacity style={css.btns} onPress={() => { setFotoOK(false) }}>

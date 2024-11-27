@@ -4,13 +4,13 @@ import RNPickerSelect from 'react-native-picker-select';
 import NovaCamp from './NovaCamp';
 import NovaDenucia from './NovaDenuncia';
 import NovaPupli from './NovaPupli';
+import { AuthContext } from '../Context/AuthContext';
 
 export default function Nova({setNovapupli}) {
 
     const [novacampanha, setNovacampanha] = useState(false);
     const [novadenuncia, setNovadenuncia] = useState(false);
     const [novaOutro, setNovaOutro] = useState(false);
-
 
     return (
         <View style={css.tudo}>
