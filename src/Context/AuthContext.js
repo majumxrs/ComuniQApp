@@ -14,6 +14,7 @@ function AuthProvider({ children }) {
     const [ blobblob, setBlobBlob ] = useState();
     const [novaFoto, setNovaFoto] = useState(false);
     const [publicacao, setPublicacao] = useState([]);
+    const [novacampanha, setNovacampanha] = useState(false);
 
     async function Login(email, senha) {
         setError(null);
@@ -59,7 +60,7 @@ function AuthProvider({ children }) {
             id: id,
             camera: camera,
             fotoNova: fotoNova,
-            setCamera,
+            setCamera: setCamera,
             setFotoNova,
             editPerfil: editPerfil,
             setEditPerfil,
@@ -67,7 +68,9 @@ function AuthProvider({ children }) {
             setNovaFoto,
             SetUser,
             publicacao: publicacao,
-            setPublicacao
+            setPublicacao,
+            novacampanha: novacampanha,
+            setNovacampanha
         }}>
             {children}
         </AuthContext.Provider>

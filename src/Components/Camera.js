@@ -5,7 +5,7 @@ import { Camera, CameraType } from 'expo-camera/legacy';
 import AWS from '../services/AWS';
 import * as FileSystem from 'expo-file-system';
 
-export default function TelaCamera() {
+export default function TelaCamera({}) {
 
     const { height, width } = Dimensions.get('window');
 
@@ -96,7 +96,7 @@ export default function TelaCamera() {
                     >
                     </Camera>
                     <View style={css.barraFoto}>
-                        <TouchableOpacity style={css.cancelar} onPress={() => setCamera(false)}>
+                        <TouchableOpacity style={css.cancelar} onPress={() => {setCamera(false)}}>
                             <Image style={css.cancelarimg} source={{ uri: "https://cdn-icons-png.flaticon.com/512/93/93634.png", }}></Image>
                         </TouchableOpacity>
 

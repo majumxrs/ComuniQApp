@@ -1,23 +1,28 @@
-import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, ScrollView, Image, Modal } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import SelectDenuncia from './SelectDenuncia';
 import SelectOutros from './SelectOutros';
+import { AuthContext } from '../Context/AuthContext';
+import TelaCamera from './Camera';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function NovaDenucia({ setNovadenuncia }) {
 
     const [titulo, setTitulo] = useState("");
     const [midia, setMidia] = useState("");
     const [descricao, setDescricao] = useState("");
-
+    const [ denuncia, setdenuncia ] = useState();
     const [tipoDenuncias, setTipoDenuncias] = useState("");
     const [tipoDenuncia, setTipoDenuncia] = useState();
-
+    const [image, setImage] = useState(null);
+    const [blob, setBlob] = useState();
 
     const [bairros, setBairros] = useState();
     const [bairro, setBairro ] = useState();
 
     const [deubom, setDeubom] = useState(false);
     const [error, setError] = useState(false);
+    const { id,novaFoto, setNovaFoto, setCamera,camera, SetUser, user } = useContext(AuthContext);
 
     async function SalvarPupli() {
 
@@ -29,7 +34,7 @@ export default function NovaDenucia({ setNovadenuncia }) {
                 },
                 body: JSON.stringify({
                     denunciaTitulo: titulo,
-                    //denunciaMidia: midia,
+                    denunciaMidia: null,
                     denunciaDescricao: descricao,
                     tipoDenunciaId: tipoDenuncia.tipoDenunciaId,
                     bairroId: bairro.bairroId,
@@ -37,19 +42,50 @@ export default function NovaDenucia({ setNovadenuncia }) {
             })
                 .then((res) => res.json())
                 .then((json) => {
-
-                    console.log( json );
-                    if (json) {
-
+                    setdenuncia(json);
+                    if (!blob) {
                         setDeubom(true);
                         setError(false);
                     }
                 })
-                .catch(err => { setError(true); setDeubom(false); })
+                .catch(err => console.log(err))
         } else {
             setError(true)
             setDeubom(false)
         }
+    }
+    
+
+    async function EditaESalvaDen() {
+        if (midia != null) {
+            await fetch(process.env.EXPO_PUBLIC_URL + '/api/Denuncia/UpdateDenuncia/' + denuncia.denunciaId, {
+                method: 'PUT',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify({
+                    denunciaTitulo: denuncia.titulo,
+                    denunciaMidia: midia,
+                    denunciaDescricao: denuncia.denunciaDescricao,
+                    tipoDenunciaId: denuncia.tipoDenunciaId,
+                    bairroId: denuncia.bairroId,
+                })
+            })
+                .then(res => res.json())
+                .then(json => {
+                    if (json) {
+                        setdenuncia(json);
+                        setDeubom(true);
+                        setError(false);
+                    }
+                    alert("Denúncia Adicionada com sucesso!");
+
+                })
+                .catch(err => console.log(err))
+        }
+
+
+
     }
 
     async function getBairros() {
@@ -86,10 +122,65 @@ export default function NovaDenucia({ setNovadenuncia }) {
 
 
 
+    
+
+    async function pickImage() {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing: true,
+            aspect: [4, 3],
+            quality: 0.5,
+        });
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+            const response = await fetch(result.assets[0].uri);
+            const blob = await response.blob();
+            setBlob(blob);
+        }
+    };
+
+    async function uploadPhoto() {
+        const S3 = new AWS.S3();
+        const object = {
+            Bucket: "comuniq",
+            Key: "denuncia_" + denuncia.denunciaId + ".jpg"
+        };
+
+        const excluir = await S3.deleteObject(object).promise();
+        const params = {
+            Bucket: "comuniq",
+            Key: "denuncia_" + denuncia.denunciaId + ".jpg",
+            Body: blob
+        };
+        const result = await S3.upload(params).promise();
+        if (result) {
+            setBlob(false);
+            setMidia(result.Key)
+        }
+    }
+
     useEffect(() => {
         getBairros();
         getTipoDenuncia();
     }, [])
+
+    useEffect(() => {
+        if (denuncia && blob) {
+            uploadPhoto();
+        }
+    }, [denuncia, blob])
+    useEffect(() => {
+        if (midia) {
+            EditaESalvaDen();
+        }
+    }, [midia]);
+
+    if (camera == true) {
+        return (
+            <TelaCamera />
+        )
+    }
 
     return (
         <ScrollView  >
@@ -118,7 +209,24 @@ export default function NovaDenucia({ setNovadenuncia }) {
                         placeholder="Descreva o ocorrido:"
                         placeholderTextColor="black"
                     />
-                    <Text></Text>
+                      <TouchableOpacity style={css.foto} onPress={() => setNovaFoto(true)}>
+                        <Text>Selecione uma foto</Text>
+                    </TouchableOpacity>
+                    {image && <Image source={{ uri: image }} style={css.foto} />}
+                    {novaFoto &&
+                        <Modal
+                            animationType="slide"
+                            transparent={true}>
+                            <View style={css.popup}>
+                                <TouchableOpacity style={css.btnpop} onPress={pickImage}>
+                                    <Text style={css.txtpop}>Procurar foto existente</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity style={css.btnpop} onPress={() => setNovaFoto(false)}>
+                                    <Text style={css.txtpop}>Fechar</Text>
+                                </TouchableOpacity>
+                                {image && setNovaFoto(false)}
+                            </View>
+                        </Modal>}
                     <SelectOutros data={bairros} setBairro={setBairro} />
                     <Text></Text>
                     <SelectDenuncia data={tipoDenuncias} setTipoDenuncia={setTipoDenuncia} />
@@ -170,7 +278,7 @@ const css = StyleSheet.create({
         alignItems: "center",
         width: 380,
         borderRadius: 10,
-        height:390
+        padding: 10
     },
     btn: {
         width: 300,
@@ -203,5 +311,23 @@ const css = StyleSheet.create({
     BTNVoltar: {
         fontSize: 15,
         marginRight: 380,
+    },
+    foto:{
+        width: 80,
+        height:80
+    },
+    popup: {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#20343F',
+        borderRadius: 20,
+        width: '80%',
+        padding: 20,
+        margin: 'auto',
+    },
+    txtpop: {
+        color: "#fff",
+        padding: 8
     },
 })

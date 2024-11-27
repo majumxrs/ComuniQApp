@@ -1,19 +1,24 @@
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, Image } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import RNPickerSelect from 'react-native-picker-select';
+import NovaCamp from './NovaCamp';
+import NovaDenucia from './NovaDenuncia';
+import NovaPupli from './NovaPupli';
+import { AuthContext } from '../Context/AuthContext';
 
-export default function Nova({ setNovacampanha, setNovapupli, setNovadenuncia, setNovaOutro, navigation }) {
+export default function Nova({setNovapupli}) {
 
-
-
+    const [novacampanha, setNovacampanha] = useState(false);
+    const [novadenuncia, setNovadenuncia] = useState(false);
+    const [novaOutro, setNovaOutro] = useState(false);
 
     return (
         <View style={css.tudo}>
             <View style={css.caixa}>
-                                <TouchableOpacity style={css.btnLogo} onPress={() => { getAll() }}>
-                                    <Image style={css.tinyLogo} source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")} />
-                                </TouchableOpacity>
-                            </View>
+                <TouchableOpacity style={css.btnLogo}>
+                    <Image style={css.tinyLogo} source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")} />
+                </TouchableOpacity>
+            </View>
             <TouchableOpacity>
                 <Text style={css.BTNVoltar} onPress={() => { setNovapupli(false) }}>❮</Text>
             </TouchableOpacity>
@@ -28,6 +33,9 @@ export default function Nova({ setNovacampanha, setNovapupli, setNovadenuncia, s
                     <Text style={css.btnLoginTextV}>+ Outros</Text>
                 </TouchableOpacity>
             </View>
+            {novacampanha && <NovaCamp setnovacampanha={setNovacampanha} setNovapupli={setNovapupli} />}
+            {novadenuncia && <NovaDenucia setNovadenuncia={setNovadenuncia} />}
+            {novaOutro && <NovaPupli setNovaOutro={setNovaOutro} />}
         </View>
     )
 }
@@ -65,7 +73,7 @@ const css = StyleSheet.create({
     BTNVoltar: {
         fontSize: 25,
         marginRight: 380,
-        marginTop:5
+        marginTop: 5
     },
     caixa: {
         height: 100,
@@ -83,5 +91,5 @@ const css = StyleSheet.create({
         height: 60,
         width: "25%",
         marginTop: 10,
-    },    
+    },
 })
