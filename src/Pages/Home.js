@@ -88,6 +88,9 @@ export default function Home({ navigation }) {
         getPublicacao();
         setDados([...campanha, ...publicacao, ...denuncia, ...usuario]);
     }
+    useEffect(()=> {
+        getAll();
+    },[])
 
     useFocusEffect(
         React.useCallback(() => {
@@ -103,7 +106,7 @@ export default function Home({ navigation }) {
                     {!novapupli &&
                         <>
                             <View style={css.caixa}>
-                                <TouchableOpacity style={css.btnLogo} onPress={() => { getAll() }}>
+                                <TouchableOpacity style={css.btnLogo} onPress={getAll}>
                                     <Image style={css.tinyLogo} source={require("../../assets/FotosComuniQ/LogoComuniQ.jpeg")} />
                                 </TouchableOpacity>
                             </View>

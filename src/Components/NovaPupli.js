@@ -220,7 +220,7 @@ export default function NovaPupli({ setNovaOutro }) {
                         <Text style={css.textoFoto}>Selecione uma foto</Text>
                     </TouchableOpacity>
                     <Text></Text>
-                    {image && <Image source={{ uri: image }} style={css.foto} />}
+                    {image && <Image source={{ uri: image }} style={css.foto2} />}
                     <Text></Text>
                     {deubom &&
                         <>

@@ -95,7 +95,6 @@ export default function Denuncia({ item }) {
         getComentarios();
     }, [publicacaoId])
 
-
     return (
         <View style={css.container}>
             <View style={css.CaixaTitulo}>
@@ -108,13 +107,14 @@ export default function Denuncia({ item }) {
                     {item.campanhaId && <Text style={css.TextoNOme}>Anônimo</Text>}
                 </View>
                 {item.campanhaTitulo && <Text style={css.title}>{item.campanhaTitulo}</Text>}
-                {item.denunciaTitutlo && <Text style={css.title}>{item.denunciaTitutlo}</Text>}
+                {item.denunciaTitulo && <Text style={css.title}>{item.denunciaTitulo}</Text>}
                 {item.publicacaoTitulo && <Text style={css.title}>{item.publicacaoTitulo}</Text>}
             </View>
-            <View style={css.CaixaImagem}>
-                {item.denunciaMidia && <Image style={css.imagemG} source={{ uri: "http://comuniq.s3.amazonaws.com/" + item.denunciaMidia }} />}
+            <View style={item.publicacaoMidia || item.denunciaMidia || item.campanhaMidia ? css.CaixaImagem :  css.vazio}>
+                
+                {item.denunciaMidia  && <Image style={css.imagemG} source={{ uri: "http://comuniq.s3.amazonaws.com/" + item.denunciaMidia }} />}
                 {item.publicacaoMidia && <Image style={css.imagemG} source={{ uri: "http://comuniq.s3.amazonaws.com/" + item.publicacaoMidia }} />}
-                {item.campanhaMidia && <Image style={css.imagemG} source={{ uri: "http://comuniq.s3.amazonaws.com/" + item.campanhaMidia }} />}
+                {item.campanhaMidia &&  <Image style={css.imagemG} source={{ uri: "http://comuniq.s3.amazonaws.com/" + item.campanhaMidia }} />}
             </View>
             <View style={css.CaixaTitulo}>
                 {descricao && (
@@ -232,7 +232,7 @@ const css = StyleSheet.create({
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        paddingVertical: 30,
+        paddingVertical: 15,
     },
     CaixaTitulo: {
         width: "100%",
@@ -279,7 +279,7 @@ const css = StyleSheet.create({
     title2: {
         fontSize: 18,
         fontWeight: "400",
-        marginTop: 20
+        marginTop: 10
     },
     btn01: {
         backgroundColor: "#20343F",
@@ -313,4 +313,8 @@ const css = StyleSheet.create({
     botaoVerMais: {
         color: "blue",
     },
+    vazio:{
+       width: 0,
+       height: 0,
+    }
 })
