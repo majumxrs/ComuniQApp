@@ -12,7 +12,7 @@ import NovaCamp from '../Components/NovaCamp';
 import NovaDenucia from '../Components/NovaDenuncia';
 import NovaPupli from '../Components/NovaPupli';
 
-const { width } = Dimensions.get('window'); // Obter a largura da tela
+const { width,height  } = Dimensions.get('window'); // Obter a largura da tela
 
 
 export default function Home({ navigation }) {
@@ -172,7 +172,6 @@ export default function Home({ navigation }) {
 
 const css = StyleSheet.create({
     container: {
-        backgroundColor: "#ffff",
         flexGrow: 1,
         color: "white",
         alignItems: "center",
@@ -181,22 +180,23 @@ const css = StyleSheet.create({
         flex: 1,
         alignItems: "center",
         justifyContent: "flex-start",
+        width: '100%',
     },
     caixa: {
-        height: 100,
+        height: height * 0.10, // 15% da altura da tela
         width: "100%",
         backgroundColor: "#20343F",
-        display: "flex",
         alignItems: "center",
-        justifyContent: "center"
+        justifyContent: "center",
     },
 
     tinyLogo: {
         width: '100%',
-        height: '100%'
+        height: '100%',
+        // resizeMode: 'contain',
     },
     btnLogo: {
-        height: 60,
+        height: '60%',
         width: "25%",
         marginTop: 10,
     },
@@ -264,7 +264,7 @@ const css = StyleSheet.create({
         height: 50,
         borderRadius: 10,
         color: "white",
-        marginLeft: 10
+        justifyContent:"center"
     },
     TextoBTNC: {
         color: "white",
@@ -272,14 +272,5 @@ const css = StyleSheet.create({
         textAlign: "center",
         fontSize: 20,
         fontWeight: "400"
-    },
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-    },
-    horizontal: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        padding: 10,
     },
 })

@@ -15,6 +15,8 @@ export default function Denuncia({ item }) {
 
     const [expandido, setExpandido] = useState(false);
 
+
+
     const limiteCaracteres = 100;
     const descricao = item.campanhaDescricao || item.publicacaoDescricao || item.denunciaDescricao || item.usuario || '';
 
@@ -119,13 +121,15 @@ export default function Denuncia({ item }) {
                 {descricao && (
                     <View>
                         <Text style={css.title2}>
-                            {expandido ? descricao : descricao.substring(0, limiteCaracteres) + '...'}
+                            {expandido ? descricao : descricao.substring(0, limiteCaracteres) + (descricao.length > limiteCaracteres ? "..." : "")}
                         </Text>
-                        <TouchableOpacity onPress={() => setExpandido(!expandido)}>
-                            <Text style={css.botaoVerMais}>
-                                {expandido ? 'Ver menos' : 'Ver mais'}
-                            </Text>
-                        </TouchableOpacity>
+                        {descricao.length > 90 && ( // Verifica se a descrição tem mais de 90 caracteres
+                            <TouchableOpacity onPress={() => setExpandido(!expandido)}>
+                                <Text style={css.botaoVerMais}>
+                                    {expandido ? 'Ver menos' : 'Ver mais'}
+                                </Text>
+                            </TouchableOpacity>
+                        )}
                     </View>
                 )}
             </View>
