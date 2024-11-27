@@ -59,7 +59,7 @@ function AuthProvider({ children }) {
             id: id,
             camera: camera,
             fotoNova: fotoNova,
-            setCamera,
+            setCamera: setCamera,
             setFotoNova,
             editPerfil: editPerfil,
             setEditPerfil,
